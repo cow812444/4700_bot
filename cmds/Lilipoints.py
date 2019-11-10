@@ -17,6 +17,7 @@ mydb = pymysql.connect(
 
 
 user_dict={'齊木':'1','黑貓':'2','yoyo':'3','盆栽':'4','咲夜':'5','火花':'6','蟑螂':'7','變態':'8','三寶':'9','香香':'10','幕容':'11','木子':'12','小白':'13','月海':'14','草哥':'15','四月':'16','dula':'17','可魯':'18','卡打':'19','lza':'20','月月':'21','somes':'22','wewa':'23','亡音':'24','夏音':'25','奧迪':'26','鱈魚':'27','kk':'28','voc':'29','恰恰':'30','腐貓':'31','詩詩':'32','那歐':'33','霜降':'34','peco':'35','女僕丸':'36','max':'37','岡田':'38','松浦':'39','sky':'40','maple':'41','海瀨':'42','米國':'43','滑水':'44','zz':'45'}
+user_nName=[['齊木黑昀','齊ㄇ'],['黒猫','黑貓','黒貓'],['null'],['盤栽'],['消夜','宵夜','笑夜'],['泡泡雞','雷鷹','ㄆㄆ雞','泡雞'],['壞壞蟑螂'],['null'],['3寶','ㄌㄌㄎ','yutami'],['今天不行了','ㄌㄌㄎ'],['慕蓉','慕容','幕蓉'],['null'],['白白雞','白白'],['粵海','倉鼠'],['草尼馬','草尼瑪','草泥瑪','草泥馬'],['april','apr','4月'],['賭拉','杜拉','肚拉','度拉'],['fly'],['katar','卡達'],['版主'],['moon'],['null'],['null'],['亡88','音88','亡爸爸','音爸爸'],['導遊'],['null'],['雪魚'],['null'],['null'],['chacha'],['null'],['國軍'],['nao'],['ㄌㄌㄎ'],['佩扣','佩口','珮口','珮扣'],['妹斗','妹抖'],['null'],['二號','2號'],['一號','1號'],['null'],['null'],['null'],['null'],['null'],['莉莉']]
 user_name =[]
 user_dbId=[]
 for key, value in user_dict.items():   #dict轉list
@@ -74,12 +75,13 @@ class Lilipoints(Cog_Extension):
                 if int(userPoints_get) > 99 and points_ChangedStatus == '-':
                     await msg.channel.send('減這麼多分，你484偷偷喜歡{}'.format(userName_get))
                 if userName_get in user_dict:
-                    print(user_dict[userName_get]+' get!')
+                    print('db編號: ' + user_dict[userName_get]+' get!')
                     #await msg.channel.send('目標: ' + userName_get + '\n分數變化: ' + countingPattern.group(3) + '\nDB編號: ' + user_dict[userName_get])
                     cursor = mydb.cursor()
                     cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
                     result = cursor.fetchall()
                     current_UserPoints = result[0][1]
+                    print('目前計分: {}'.format(current_UserPoints))
                     #print('原本db分數: ' + (str)(current_UserPoints))
                     if points_ChangedStatus == '+':
                         if int(current_UserPoints) + int(userPoints_get) > 2147483647:
@@ -91,6 +93,7 @@ class Lilipoints(Cog_Extension):
                             await msg.channel.send('{}已經爆掉了,放過他好ㄇ'.format(userName_get))
                             continue
                         new_UserPoints = str(current_UserPoints - (int)(userPoints_get))
+                    print('最新分數: {}'.format(new_UserPoints))
                     sql = 'UPDATE users SET user_points = {} WHERE user_id = {}'.format(new_UserPoints, user_dict[userName_get])
                     cursor.execute(sql)
                     mydb.commit()
@@ -99,7 +102,9 @@ class Lilipoints(Cog_Extension):
                     msg_toSend = '{}{} (原本計分: {} // 目前計分: {})'.format(userName_get,countingPattern.group(3),current_UserPoints,new_UserPoints)
                     #print('目標 : {}\n原本莉莉點數: {}\n分數變化: {}\n目前莉莉點數: {}'.format(userName_get,current_UserPoints,countingPattern.group(3),new_UserPoints))
                     print('{}{} (原本計分: {} // 目前計分: {})'.format(userName_get,countingPattern.group(3),current_UserPoints,new_UserPoints))
-                    #await msg.channel.send(msg_toSend)
+                    channel1 = self.bot.get_channel(547075157693562913)
+                    if msg.channel != channel1:
+                        await msg.channel.send(msg_toSend)
                 else:
                     print("fail!")
                     await msg.channel.send('沒抓到綽號,請換一個試試')
