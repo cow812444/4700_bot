@@ -17,7 +17,7 @@ mydb = pymysql.connect(
 
 
 user_dict={'齊木':'1','黑貓':'2','yoyo':'3','盆栽':'4','咲夜':'5','火花':'6','蟑螂':'7','變態':'8','三寶':'9','香香':'10','幕容':'11','木子':'12','小白':'13','月海':'14','草哥':'15','四月':'16','dula':'17','可魯':'18','卡打':'19','lza':'20','月月':'21','somes':'22','wewa':'23','亡音':'24','夏音':'25','奧迪':'26','鱈魚':'27','kk':'28','voc':'29','恰恰':'30','腐貓':'31','詩詩':'32','那歐':'33','霜降':'34','peco':'35','女僕丸':'36','max':'37','岡田':'38','松浦':'39','sky':'40','maple':'41','海瀨':'42','米國':'43','滑水':'44','zz':'45'}
-user_nName={'齊木':['齊木','齊ㄇ'],'黑貓':['黑貓','黒猫','黑貓','黒貓'],'yoyo':['yoyo'],'盆栽':['盤栽','盆栽'],'咲夜':['咲夜','消夜','宵夜','笑夜'],'火花':['火花','泡泡雞','雷鷹','ㄆㄆ雞','泡雞'],'蟑螂':['壞壞蟑螂','蟑螂'],'變態':['變態'],'三寶':['三寶','3寶','ㄌㄌㄎ','yutami'],'香香':['香香','今天不行了','ㄌㄌㄎ'],'幕容':['幕容','慕蓉','慕容','幕蓉'],'木子':['木子'],'小白':['小白','白白雞','白白'],'月海':['月海','粵海','倉鼠'],'草哥':['草哥','草尼馬','草尼瑪','草泥瑪','草泥馬'],'四月':['四月','april','apr','4月'],'dula':['dula','賭拉','杜拉','肚拉','度拉'],'可魯':['可魯','fly'],'卡打':['卡打','katar','卡達'],'lza':['lza','版主'],'月月':['moon','月月'],'somes':['somes'],'wewa':['wewa'],'亡音':['亡音','亡88','音88','亡爸爸','音爸爸'],'夏音':['夏音','導遊'],'奧迪':['奧迪'],'鱈魚':['鱈魚','雪魚'],'kk':['kk'],'voc':['voc'],'恰恰':['恰恰','chacha'],'腐貓':['腐貓'],'詩詩':['詩詩','國軍'],'那歐':['那歐','nao'],'霜降':['霜降','ㄌㄌㄎ'],'peco':['peco','佩扣','佩口','珮口','珮扣'],'女僕丸':['女僕丸','妹斗','妹抖'],'max':['max'],'岡田':['岡田','二號','2號'],'松浦':['松浦','一號','1號'],'sky':['sky'],'maple':['maple'],'海瀨':['海瀨'],'米國':['米國'],'滑水':['滑水'],'zz':['zz','莉莉']}
+user_nName={'齊木':['齊木','齊ㄇ','7ㄇ','7木'],'黑貓':['黑貓','黒猫','黑貓','黒貓'],'yoyo':['yoyo'],'盆栽':['盤栽','盆栽'],'咲夜':['咲夜','消夜','宵夜','笑夜'],'火花':['火花','泡泡雞','雷鷹','ㄆㄆ雞','泡雞'],'蟑螂':['壞壞蟑螂','蟑螂'],'變態':['變態'],'三寶':['三寶','3寶','ㄌㄌㄎ','yutami'],'香香':['香香','今天不行了','ㄌㄌㄎ'],'幕容':['幕容','慕蓉','慕容','幕蓉'],'木子':['木子'],'小白':['小白','白白雞','白','siro'],'月海':['月海','粵海','倉鼠'],'草哥':['草哥','草尼馬','草尼瑪','草泥瑪','草泥馬','馬哥','尼哥'],'四月':['四月','april','apr','4月'],'dula':['dula','賭拉','杜拉','肚拉','度拉'],'可魯':['可魯','fly'],'卡打':['卡打','katar','卡達'],'lza':['lza','版主'],'月月':['moon','月月'],'somes':['somes'],'wewa':['wewa'],'亡音':['亡音','亡88','音88','亡爸爸','音爸爸'],'夏音':['夏音','導遊'],'奧迪':['奧迪'],'鱈魚':['鱈魚','雪魚'],'kk':['kk'],'voc':['voc'],'恰恰':['恰恰','chacha'],'腐貓':['腐貓'],'詩詩':['詩詩','國軍'],'那歐':['那歐','nao'],'霜降':['霜降','ㄌㄌㄎ'],'peco':['peco','佩扣','佩口','珮口','珮扣'],'女僕丸':['女僕丸','妹斗','妹抖'],'max':['max'],'岡田':['岡田','二號','2號'],'松浦':['松浦','一號','1號'],'sky':['sky'],'maple':['maple'],'海瀨':['海瀨','海獺'],'米國':['米國'],'滑水':['滑水'],'zz':['zz','莉莉']}
 user_name =[]
 user_dbId=[]
 for key, value in user_dict.items():   #dict轉list
@@ -62,7 +62,7 @@ class Lilipoints(Cog_Extension):
                     countingPattern = re.search(r'^.*(('+personList+').*((\+|\-)(\d{1,3}))(?!.*(劍|法|補|槍|短|刀|斧|弓))).*$', msg.content.lower())  #regex
                     showPoints = re.search(r'(^\$)({}$)'.format(personList), msg.content.lower())
                     resetPoints = re.search(r'(^\$reset )({}$)'.format(personList), msg.content.lower())
-                    organizeBoard = re.search(r'(^\$)('+personList+')([A-Za-z]{1,4}|[\u4E00-\u9FA5]{2})([A-Za-z]{1,4}|[\u4E00-\u9FA5]{2})([A-Za-z]{1,4}|[\u4E00-\u9FA5]{2})',msg.content.lower())
+                    organizeBoard = re.search(r'(^\$)('+personList+')\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})',msg.content.lower())
                     ##########################加減分計算Start#####################################
                     if(countingPattern and msg.author != self.bot.user and tmp == 0):
                         tmp = tmp + 1
@@ -135,22 +135,22 @@ class Lilipoints(Cog_Extension):
                         await msg.channel.send(msg_toSend)
                     
                     ##########################重置分數#########################################
-                    if(resetPoints and msg.author != self.bot.user and tmp == 0):
-                        tmp = tmp + 1
-                        #print('整句: ' + resetPoints.group(0))   #整句
+                    #if(resetPoints and msg.author != self.bot.user and tmp == 0):
+                    #    tmp = tmp + 1
+                    #    #print('整句: ' + resetPoints.group(0))   #整句
                         #print('得到id: ' + resetPoints.group(2))   #得到id
                         #userName_get = resetPoints.group(2)
-                        userName_get = [k for k, v in user_nName.items() if v == nameList][0]
-                        cursor = mydb.cursor()
-                        cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
-                        result = cursor.fetchall()
-                        current_UserPoints = result[0][1]
-                        new_UserPoints = '0'
-                        sql = 'UPDATE users SET user_points = {} WHERE user_id = {}'.format(new_UserPoints, user_dict[userName_get])
-                        cursor.execute(sql)
-                        mydb.commit()
-                        msg_toSend = '已重置 {} 的分數(累積計分: {})'.format(userName_get,new_UserPoints)
-                        await msg.channel.send(msg_toSend)
+                    #    userName_get = [k for k, v in user_nName.items() if v == nameList][0]
+                    #    cursor = mydb.cursor()
+                    #    cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
+                    #    result = cursor.fetchall()
+                    #    current_UserPoints = result[0][1]
+                    #    new_UserPoints = '0'
+                    #    sql = 'UPDATE users SET user_points = {} WHERE user_id = {}'.format(new_UserPoints, user_dict[userName_get])
+                    #    cursor.execute(sql)
+                    #    mydb.commit()
+                    #    msg_toSend = '已重置 {} 的分數(累積計分: {})'.format(userName_get,new_UserPoints)
+                    #    await msg.channel.send(msg_toSend)
 
                     ##########################組隊顯示分數#####################################
                     if(organizeBoard and msg.author != self.bot.user and tmp == 0):
@@ -179,7 +179,14 @@ class Lilipoints(Cog_Extension):
                         channel1 = self.bot.get_channel(547075157693562913)
                         if len(current_usersPoints) == 4 and msg.channel != channel1:
                             #await msg.channel.send(dict(zip(usersName_get,current_usersPoints)))
-                            await msg.channel.send('{}: {}\n{}: {}分\n{}: {}分\n{}: {}分'.format(organizeBoard.group(2),current_usersPoints[0],organizeBoard.group(3),current_usersPoints[1],organizeBoard.group(4),current_usersPoints[2],organizeBoard.group(5),current_usersPoints[3]))
+                            embed=discord.Embed(title='記分板', color=0x0080c0)
+                            embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/576863956879015983/642711388162228225/WorrySurrounded.gif')
+                            embed.add_field(name=organizeBoard.group(2), value=current_usersPoints[0], inline=True)
+                            embed.add_field(name=organizeBoard.group(3), value=current_usersPoints[1], inline=True)
+                            embed.add_field(name=organizeBoard.group(4), value=current_usersPoints[2], inline=True)
+                            embed.add_field(name=organizeBoard.group(5), value=current_usersPoints[3], inline=True)
+                            await msg.channel.send(embed=embed)
+                            #await msg.channel.send('{}: {}分\n{}: {}分\n{}: {}分\n{}: {}分'.format(organizeBoard.group(2),current_usersPoints[0],organizeBoard.group(3),current_usersPoints[1],organizeBoard.group(4),current_usersPoints[2],organizeBoard.group(5),current_usersPoints[3]))
                             print('記分板: {}'.format(dict(zip(usersName_get,current_usersPoints))))                
 
 
