@@ -82,8 +82,9 @@ class Lilipoints(Cog_Extension):
                         if len(userPoints_get) >= 3 and points_ChangedStatus == '+':
                             await msg.channel.send('不要欺負{} <:cjm:641920055092838400>'.format(userName_get))
                             continue   
-                        if int(userPoints_get) > 99 and points_ChangedStatus == '-':
+                        if int(userPoints_get) > 10 and points_ChangedStatus == '-':
                             await msg.channel.send('減這麼多分，你484偷偷喜歡{}'.format(userName_get))
+                            continue
                         if userName_get in user_dict:
                             print('db編號: ' + user_dict[userName_get]+' get!')
                             #await msg.channel.send('目標: ' + userName_get + '\n分數變化: ' + countingPattern.group(3) + '\nDB編號: ' + user_dict[userName_get])

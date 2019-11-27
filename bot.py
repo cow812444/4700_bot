@@ -38,6 +38,8 @@ async def on_member_join(member):
 #        bot.load_extension(f'cmds.{fileName[:-3]}')
 
 bot.load_extension(f'cmds.Lilipoints')
+bot.load_extension(f'cmds.Summoning')
+bot.load_extension(f'cmds.NewsPush')
 
 if __name__ == "__main__":
     bot.run(jsonData['TOKEN'])
