@@ -1,23 +1,48 @@
 from selenium import webdriver
 import time
 from bs4 import BeautifulSoup
+import re
 driver = webdriver.Chrome('./chromedriver')
 driver.get('https://dragalialost.com/cht/news/information/')
 time.sleep(5)
 soup = BeautifulSoup(driver.page_source,'lxml')
-p =driver.find_element_by_id('news-list')
+#p =driver.find_element_by_id('news-list')
+cnt = 0
 info = []
-n=0
-for data in p.text.split('公告'):
-    if(n>=2):
+for i in soup.select('li a p.title'):
+    texts = i.text.strip()
+    print(texts)
+    group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚)',texts)
+    if group1:
+        p=texts
+        info.append(p)
         break
-    info.append(data.strip())
+    cnt = cnt +1
+n=0
+for data in soup.select('li a div.time'):
+    #if(n>=2):
+    #    break
+    if n == cnt:
+        info.append(data.text.split('公告')[0].strip())
     n=n+1
 print(info)
-path_ = 'https://dragalialost.com' + soup.select_one('div ul#news-list li a').get('href')
-info.append(path_)
-tmp = path_.split('/')
-info.append(tmp[len(tmp)-1])
+cnt1 = 0
+for i in soup.select('div ul#news-list li a'):
+    #print(i.get('href'))
+    if cnt1 == cnt:
+        path_ = 'https://dragalialost.com' + i.get('href')
+        info.append(path_)
+        tmp = path_.split('/')
+        info.append(tmp[len(tmp)-1])
+        break
+    cnt1 = cnt1 +1
+print(info)
+#path_ = 'https://dragalialost.com' + soup.select_one('div ul#news-list li a').get('href')
+#info.append(path_)
+#tmp = path_.split('/')
+#info.append(tmp[len(tmp)-1])
+#info
+#driver.get('https://dragalialost.com/cht/news/detail/892')
 driver.get(info[2])
 time.sleep(3)
 soup = BeautifulSoup(driver.page_source,'lxml')
@@ -25,9 +50,7 @@ dateRange = []
 for date in soup.select('div span.local_date'):
     if date.text not in dateRange:
         dateRange.append(date.text)
-print(dateRange)
-
-####################################################
+dateRange
 charskillTitle_1 = []
 charskillTitle_2 = []
 tmp = 0
@@ -135,7 +158,6 @@ for photo in soup.select('div.mainImage img'):
     tmp = tmp +1
 print(charPhoto_1)
 print(charPhoto_2)
-#########################################################
 
 all_Status_1 = [charPhoto_1,charLv_1,charHp_1,charAtk_1,charskillTitle_1,skillExAbility_1,charParam_1]
 all_Status_2 = [charPhoto_2,charLv_2,charHp_2,charAtk_2,charskillTitle_2,skillExAbility_2,charParam_2]
@@ -157,6 +179,20 @@ print(dateRange,'\n')
 print(char_1,'\n\n')
 print(char_2,'\n\n')
 
-#########################################################
-
-
+print('角色照片:{}\n'.format(char_1[0]))
+print('角色介紹.{}\n'.format(char_1[19]))
+print('Lv.{}\n'.format(char_1[2]))
+print('HP.{}\n'.format(char_1[4]))
+print('ATK.{}\n'.format(char_1[6]))
+print('S1.{}\n'.format(char_1[7]))
+print('S1效果.{}\n'.format(char_1[13]))
+print('S2.{}\n'.format(char_1[8]))
+print('S2效果.{}\n'.format(char_1[14]))
+print('EX.{}\n'.format(char_1[9]))
+print('EX效果.{}\n'.format(char_1[15]))
+print('被動1.{}\n'.format(char_1[10]))
+print('被動1效果.{}\n'.format(char_1[16]))
+print('被動2.{}\n'.format(char_1[11]))
+print('被動2效果.{}\n'.format(char_1[17]))
+print('被動3.{}\n'.format(char_1[12]))
+print('被動3效果.{}\n'.format(char_1[18]))
