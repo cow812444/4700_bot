@@ -2,7 +2,6 @@ import asyncio
 import discord
 from discord.ext import commands
 from core.classes import Cog_Extension
-import json
 import time
 import os
 import re
@@ -10,7 +9,6 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pymysql
 pymysql.install_as_MySQLdb()
-
 mydb = pymysql.connect(
     host='us-cdbr-iron-east-05.cleardb.net',
     user='b8167bd3b0485f',
@@ -18,14 +16,17 @@ mydb = pymysql.connect(
     db='heroku_e3fdeb125d50ac6'
 )
 
-with open('setting.json','r',encoding='utf-8') as jsonFile:
-    jsonData = json.load(jsonFile)
-
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_message(self, msg):
         if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
-            driver = webdriver.Chrome('./chromedriver')
+            #driver = webdriver.Chrome('./chromedriver')
             driver.get('https://dragalialost.com/cht/news/information/')
             time.sleep(5)
             soup = BeautifulSoup(driver.page_source,'lxml')
