@@ -29,25 +29,30 @@ driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), c
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
-        self.crawler()
-        embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
-        embed.set_author(name=info[0], url=info[2])
-        embed.set_image(url=char_1[0])
-        #embed.set_thumbnail(url=char_1[0])
-        embed.add_field(name="Lv.", value=char_1[2], inline=True)
-        embed.add_field(name="HP.", value=char_1[4], inline=True)
-        embed.add_field(name="ATK.", value=char_1[6], inline=True)
-        embed.add_field(name="EX", value=char_1[9], inline=False)
-        embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
-        embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
-        embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
-        embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
-        embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
-        embed.set_image(url=char_1[0])
-        channel1 = self.bot.get_channel(648920638404165653)
-        await channel1.send(embed=embed)
-        #if msg.channel == channel1:
-        #    await msg.channel.send(embed=embed)
+        resultF = self.crawler()
+        info = resultF[0]
+        char_1 = resultF[1]
+        char_2 = resultF[2]
+        dateRange = resultF[3]
+        if len(char_1) >= 19:
+            embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
+            embed.set_author(name=info[0], url=info[2])
+            embed.set_image(url=char_1[0])
+            #embed.set_thumbnail(url=char_1[0])
+            embed.add_field(name="Lv.", value=char_1[2], inline=True)
+            embed.add_field(name="HP.", value=char_1[4], inline=True)
+            embed.add_field(name="ATK.", value=char_1[6], inline=True)
+            embed.add_field(name="EX", value=char_1[9], inline=False)
+            embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
+            embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
+            embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
+            embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
+            embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
+            embed.set_image(url=char_1[0])
+            channel1 = self.bot.get_channel(648920638404165653)
+            await channel1.send(embed=embed)
+            #if msg.channel == channel1:
+            #    await msg.channel.send(embed=embed)
         if len(char_2) != 0:
             embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
             embed.set_author(name=info[0], url=info[2])
@@ -310,6 +315,8 @@ class NewsPush(Cog_Extension):
         print('被動2效果.{}'.format(char_1[17]))
         print('被動3.{}'.format(char_1[12]))
         print('被動3效果.{}'.format(char_1[18]))
+        resultF = [info,char_1,char_2,dateRange]
+        return resultF
             
 
 
