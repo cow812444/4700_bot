@@ -27,7 +27,7 @@ char_1 = []
 char_2 = []
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
-    @commands.Cog.event()
+    @commands.Cog.listener()
     async def on_ready(self):
         self.crawler()
         embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
