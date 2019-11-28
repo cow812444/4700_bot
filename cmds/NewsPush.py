@@ -133,18 +133,22 @@ class NewsPush(Cog_Extension):
             if date.text not in dateRange:
                 dateRange.append(date.text)
         dateRange
+        print("開始檢驗是否重複")
         cursor = mydb.cursor()
         cursor.execute('SELECT titleName FROM titletable WHERE titleName = %s',info[0])
         result = cursor.fetchall()
+        print("抓到資料庫中的 titleName = {}".format(result))
         if len(result) != 0:
             cursor = mydb.cursor()
             cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',info[0])
             resultTime = cursor.fetchall()
+            print("抓到資料庫中的 titleTimeStart = {}, 目前現有的 dateRange[0] = {}, 開始進行比對".format(resultTime,dateRange[0]))
             if resultTime == dateRange[0]:
+                print("準備前往timesleep() 等待55秒")
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
         cursor = mydb.cursor()
-        cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE (%s,%s,%s)' % (info[0],dateRange[0],dateRange[1]))
+        cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE (%s,%s,%s)' % (str(info[0]),str(dateRange[0]),str(dateRange[1])))
         #result = cursor.fetchall()
         charskillTitle_1 = []
         charskillTitle_2 = []
