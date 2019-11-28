@@ -6,3 +6,4 @@ asyncio
 pymysql
 selenium
 bs4
+python-dotenv

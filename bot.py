@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import has_role
 from discord import Member
 from discord.utils import get
-from env import load_env
+#from env import load_env
 import json
 import os
 import pymysql
