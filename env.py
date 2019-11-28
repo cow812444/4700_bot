@@ -1,3 +1,3 @@
 import os
 class load_env():
-    os.environ.setdefault('DISCORD_BOT_SECRET', 'NjQyNDIyMDUzMjIzNTMwNTA2.Xd-36g.sSsAr1qbn8DZW0t0ETZ__dSzRhI')
+    os.environ.setdefault('DISCORD_BOT_SECRET', 'NjQyNDIyMDUzMjIzNTMwNTA2.Xd-6Cg.aGB2XWvATLjBZMqXg-NL6IBsfg8')
