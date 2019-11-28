@@ -90,7 +90,7 @@ class Lilipoints(Cog_Extension):
                             print('db編號: ' + user_dict[userName_get]+' get!')
                             #await msg.channel.send('目標: ' + userName_get + '\n分數變化: ' + countingPattern.group(3) + '\nDB編號: ' + user_dict[userName_get])
                             cursor = mydb.cursor()
-                            cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
+                            cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                             result = cursor.fetchall()
                             current_UserPoints = result[0][1]
                             print('目前計分: {}'.format(current_UserPoints))
@@ -106,7 +106,7 @@ class Lilipoints(Cog_Extension):
                                     continue
                                 new_UserPoints = str(current_UserPoints - (int)(userPoints_get))
                             print('最新分數: {}'.format(new_UserPoints))
-                            sql = 'UPDATE users SET user_points = {} WHERE user_id = {}'.format(new_UserPoints, user_dict[userName_get])
+                            sql = 'UPDATE users SET user_points = {} WHERE users_id = {}'.format(new_UserPoints, user_dict[userName_get])
                             cursor.execute(sql)
                             mydb.commit()
                             #print('目前db分數: ' + (str)(new_UserPoints))
@@ -129,7 +129,7 @@ class Lilipoints(Cog_Extension):
                         #userName_get = showPoints.group(2)
                         userName_get = [k for k, v in user_nName.items() if v == nameList][0]
                         cursor = mydb.cursor()
-                        cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
+                        cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                         result = cursor.fetchall()
                         current_UserPoints = result[0][1]
                         msg_toSend = '{}(累積計分: {})'.format(userName_get,current_UserPoints)
@@ -144,11 +144,11 @@ class Lilipoints(Cog_Extension):
                         #userName_get = resetPoints.group(2)
                     #    userName_get = [k for k, v in user_nName.items() if v == nameList][0]
                     #    cursor = mydb.cursor()
-                    #    cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[userName_get])
+                    #    cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                     #    result = cursor.fetchall()
                     #    current_UserPoints = result[0][1]
                     #    new_UserPoints = '0'
-                    #    sql = 'UPDATE users SET user_points = {} WHERE user_id = {}'.format(new_UserPoints, user_dict[userName_get])
+                    #    sql = 'UPDATE users SET user_points = {} WHERE users_id = {}'.format(new_UserPoints, user_dict[userName_get])
                     #    cursor.execute(sql)
                     #    mydb.commit()
                     #    msg_toSend = '已重置 {} 的分數(累積計分: {})'.format(userName_get,new_UserPoints)
@@ -171,7 +171,7 @@ class Lilipoints(Cog_Extension):
                         n=0
                         for id_ in usersName_get:
                             if id_ in user_dict:
-                                cursor.execute('SELECT * FROM users WHERE user_id = %s',user_dict[id_])
+                                cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[id_])
                                 result = cursor.fetchall()
                                 current_usersPoints.append(result[0][1])
                                 n=n+1
