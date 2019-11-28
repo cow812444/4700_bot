@@ -23,12 +23,12 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
-    NewsPush.crawler()
+    crawler()
     @staticmethod
     def timesleep():
         print("From NewsPush.py : 已爬到卡池資訊,但已重複,1分後重抓")
         time.sleep(55)
-        NewsPush.crawler()
+        crawler()
     @staticmethod
     def crawler():
         @commands.Cog.command(self)
@@ -98,7 +98,7 @@ class NewsPush(Cog_Extension):
                 cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',info[0])
                 resultTime = cursor.fetchall()
                 if resultTime == dateRange[0]:
-                    NewsPush.timeSleep()
+                    timeSleep()
             print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
             cursor = mydb.cursor()
             cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ({},{},{})'.format(info[0],dateRange[0],dateRange[1]))
