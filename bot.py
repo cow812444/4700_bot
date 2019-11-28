@@ -16,7 +16,8 @@ mydb = pymysql.connect(
     db='heroku_e3fdeb125d50ac6'
 )
 
-TOKEN = os.environ.get('DISCORD_BOT_SECRET','')
+#TOKEN = os.environ.get('DISCORD_BOT_SECRET','')
+TOKEN = 'NjQyNDIyMDUzMjIzNTMwNTA2.Xd-6sg.hatS-kf5BQjGWtLm03IQJo3AazQ'
 
 with open('setting.json','r',encoding='utf-8') as jsonFile:
     jsonData = json.load(jsonFile)
