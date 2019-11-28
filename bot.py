@@ -17,7 +17,7 @@ mydb = pymysql.connect(
 )
 
 #TOKEN = os.environ.get("DISCORD_BOT_SECRET","")
-#TOKEN = "NjQyNDIyMDUzMjIzNTMwNTA2.Xd-8oQ.gyxaw9gsxRjOcIT8Y--B_1SO8BI"
+TOKEN = 'NjQyNDIyMDUzMjIzNTMwNTA2.Xd--RQ.-os3OVrA3Szop8JuG5X309nZ-Ns'
 
 with open('setting.json','r',encoding='utf-8') as jsonFile:
     jsonData = json.load(jsonFile)
@@ -49,4 +49,4 @@ bot.load_extension(f'cmds.Summoning')
 bot.load_extension(f'cmds.NewsPush')
 
 if __name__ == "__main__":
-    bot.run("NjQyNDIyMDUzMjIzNTMwNTA2.Xd-9Dw.zBhyKCmIC_hzybt6WE588K87iUQ")
+    bot.run('TOKEN')
