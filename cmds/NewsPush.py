@@ -68,8 +68,8 @@ class NewsPush(Cog_Extension):
             #if msg.channel == channel1:
             #    await msg.channel.send(embed=embed)
     def timesleep(self):
-        print("From NewsPush.py : 已爬到卡池資訊,但已重複,1分後重抓")
-        time.sleep(55)
+        print("From NewsPush.py : 已爬到卡池資訊,但已重複,5分後重抓")
+        time.sleep(292)
         self.crawler()
     def crawler(self):
         dateRange = []
@@ -134,25 +134,32 @@ class NewsPush(Cog_Extension):
                 dateRange.append(date.text)
         dateRange
         print("開始檢驗是否重複")
+        titleName = info[0]+'test'
+        titleTimeStart = dateRange[0]
+        titleTimeEnd = dateRange[1]
         cursor = mydb.cursor()
-        cursor.execute('SELECT titleName FROM titletable WHERE titleName = %s',info[0])
+        cursor.execute('SELECT titleName FROM titletable WHERE titleName = %s',titleName)
+        time.sleep(1)
         result = cursor.fetchall()
         #result = result[0].split('\'')[1]
         print("抓到資料庫中的 titleName = {}".format(result))
         if len(result) != 0:
             cursor = mydb.cursor()
-            cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',info[0])
+            cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',titleName)
+            time.sleep(1)
             resultTime = cursor.fetchall()
             #resultTime = result[0].split('\'')[1]
-            print("抓到資料庫中的 titleTimeStart = {}, 目前現有的 dateRange[0] = {}, 開始進行比對".format(resultTime,dateRange[0]))
-            if resultTime[0] == dateRange[0]:
+            print("抓到資料庫中的 titleTimeStart = {}, 目前現有的 dateRange[0] = {}, 開始進行比對".format(resultTime,titleTimeStart))
+            if resultTime[0] == titleTimeStart:
                 print("準備前往timesleep() 等待55秒")
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
         cursor = mydb.cursor()
-        cursor.execute('INSERT INTO titletable (titleName) VALUE (%s)',(info[0]+'test'))
-        cursor.execute('UPDATE titletable SET titleTimeStart = {} WHERE titleName = {}'.format(dateRange[0], (info[0]+'test')))
-        cursor.execute('UPDATE titletable SET titleTimeEnd = {} WHERE titleName = {}'.format(dateRange[1], (info[0]+'test')))
+        cursor.execute('INSERT INTO titletable (titleName) VALUE (%s)',titleName)
+        time.sleep(1)
+        cursor.execute('UPDATE titletable SET titleTimeStart = {} WHERE titleName = {}'.format(titleTimeStart,titleName))
+        time.sleep(1)
+        cursor.execute('UPDATE titletable SET titleTimeEnd = {} WHERE titleName = {}'.format(titleTimeStart,titleName))
         #result = cursor.fetchall()
         charskillTitle_1 = []
         charskillTitle_2 = []
