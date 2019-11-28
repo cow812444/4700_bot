@@ -49,4 +49,5 @@ bot.load_extension(f'cmds.Summoning')
 bot.load_extension(f'cmds.NewsPush')
 
 if __name__ == "__main__":
-    bot.run(token)
+    print("token be used is : {}".format(str(os.environ.get('DISCORD_TOKEN'))))
+    bot.run(str(os.environ.get('DISCORD_TOKEN')))
