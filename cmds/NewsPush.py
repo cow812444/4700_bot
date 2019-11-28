@@ -149,14 +149,16 @@ class NewsPush(Cog_Extension):
         result = cursor.fetchall()
         print("抓到資料庫中的 titleName = {}".format(result))
         if result != None:
-            result = result[0].split('\'')[1]
+            result = "".join(result[0])
+            result = result.split('\'')[1]
             cursor = mydb.cursor()
             sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
             cursor.execute(sql)
             time.sleep(1)
             resultTime = cursor.fetchall()
             if resultTime != None:
-                resultTime = result[0].split('\'')[1]
+                resultTime = "".join(resultTime[0])
+                resultTime = resultTime.split('\'')[1]
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime[0] == titleTimeStart:
                 print("準備前往timesleep() 等待55秒")
