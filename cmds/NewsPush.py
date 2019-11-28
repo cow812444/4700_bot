@@ -67,13 +67,15 @@ class NewsPush(Cog_Extension):
             await channel1.send(embed=embed)
             #if msg.channel == channel1:
             #    await msg.channel.send(embed=embed)
-        @staticmethod
-        def timesleep():
+        def timesleep(self):
             print("From NewsPush.py : 已爬到卡池資訊,但已重複,1分後重抓")
             time.sleep(55)
             self.crawler()
-        @staticmethod
-        def crawler():
+        def crawler(self):
+            dateRange = []
+            info = []
+            char_1 = []
+            char_2 = []
             #@commands.Cog.listener()
             #async def on_message(self, msg):
             #    if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
