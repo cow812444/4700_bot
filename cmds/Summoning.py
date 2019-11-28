@@ -52,7 +52,7 @@ class Summoning(Cog_Extension):
         ###  >>>   (10[連抽]|十[連抽]|[單一]抽)?(\d?\d?\d|抽到有)?[連次抽]?    <<<   11/27
         channel1 = self.bot.get_channel(648920733099098135)  ##4700 抽卡區
         channel2 = self.bot.get_channel(571302198693068810)  ##餐廳 曬卡區
-        pattern = re.search(r'(\d?\d?\d[連次抽]|抽到有)',msg.content.lower())
+        pattern = re.search(r'(\d?\d?\d(?=連|次|抽)|抽到有)',msg.content.lower())
         if pattern and msg.author != self.bot.user and (channel1 == msg.channel or channel2 == msg.channel):
             user = msg.author.display_name
             group1 = pattern.group(1)
