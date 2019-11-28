@@ -144,8 +144,8 @@ class NewsPush(Cog_Extension):
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
         cursor = mydb.cursor()
-        cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ({},{},{})'.format(info[0],dateRange[0],dateRange[1]))
-        result = cursor.fetchall()
+        cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE (%s,%s,%s)',info[0],dateRange[0],dateRange[1])
+        #result = cursor.fetchall()
         charskillTitle_1 = []
         charskillTitle_2 = []
         tmp = 0
