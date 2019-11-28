@@ -21,18 +21,59 @@ chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
+dateRange = []
+info = []
+char_1 = []
+char_2 = []
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
-    crawler()
-    @staticmethod
-    def timesleep():
-        print("From NewsPush.py : 已爬到卡池資訊,但已重複,1分後重抓")
-        time.sleep(55)
-        crawler()
-    @staticmethod
-    def crawler():
-        @commands.Cog.command(self)
-        async def funcname():
+    @commands.Cog.listener()
+    async def on_message(self, msg):
+        self.crawler()
+        embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
+        embed.set_author(name=info[0], url=info[2])
+        embed.set_image(url=char_1[0])
+        #embed.set_thumbnail(url=char_1[0])
+        embed.add_field(name="Lv.", value=char_1[2], inline=True)
+        embed.add_field(name="HP.", value=char_1[4], inline=True)
+        embed.add_field(name="ATK.", value=char_1[6], inline=True)
+        embed.add_field(name="EX", value=char_1[9], inline=False)
+        embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
+        embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
+        embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
+        embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
+        embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
+        embed.set_image(url=char_1[0])
+        channel1 = self.bot.get_channel(648920638404165653)
+        await channel1.send(embed=embed)
+        #if msg.channel == channel1:
+        #    await msg.channel.send(embed=embed)
+        if len(char_2) != 0:
+            embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
+            embed.set_author(name=info[0], url=info[2])
+            embed.set_image(url=char_2[0])
+            #embed.set_thumbnail(url=char_1[0])
+            embed.add_field(name="Lv.", value=char_2[2], inline=True)
+            embed.add_field(name="HP.", value=char_2[4], inline=True)
+            embed.add_field(name="ATK.", value=char_2[6], inline=True)
+            embed.add_field(name="EX", value=char_2[9], inline=False)
+            embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
+            embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
+            embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
+            embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
+            embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
+            embed.set_image(url=char_2[0])
+            channel1 = self.bot.get_channel(648920638404165653)
+            await channel1.send(embed=embed)
+            #if msg.channel == channel1:
+            #    await msg.channel.send(embed=embed)
+        @staticmethod
+        def timesleep():
+            print("From NewsPush.py : 已爬到卡池資訊,但已重複,1分後重抓")
+            time.sleep(55)
+            self.crawler()
+        @staticmethod
+        def crawler():
             #@commands.Cog.listener()
             #async def on_message(self, msg):
             #    if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
@@ -98,7 +139,7 @@ class NewsPush(Cog_Extension):
                 cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',info[0])
                 resultTime = cursor.fetchall()
                 if resultTime == dateRange[0]:
-                    timeSleep()
+                    self.timeSleep()
             print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
             cursor = mydb.cursor()
             cursor.execute('INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ({},{},{})'.format(info[0],dateRange[0],dateRange[1]))
@@ -249,43 +290,7 @@ class NewsPush(Cog_Extension):
             print('被動2效果.{}'.format(char_1[17]))
             print('被動3.{}'.format(char_1[12]))
             print('被動3效果.{}'.format(char_1[18]))
-            embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
-            embed.set_author(name=info[0], url=info[2])
-            embed.set_image(url=char_1[0])
-            #embed.set_thumbnail(url=char_1[0])
-            embed.add_field(name="Lv.", value=char_1[2], inline=True)
-            embed.add_field(name="HP.", value=char_1[4], inline=True)
-            embed.add_field(name="ATK.", value=char_1[6], inline=True)
-            embed.add_field(name="EX", value=char_1[9], inline=False)
-            embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
-            embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
-            embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
-            embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
-            embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
-            embed.set_image(url=char_1[0])
-            channel1 = self.bot.get_channel(648920638404165653)
-            await channel1.send(embed=embed)
-            #if msg.channel == channel1:
-            #    await msg.channel.send(embed=embed)
-            if len(char_2) != 0:
-                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
-                embed.set_author(name=info[0], url=info[2])
-                embed.set_image(url=char_2[0])
-                #embed.set_thumbnail(url=char_1[0])
-                embed.add_field(name="Lv.", value=char_2[2], inline=True)
-                embed.add_field(name="HP.", value=char_2[4], inline=True)
-                embed.add_field(name="ATK.", value=char_2[6], inline=True)
-                embed.add_field(name="EX", value=char_2[9], inline=False)
-                embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
-                embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
-                embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
-                embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
-                embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
-                embed.set_image(url=char_2[0])
-                channel1 = self.bot.get_channel(648920638404165653)
-                await channel1.send(embed=embed)
-                #if msg.channel == channel1:
-                #    await msg.channel.send(embed=embed)
+            
 
 
 def setup(bot):
