@@ -138,7 +138,7 @@ class NewsPush(Cog_Extension):
         titleTimeStart = dateRange[0]
         titleTimeEnd = dateRange[1]
         cursor = mydb.cursor()
-        sql = sql = 'SELECT titleName FROM titletable WHERE titleName = {}'.format(titleName)
+        sql = sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
         cursor.execute(sql)
         time.sleep(1)
         result = cursor.fetchall()
@@ -146,22 +146,22 @@ class NewsPush(Cog_Extension):
         print("抓到資料庫中的 titleName = {}".format(result))
         if len(result) != 0:
             cursor = mydb.cursor()
-            sql = 'SELECT titleTimeStart FROM titletable WHERE titleName = {}'.format(titleName)
+            sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
             cursor.execute(sql)
             time.sleep(1)
             resultTime = cursor.fetchall()
             #resultTime = result[0].split('\'')[1]
-            print("抓到資料庫中的 titleTimeStart = {}, 目前現有的 dateRange[0] = {}, 開始進行比對".format(resultTime,titleTimeStart))
+            print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime[0] == titleTimeStart:
                 print("準備前往timesleep() 等待55秒")
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
         cursor = mydb.cursor()
-        sql = 'INSERT INTO titletable (titleName) VALUE ({})'.format(titleName)
+        sql = "INSERT INTO titletable (titleName) VALUE ('{}')".format(titleName)
         cursor.execute(sql)
-        sql = 'UPDATE titletable SET titleTimeStart = {} WHERE titleName = {}'.format(titleTimeStart,titleName)
+        sql = "UPDATE titletable SET titleTimeStart = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
         cursor.execute(sql)
-        sql = 'UPDATE titletable SET titleTimeEnd = {} WHERE titleName = {}'.format(titleTimeStart,titleName)
+        sql = "UPDATE titletable SET titleTimeEnd = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
         cursor.execute(sql)
         #result = cursor.fetchall()
         charskillTitle_1 = []
