@@ -8,18 +8,6 @@ import os
 import re
 import random
 import math
-import pymysql
-pymysql.install_as_MySQLdb()
-
-mydb = pymysql.connect(
-    host='us-cdbr-iron-east-05.cleardb.net',
-    user='b8167bd3b0485f',
-    passwd='8042a225',
-    db='heroku_e3fdeb125d50ac6'
-)
-
-with open('setting.json','r',encoding='utf-8') as jsonFile:
-    jsonData = json.load(jsonFile)
 
 
 class Summoning(Cog_Extension):
