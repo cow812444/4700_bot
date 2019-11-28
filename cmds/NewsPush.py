@@ -162,7 +162,7 @@ class NewsPush(Cog_Extension):
                 print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
                 resultTime = resultTime.split('\'')[0]
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
-            if resultTime[0] == titleTimeStart:
+            if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待55秒")
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
