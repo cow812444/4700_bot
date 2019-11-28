@@ -6,4 +6,3 @@ asyncio
 pymysql
 selenium
 bs4
-webdriver
