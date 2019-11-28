@@ -138,14 +138,16 @@ class NewsPush(Cog_Extension):
         titleTimeStart = dateRange[0]
         titleTimeEnd = dateRange[1]
         cursor = mydb.cursor()
-        cursor.execute('SELECT titleName FROM titletable WHERE titleName = %s',titleName)
+        sql = sql = 'SELECT titleName FROM titletable WHERE titleName = {}'.format(titleName)
+        cursor.execute(sql)
         time.sleep(1)
         result = cursor.fetchall()
         #result = result[0].split('\'')[1]
         print("抓到資料庫中的 titleName = {}".format(result))
         if len(result) != 0:
             cursor = mydb.cursor()
-            cursor.execute('SELECT titleTimeStart FROM titletable WHERE titleName = %s',titleName)
+            sql = 'SELECT titleTimeStart FROM titletable WHERE titleName = {}'.format(titleName)
+            cursor.execute(sql)
             time.sleep(1)
             resultTime = cursor.fetchall()
             #resultTime = result[0].split('\'')[1]
@@ -155,11 +157,12 @@ class NewsPush(Cog_Extension):
                 self.timeSleep()
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
         cursor = mydb.cursor()
-        cursor.execute('INSERT INTO titletable (titleName) VALUE (%s)',titleName)
-        time.sleep(1)
-        cursor.execute('UPDATE titletable SET titleTimeStart = {} WHERE titleName = {}'.format(titleTimeStart,titleName))
-        time.sleep(1)
-        cursor.execute('UPDATE titletable SET titleTimeEnd = {} WHERE titleName = {}'.format(titleTimeStart,titleName))
+        sql = 'INSERT INTO titletable (titleName) VALUE ({})'.format(titleName)
+        cursor.execute(sql)
+        sql = 'UPDATE titletable SET titleTimeStart = {} WHERE titleName = {}'.format(titleTimeStart,titleName)
+        cursor.execute(sql)
+        sql = 'UPDATE titletable SET titleTimeEnd = {} WHERE titleName = {}'.format(titleTimeStart,titleName)
+        cursor.execute(sql)
         #result = cursor.fetchall()
         charskillTitle_1 = []
         charskillTitle_2 = []
