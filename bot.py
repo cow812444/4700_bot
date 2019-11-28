@@ -1,3 +1,4 @@
+import asyncio
 import discord
 from discord.ext import commands
 import json
@@ -6,10 +7,10 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 mydb = pymysql.connect(
-    host='localhost',
-    user='root',
-    passwd='4510',
-    db='userpoints'
+    host='us-cdbr-iron-east-05.cleardb.net',
+    user='b481207a7d96b0',
+    passwd='8d2c2f0e',
+    db='heroku_8559373c0824ae1'
 )
 
 with open('setting.json','r',encoding='utf-8') as jsonFile:
