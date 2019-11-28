@@ -150,7 +150,8 @@ class NewsPush(Cog_Extension):
         print("抓到資料庫中的 titleName = {}".format(result))
         if result != None:
             result = "".join(result[0])
-            result = result.split('\'')[1]
+            print("抓到資料庫中的 titleName(after join) = {}".format(result))
+            result = result.split('\'')[0]
             cursor = mydb.cursor()
             sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
             cursor.execute(sql)
@@ -158,7 +159,8 @@ class NewsPush(Cog_Extension):
             resultTime = cursor.fetchall()
             if resultTime != None:
                 resultTime = "".join(resultTime[0])
-                resultTime = resultTime.split('\'')[1]
+                print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
+                resultTime = resultTime.split('\'')[0]
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime[0] == titleTimeStart:
                 print("準備前往timesleep() 等待55秒")
