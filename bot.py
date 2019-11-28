@@ -5,7 +5,6 @@ from discord.ext.commands import has_role
 from discord import Member
 from discord.utils import get
 #from env import load_env
-import json
 import os
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -15,12 +14,6 @@ mydb = pymysql.connect(
     passwd='8042a225',
     db='heroku_e3fdeb125d50ac6'
 )
-token = os.environ['DISCORD_TOKEN']
-#TOKEN = os.environ.get("DISCORD_BOT_SECRET","")
-#TOKEN = 'NjQyNDIyMDUzMjIzNTMwNTA2.Xd--RQ.-os3OVrA3Szop8JuG5X309nZ-Ns'
-
-with open('setting.json','r',encoding='utf-8') as jsonFile:
-    jsonData = json.load(jsonFile)
 
 bot = commands.Bot(command_prefix='$$')
 
