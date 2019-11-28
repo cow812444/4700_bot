@@ -7,9 +7,7 @@ import time
 import os
 import re
 from selenium import webdriver
-import time
 from bs4 import BeautifulSoup
-import re
 import pymysql
 pymysql.install_as_MySQLdb()
 
