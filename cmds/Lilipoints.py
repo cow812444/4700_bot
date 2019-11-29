@@ -83,7 +83,7 @@ class Lilipoints(Cog_Extension):
                             continue
                         if userName_get in user_dict:
                             print('db編號: ' + user_dict[userName_get]+' get!')
-                            sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[userName_get]
+                            sql = "SELECT * FROM users WHERE users_id = '{}'".format(user_dict[userName_get])
                             cursor = self.query(sql)
                             #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                             result = cursor.fetchall()
@@ -118,7 +118,7 @@ class Lilipoints(Cog_Extension):
                         userName_get = [k for k, v in user_nName.items() if v == nameList][0]
                         #cursor = mydb.cursor()
                         #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
-                        sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[userName_get]
+                        sql = "SELECT * FROM users WHERE users_id = '{}'".format(user_dict[userName_get])
                         cursor = self.query(sql)
                         result = cursor.fetchall()
                         current_UserPoints = result[0][1]
@@ -161,7 +161,7 @@ class Lilipoints(Cog_Extension):
                         n=0
                         for id_ in usersName_get:
                             if id_ in user_dict:
-                                sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[id_]
+                                sql = "SELECT * FROM users WHERE users_id = '{}'".format(user_dict[id_])
                                 #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[id_])
                                 cursor = self.query(sql)
                                 result = cursor.fetchall()
