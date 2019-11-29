@@ -28,11 +28,12 @@ class NewsPush(Cog_Extension):
             self.connect()
             channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
             channel_newsBoard = self.bot.get_channel(channel_Num)
-            resultF =await self.crawler()
-            info = resultF[0]
-            char_1 = resultF[1]
-            char_2 = resultF[2]
-            dateRange = resultF[3]
+            resultF = await self.crawler()
+            if resultF is not None:
+                info = resultF[0]
+                char_1 = resultF[1]
+                char_2 = resultF[2]
+                dateRange = resultF[3]
             if len(char_1) >= 19:
                 embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
                 embed.set_author(name=info[0], url=info[2])
