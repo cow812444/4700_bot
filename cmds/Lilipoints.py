@@ -2,7 +2,6 @@ import asyncio
 import discord
 from discord.ext import commands
 from core.classes import Cog_Extension
-import json
 import re
 import os
 import random
@@ -29,7 +28,7 @@ class Lilipoints(Cog_Extension):
         user=os.environ.get('DB_USER'),
         passwd=os.environ.get('DB_PASSWD'),
         db=os.environ.get('DB_NAME')
-            )
+        )
     def query(self, sql):
         try:
             cursor = self.mydb.cursor()

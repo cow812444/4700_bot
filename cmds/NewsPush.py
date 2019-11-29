@@ -22,7 +22,7 @@ char_2 = []
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
-    async def on_ready(self):
+    async def on_connect(self):
         self.connect()
         channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
         channel_newsBoard = self.bot.get_channel(channel_Num)
