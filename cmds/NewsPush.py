@@ -9,12 +9,12 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pymysql
 pymysql.install_as_MySQLdb()
-mydb = pymysql.connect(
-    host='us-cdbr-iron-east-05.cleardb.net',
-    user='b8167bd3b0485f',
-    passwd='8042a225',
-    db='heroku_e3fdeb125d50ac6'
-)
+#mydb = pymysql.connect(
+#    host='us-cdbr-iron-east-05.cleardb.net',
+#    user='b8167bd3b0485f',
+#    passwd='8042a225',
+#    db='heroku_e3fdeb125d50ac6'
+#)
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
@@ -29,6 +29,7 @@ driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), c
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
+        self.connect()
         resultF = self.crawler()
         info = resultF[0]
         char_1 = resultF[1]
@@ -53,29 +54,45 @@ class NewsPush(Cog_Extension):
             await channel1.send(embed=embed)
             #if msg.channel == channel1:
             #    await msg.channel.send(embed=embed)
-        if len(char_2) != 0:
-            embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
-            embed.set_author(name=info[0], url=info[2])
-            embed.set_image(url=char_2[0])
-            #embed.set_thumbnail(url=char_1[0])
-            embed.add_field(name="Lv.", value=char_2[2], inline=True)
-            embed.add_field(name="HP.", value=char_2[4], inline=True)
-            embed.add_field(name="ATK.", value=char_2[6], inline=True)
-            embed.add_field(name="EX", value=char_2[9], inline=False)
-            embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
-            embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
-            embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
-            embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
-            embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
-            embed.set_image(url=char_2[0])
-            channel1 = self.bot.get_channel(648920638404165653)
-            await channel1.send(embed=embed)
-            #if msg.channel == channel1:
-            #    await msg.channel.send(embed=embed)
-    def timesleep(self):
-        print("From NewsPush.py : 已爬到卡池資訊,但已重複,5分後重抓")
-        time.sleep(292)
-        self.crawler(self)
+            if len(char_2) != 0:
+                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
+                embed.set_author(name=info[0], url=info[2])
+                embed.set_image(url=char_2[0])
+                #embed.set_thumbnail(url=char_1[0])
+                embed.add_field(name="Lv.", value=char_2[2], inline=True)
+                embed.add_field(name="HP.", value=char_2[4], inline=True)
+                embed.add_field(name="ATK.", value=char_2[6], inline=True)
+                embed.add_field(name="EX", value=char_2[9], inline=False)
+                embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
+                embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
+                embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
+                embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
+                embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
+                embed.set_image(url=char_2[0])
+                channel1 = self.bot.get_channel(648920638404165653)
+                await channel1.send(embed=embed)
+                #if msg.channel == channel1:
+                #    await msg.channel.send(embed=embed)
+    #def timesleep(self):
+    #    print("From NewsPush.py : 已爬到卡池資訊,但已重複,5分後重抓")
+    #    time.sleep(292)
+    #    self.crawler(self)
+    def connect(self):
+        self.mydb = pymysql.connect(
+        host='us-cdbr-iron-east-05.cleardb.net',
+        user='b8167bd3b0485f',
+        passwd='8042a225',
+        db='heroku_e3fdeb125d50ac6'
+        )
+    def query(self, sql):
+        try:
+            cursor = self.mydb.cursor()
+            cursor.execute(sql)
+        except:
+            self.connect()
+            cursor = self.mydb.cursor()
+            cursor.execute(sql)
+        return cursor
     def crawler(self):
         dateRange = []
         info = []
@@ -142,20 +159,22 @@ class NewsPush(Cog_Extension):
         titleName = info[0]
         titleTimeStart = dateRange[0]
         titleTimeEnd = dateRange[1]
-        cursor = mydb.cursor()
+        #cursor = mydb.cursor()
         sql = sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
-        cursor.execute(sql)
-        time.sleep(1)
+        cursor = self.query(sql)
+        #cursor.execute(sql)
+        #time.sleep(1)
         result = cursor.fetchall()
         print("抓到資料庫中的 titleName = {}".format(result))
         if result != None:
             result = "".join(result[0])
             print("抓到資料庫中的 titleName(after join) = {}".format(result))
             result = result.split('\'')[0]
-            cursor = mydb.cursor()
+            #cursor = mydb.cursor()
             sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
-            cursor.execute(sql)
-            time.sleep(1)
+            cursor = self.query(sql)
+            #cursor.execute(sql)
+            #time.sleep(1)
             resultTime = cursor.fetchall()
             if resultTime != None:
                 resultTime = "".join(resultTime[0])
@@ -164,15 +183,24 @@ class NewsPush(Cog_Extension):
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待300秒")
-                self.timeSleep(self)
+                time.sleep(292)
+                print("等待5分鐘完畢,重新開始")
+                resultTmp = [['t'],['m'],['p'],['s']]
+                return resultTmp
+                #self.timeSleep(self)
         print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
-        cursor = mydb.cursor()
+        #cursor = mydb.cursor()
         sql = "INSERT INTO titletable (titleName) VALUE ('{}')".format(titleName)
-        cursor.execute(sql)
-        sql = "UPDATE titletable SET titleTimeStart = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
-        cursor.execute(sql)
-        sql = "UPDATE titletable SET titleTimeEnd = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
-        cursor.execute(sql)
+        cursor = self.query(sql)
+        #cursor.execute(sql)
+        #sql = "UPDATE titletable SET titleTimeStart = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
+        sql = "INSERT INTO titletable (titleTimeStart) VALUE ('{}') WHERE titleName = '{}'".format(titleName,titleTimeStart)
+        cursor = self.query(sql)
+        #cursor.execute(sql)
+        #sql = "UPDATE titletable SET titleTimeEnd = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
+        sql = "INSERT INTO titletable (titleTimeEnd) VALUE ('{}') WHERE titleName = '{}'".format(titleName,titleTimeEnd)
+        cursor = self.query(sql)
+        #cursor.execute(sql)
         #result = cursor.fetchall()
         charskillTitle_1 = []
         charskillTitle_2 = []
