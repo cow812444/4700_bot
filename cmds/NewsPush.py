@@ -22,50 +22,51 @@ char_2 = []
 status = "有新資料"
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
-    #@commands.Cog.listener()
-    async def poster(self):
-        self.connect()
-        channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
-        channel_newsBoard = self.bot.get_channel(channel_Num)
-        resultF =await self.crawler()
-        info = resultF[0]
-        char_1 = resultF[1]
-        char_2 = resultF[2]
-        dateRange = resultF[3]
-        if len(char_1) >= 19:
-            embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
-            embed.set_author(name=info[0], url=info[2])
-            embed.set_image(url=char_1[0])
-            #embed.set_thumbnail(url=char_1[0])
-            embed.add_field(name="Lv.", value=char_1[2], inline=True)
-            embed.add_field(name="HP.", value=char_1[4], inline=True)
-            embed.add_field(name="ATK.", value=char_1[6], inline=True)
-            embed.add_field(name="EX", value=char_1[9], inline=False)
-            embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
-            embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
-            embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
-            embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
-            embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
-            embed.set_image(url=char_1[0])
-            await channel_newsBoard.send(embed=embed)
-            #if msg.channel == channel_newsBoard:
-            #    await msg.channel.send(embed=embed)
-            if len(char_2) != 0:
-                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
+    @commands.Cog.listener()
+    async def on_ready(self):
+        while True:
+            self.connect()
+            channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
+            channel_newsBoard = self.bot.get_channel(channel_Num)
+            resultF =await self.crawler()
+            info = resultF[0]
+            char_1 = resultF[1]
+            char_2 = resultF[2]
+            dateRange = resultF[3]
+            if len(char_1) >= 19:
+                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
                 embed.set_author(name=info[0], url=info[2])
-                embed.set_image(url=char_2[0])
+                embed.set_image(url=char_1[0])
                 #embed.set_thumbnail(url=char_1[0])
-                embed.add_field(name="Lv.", value=char_2[2], inline=True)
-                embed.add_field(name="HP.", value=char_2[4], inline=True)
-                embed.add_field(name="ATK.", value=char_2[6], inline=True)
-                embed.add_field(name="EX", value=char_2[9], inline=False)
-                embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
-                embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
-                embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
-                embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
-                embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
-                embed.set_image(url=char_2[0])
+                embed.add_field(name="Lv.", value=char_1[2], inline=True)
+                embed.add_field(name="HP.", value=char_1[4], inline=True)
+                embed.add_field(name="ATK.", value=char_1[6], inline=True)
+                embed.add_field(name="EX", value=char_1[9], inline=False)
+                embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
+                embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
+                embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
+                embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
+                embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
+                embed.set_image(url=char_1[0])
                 await channel_newsBoard.send(embed=embed)
+                #if msg.channel == channel_newsBoard:
+                #    await msg.channel.send(embed=embed)
+                if len(char_2) != 0:
+                    embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
+                    embed.set_author(name=info[0], url=info[2])
+                    embed.set_image(url=char_2[0])
+                    #embed.set_thumbnail(url=char_1[0])
+                    embed.add_field(name="Lv.", value=char_2[2], inline=True)
+                    embed.add_field(name="HP.", value=char_2[4], inline=True)
+                    embed.add_field(name="ATK.", value=char_2[6], inline=True)
+                    embed.add_field(name="EX", value=char_2[9], inline=False)
+                    embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
+                    embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
+                    embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
+                    embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
+                    embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
+                    embed.set_image(url=char_2[0])
+                    await channel_newsBoard.send(embed=embed)
     def connect(self):
         self.mydb = pymysql.connect(
         host=os.environ.get('DB_HOST'),
