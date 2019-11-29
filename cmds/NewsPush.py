@@ -24,6 +24,7 @@ class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
         self.connect()
+        channel_newsBoard = self.bot.get_channel(int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700')))
         resultF =await self.crawler()
         info = resultF[0]
         char_1 = resultF[1]
@@ -44,9 +45,8 @@ class NewsPush(Cog_Extension):
             embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
             embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
             embed.set_image(url=char_1[0])
-            channel1 = self.bot.get_channel(648920638404165653)
-            await channel1.send(embed=embed)
-            #if msg.channel == channel1:
+            await channel_newsBoard.send(embed=embed)
+            #if msg.channel == channel_newsBoard:
             #    await msg.channel.send(embed=embed)
             if len(char_2) != 0:
                 embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
@@ -63,14 +63,13 @@ class NewsPush(Cog_Extension):
                 embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
                 embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
                 embed.set_image(url=char_2[0])
-                channel1 = self.bot.get_channel(648920638404165653)
-                await channel1.send(embed=embed)
+                await channel_newsBoard.send(embed=embed)
     def connect(self):
         self.mydb = pymysql.connect(
-        host='us-cdbr-iron-east-05.cleardb.net',
-        user='b8167bd3b0485f',
-        passwd='8042a225',
-        db='heroku_e3fdeb125d50ac6'
+        host=os.environ.get('DB_HOST'),
+        user=os.environ.get('DB_USER'),
+        passwd=os.environ.get('DB_PASSWD'),
+        db=os.environ.get('DB_NAME')
         )
     def query(self, sql):
         try:

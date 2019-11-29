@@ -24,11 +24,11 @@ for key, value in user_nName.items():   #dict轉list
 
 class Lilipoints(Cog_Extension):
     def connect(self):
-            self.mydb = pymysql.connect(
-            host='us-cdbr-iron-east-05.cleardb.net',
-            user='b8167bd3b0485f',
-            passwd='8042a225',
-            db='heroku_e3fdeb125d50ac6'
+        self.mydb = pymysql.connect(
+        host=os.environ.get('DB_HOST'),
+        user=os.environ.get('DB_USER'),
+        passwd=os.environ.get('DB_PASSWD'),
+        db=os.environ.get('DB_NAME')
             )
     def query(self, sql):
         try:
@@ -42,7 +42,7 @@ class Lilipoints(Cog_Extension):
     @commands.Cog.listener() 
     async def on_message(self, msg):
         self.connect()
-        channel_TextLobby = self.bot.get_channel(547075157693562913)
+        channel_TextLobby = self.bot.get_channel(os.environ.get(int('CHANNEL_TEXTLOBBY_FROM_DISH')))
         if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
             ranNum = random.randint(0,12)
             if ranNum <= 1:
