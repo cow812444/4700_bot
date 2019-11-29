@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import has_role
 from discord import Member
 from discord.utils import get
+from NewsPush import NewsPush
 import os
 
 bot = commands.Bot(command_prefix='$$')
@@ -16,5 +17,7 @@ async def on_ready():
 
 
 if __name__ == "__main__":
-    print("token be used is : {}".format(str(os.environ.get('DISCORD_TOKEN'))))
+    print("token is been used : {}".format(str(os.environ.get('DISCORD_TOKEN'))))
+    bot.loop.create_task(NewsPush.poster())
+    print("Success create_task to NewsPush.poster()")
     bot.run(str(os.environ.get('DISCORD_TOKEN')))
