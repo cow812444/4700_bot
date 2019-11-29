@@ -9,13 +9,12 @@ import random
 import pymysql
 pymysql.install_as_MySQLdb()
 
-mydb = pymysql.connect(
-    host='us-cdbr-iron-east-05.cleardb.net',
-    user='b8167bd3b0485f',
-    passwd='8042a225',
-    db='heroku_e3fdeb125d50ac6'
-)
-
+#mydb = pymysql.connect(
+#    host='us-cdbr-iron-east-05.cleardb.net',
+#    user='b8167bd3b0485f',
+#    passwd='8042a225',
+#    db='heroku_e3fdeb125d50ac6'
+#)
 
 user_dict={'齊木':'1','黑貓':'2','yoyo':'3','盆栽':'4','咲夜':'5','火花':'6','蟑螂':'7','變態':'8','三寶':'9','香香':'10','幕容':'11','木子':'12','小白':'13','月海':'14','草哥':'15','四月':'16','dula':'17','可魯':'18','卡打':'19','lza':'20','月月':'21','somes':'22','wewa':'23','亡音':'24','夏音':'25','奧迪':'26','鱈魚':'27','kk':'28','voc':'29','恰恰':'30','腐貓':'31','詩詩':'32','那歐':'33','霜降':'34','peco':'35','女僕丸':'36','max':'37','岡田':'38','松浦':'39','sky':'40','maple':'41','海瀨':'42','米國':'43','滑水':'44','zz':'45'}
 user_nName={'齊木':['齊木','齊ㄇ','7ㄇ','7木'],'黑貓':['黑貓','黒猫','黑貓','黒貓'],'yoyo':['yoyo'],'盆栽':['盤栽','盆栽'],'咲夜':['咲夜','消夜','宵夜','笑夜'],'火花':['火花','泡泡雞','雷鷹','ㄆㄆ雞','泡雞'],'蟑螂':['壞壞蟑螂','蟑螂'],'變態':['變態'],'三寶':['三寶','3寶','ㄌㄌㄎ','yutami'],'香香':['香香','今天不行了','ㄌㄌㄎ'],'幕容':['幕容','慕蓉','慕容','幕蓉'],'木子':['木子'],'小白':['小白','白白雞','白','siro'],'月海':['月海','粵海','倉鼠'],'草哥':['草哥','草尼馬','草尼瑪','草泥瑪','草泥馬','馬哥','尼哥'],'四月':['四月','april','apr','4月'],'dula':['dula','賭拉','杜拉','肚拉','度拉'],'可魯':['可魯','fly'],'卡打':['卡打','katar','卡達'],'lza':['lza','版主'],'月月':['moon','月月'],'somes':['somes'],'wewa':['wewa'],'亡音':['亡音','亡88','音88','亡爸爸','音爸爸'],'夏音':['夏音','導遊'],'奧迪':['奧迪'],'鱈魚':['鱈魚','雪魚'],'kk':['kk'],'voc':['voc'],'恰恰':['恰恰','chacha'],'腐貓':['腐貓'],'詩詩':['詩詩','國軍'],'那歐':['那歐','nao'],'霜降':['霜降','ㄌㄌㄎ'],'peco':['peco','佩扣','佩口','珮口','珮扣'],'女僕丸':['女僕丸','妹斗','妹抖'],'max':['max'],'岡田':['岡田','二號','2號'],'松浦':['松浦','一號','1號'],'sky':['sky'],'maple':['maple'],'海瀨':['海瀨','海獺'],'米國':['米國'],'滑水':['滑水'],'zz':['zz','莉莉']}
@@ -30,21 +29,32 @@ user_dDbId=[]
 for key, value in user_nName.items():   #dict轉list
     user_dDbId.append(key)
     user_nName1.append(value)
-with open('setting.json','r',encoding='utf-8') as jsonFile:
-    jsonData = json.load(jsonFile)
 
 class Lilipoints(Cog_Extension):
-    
+    #@commands.Cog.listener()
+    #async def on_member_remove(self, member):
+    #    print(f'{member} leave!')
+    #    channel = self.bot.get_channel(642458050300608513)
+    #    await channel.send(f'{member} leave!'
     @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        print(f'{member} leave!')
-        channel = self.bot.get_channel(642458050300608513)
-        await channel.send(f'{member} leave!')
-
- 
-
-    @commands.Cog.listener()
+    def connect(self):
+            self.mydb = pymysql.connect(
+            host='us-cdbr-iron-east-05.cleardb.net',
+            user='b8167bd3b0485f',
+            passwd='8042a225',
+            db='heroku_e3fdeb125d50ac6'
+            )
+    def query(self, sql):
+        try:
+            cursor = self.mydb.cursor()
+            cursor.execute(sql)
+        except:
+            self.connect()
+            cursor = self.mydb.cursor()
+            cursor.execute(sql)
+        return cursor
     async def on_message(self, msg):
+        self.connect()
         if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
             ranNum = random.randint(0,12)
             if ranNum <= 1:
@@ -54,24 +64,6 @@ class Lilipoints(Cog_Extension):
             elif ranNum >= 11:
                 await msg.channel.send('我就喜歡看著你討厭我卻又幹不掉我的樣子')
                 await msg.channel.send('<:PepeHappy:585654238432985124>')
-################################################################################
-        def connect(self):
-            self.mydb = pymysql.connect(
-            host='us-cdbr-iron-east-05.cleardb.net',
-            user='b8167bd3b0485f',
-            passwd='8042a225',
-            db='heroku_e3fdeb125d50ac6'
-            )
-        def query(self, sql):
-            try:
-                cursor = self.mydb.cursor()
-                cursor.execute(sql)
-            except:
-                self.connect()
-                cursor = self.mydb.cursor()
-                cursor.execute(sql)
-            return cursor
-################################################################################
         tmp = 0
         for name in user_name:
             for nameList in user_nName1:
