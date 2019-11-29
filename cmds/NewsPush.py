@@ -174,8 +174,8 @@ class NewsPush(Cog_Extension):
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待300秒")
-                await asyncio.sleep(292)
-                print("等待5分鐘完畢,重新開始")
+                await asyncio.sleep(592)
+                print("等待10分鐘完畢,重新開始")
                 status = "無新資料"
         if status == "有新資料":
             print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
