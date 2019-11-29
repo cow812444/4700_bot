@@ -55,14 +55,14 @@ class Lilipoints(Cog_Extension):
                 await msg.channel.send('我就喜歡看著你討厭我卻又幹不掉我的樣子')
                 await msg.channel.send('<:PepeHappy:585654238432985124>')
 ################################################################################
-        async def connect(self):
+        def connect(self):
             self.mydb = pymysql.connect(
             host='us-cdbr-iron-east-05.cleardb.net',
             user='b8167bd3b0485f',
             passwd='8042a225',
             db='heroku_e3fdeb125d50ac6'
             )
-        async def query(self, sql):
+        def query(self, sql):
             try:
                 cursor = self.mydb.cursor()
                 cursor.execute(sql)

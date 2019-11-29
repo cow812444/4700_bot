@@ -30,7 +30,7 @@ class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
         self.connect()
-        resultF = self.crawler()
+        resultF =await self.crawler()
         info = resultF[0]
         char_1 = resultF[1]
         char_2 = resultF[2]
@@ -77,14 +77,14 @@ class NewsPush(Cog_Extension):
     #    print("From NewsPush.py : 已爬到卡池資訊,但已重複,5分後重抓")
     #    time.sleep(292)
     #    self.crawler(self)
-    async def connect(self):
+    def connect(self):
         self.mydb = pymysql.connect(
         host='us-cdbr-iron-east-05.cleardb.net',
         user='b8167bd3b0485f',
         passwd='8042a225',
         db='heroku_e3fdeb125d50ac6'
         )
-    async def query(self, sql):
+    def query(self, sql):
         try:
             cursor = self.mydb.cursor()
             cursor.execute(sql)
