@@ -42,7 +42,7 @@ class Lilipoints(Cog_Extension):
     @commands.Cog.listener() 
     async def on_message(self, msg):
         self.connect()
-        channel_TextLobby = self.bot.get_channel(os.environ.get(int('CHANNEL_TEXTLOBBY_FROM_DISH')))
+        channel_TextLobby = self.bot.get_channel(os.environ.get('CHANNEL_TEXTLOBBY_FROM_DISH'))
         if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
             ranNum = random.randint(0,12)
             if ranNum <= 1:
