@@ -15,18 +15,18 @@ chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
-dateRange = []
-info = []
-char_1 = []
-char_2 = []
-status = "有新資料"
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
+        dateRange = []
+        info = []
+        char_1 = []
+        char_2 = []
+        status = "有新資料"
+        channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
         while True:
             self.connect()
-            channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
             channel_newsBoard = self.bot.get_channel(channel_Num)
             resultF = await self.crawler()
             if resultF is not None:
@@ -157,7 +157,7 @@ class NewsPush(Cog_Extension):
         #time.sleep(1)
         result = cursor.fetchall()
         print("抓到資料庫中的 titleName = {}".format(result))
-        if result != None:
+        if result is not None:
             result = "".join(result[0])
             print("抓到資料庫中的 titleName(after join) = {}".format(result))
             result = result.split('\'')[0]
@@ -167,14 +167,14 @@ class NewsPush(Cog_Extension):
             #cursor.execute(sql)
             #time.sleep(1)
             resultTime = cursor.fetchall()
-            if resultTime != None:
+            if resultTime is not None:
                 resultTime = "".join(resultTime[0])
                 print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
                 resultTime = resultTime.split('\'')[0]
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待300秒")
-                await asyncio.sleep(20)
+                await asyncio.sleep(10)
                 print("等待5分鐘完畢,重新開始")
                 status = "無新資料"
         if status == "有新資料":
