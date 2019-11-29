@@ -103,7 +103,7 @@ class NewsPush(Cog_Extension):
         #    if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
                 #driver = webdriver.Chrome('./chromedriver')
         driver.get('https://dragalialost.com/cht/news/information/')
-        time.sleep(5)
+        asyncio.sleep(5)
         soup = BeautifulSoup(driver.page_source,'lxml')
         #p =driver.find_element_by_id('news-list')
         cnt = 0
@@ -148,7 +148,7 @@ class NewsPush(Cog_Extension):
         #info
         #driver.get('https://dragalialost.com/cht/news/detail/892')
         driver.get(info[2])
-        time.sleep(3)
+        asyncio.sleep(3)
         soup = BeautifulSoup(driver.page_source,'lxml')
         dateRange = []
         for date in soup.select('div span.local_date'):
@@ -183,7 +183,7 @@ class NewsPush(Cog_Extension):
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待300秒")
-                time.sleep(292)
+                asyncio.sleep(292)
                 print("等待5分鐘完畢,重新開始")
                 resultTmp = [['t'],['m'],['p'],['s']]
                 return resultTmp
@@ -200,6 +200,7 @@ class NewsPush(Cog_Extension):
         #sql = "UPDATE titletable SET titleTimeEnd = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
         sql = "INSERT INTO titletable (titleTimeEnd) VALUE ('{}') WHERE titleName = '{}'".format(titleName,titleTimeEnd)
         cursor = self.query(sql)
+        self.mydb.commit()
         #cursor.execute(sql)
         #result = cursor.fetchall()
         charskillTitle_1 = []

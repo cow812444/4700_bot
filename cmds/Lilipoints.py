@@ -54,7 +54,24 @@ class Lilipoints(Cog_Extension):
             elif ranNum >= 11:
                 await msg.channel.send('我就喜歡看著你討厭我卻又幹不掉我的樣子')
                 await msg.channel.send('<:PepeHappy:585654238432985124>')
-
+################################################################################
+        def connect(self):
+            self.mydb = pymysql.connect(
+            host='us-cdbr-iron-east-05.cleardb.net',
+            user='b8167bd3b0485f',
+            passwd='8042a225',
+            db='heroku_e3fdeb125d50ac6'
+            )
+        def query(self, sql):
+            try:
+                cursor = self.mydb.cursor()
+                cursor.execute(sql)
+            except:
+                self.connect()
+                cursor = self.mydb.cursor()
+                cursor.execute(sql)
+            return cursor
+################################################################################
         tmp = 0
         for name in user_name:
             for nameList in user_nName1:
@@ -89,8 +106,10 @@ class Lilipoints(Cog_Extension):
                         if userName_get in user_dict:
                             print('db編號: ' + user_dict[userName_get]+' get!')
                             #await msg.channel.send('目標: ' + userName_get + '\n分數變化: ' + countingPattern.group(3) + '\nDB編號: ' + user_dict[userName_get])
-                            cursor = mydb.cursor()
-                            cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
+                            #cursor = mydb.cursor()
+                            sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[userName_get]
+                            cursor = self.query(sql)
+                            #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                             result = cursor.fetchall()
                             current_UserPoints = result[0][1]
                             print('目前計分: {}'.format(current_UserPoints))
@@ -107,8 +126,8 @@ class Lilipoints(Cog_Extension):
                                 new_UserPoints = str(current_UserPoints - (int)(userPoints_get))
                             print('最新分數: {}'.format(new_UserPoints))
                             sql = 'UPDATE users SET user_points = {} WHERE users_id = {}'.format(new_UserPoints, user_dict[userName_get])
-                            cursor.execute(sql)
-                            mydb.commit()
+                            cursor = self.query(sql)
+                            self.mydb.commit()
                             #print('目前db分數: ' + (str)(new_UserPoints))
                             #msg_toSend = '目標 : {}\n原本莉莉點數: {}\n分數變化: {}\n目前莉莉點數: {}'.format(userName_get,current_UserPoints,countingPattern.group(3),new_UserPoints)
                             msg_toSend = '{}{} (原本計分: {} // 目前計分: {})'.format(userName_get,countingPattern.group(3),current_UserPoints,new_UserPoints)
@@ -128,8 +147,10 @@ class Lilipoints(Cog_Extension):
                         #print('得到id: ' + showPoints.group(2))   #得到id
                         #userName_get = showPoints.group(2)
                         userName_get = [k for k, v in user_nName.items() if v == nameList][0]
-                        cursor = mydb.cursor()
-                        cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
+                        #cursor = mydb.cursor()
+                        #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
+                        sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[userName_get]
+                        cursor = self.query(sql)
                         result = cursor.fetchall()
                         current_UserPoints = result[0][1]
                         msg_toSend = '{}(累積計分: {})'.format(userName_get,current_UserPoints)
@@ -171,7 +192,9 @@ class Lilipoints(Cog_Extension):
                         n=0
                         for id_ in usersName_get:
                             if id_ in user_dict:
-                                cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[id_])
+                                sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[id_]
+                                #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[id_])
+                                cursor = self.query(sql)
                                 result = cursor.fetchall()
                                 current_usersPoints.append(result[0][1])
                                 n=n+1
