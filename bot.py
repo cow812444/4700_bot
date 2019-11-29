@@ -18,6 +18,6 @@ async def on_ready():
 
 if __name__ == "__main__":
     print("token is been used : {}".format(str(os.environ.get('DISCORD_TOKEN'))))
-    bot.loop.create_task(NewsPush.poster())
+    bot.loop.create_task(NewsPush.poster(NewsPush))
     print("Success create_task to NewsPush.poster()")
     bot.run(str(os.environ.get('DISCORD_TOKEN')))
