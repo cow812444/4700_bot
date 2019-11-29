@@ -77,14 +77,14 @@ class NewsPush(Cog_Extension):
     #    print("From NewsPush.py : 已爬到卡池資訊,但已重複,5分後重抓")
     #    time.sleep(292)
     #    self.crawler(self)
-    def connect(self):
+    async def connect(self):
         self.mydb = pymysql.connect(
         host='us-cdbr-iron-east-05.cleardb.net',
         user='b8167bd3b0485f',
         passwd='8042a225',
         db='heroku_e3fdeb125d50ac6'
         )
-    def query(self, sql):
+    async def query(self, sql):
         try:
             cursor = self.mydb.cursor()
             cursor.execute(sql)
@@ -93,7 +93,7 @@ class NewsPush(Cog_Extension):
             cursor = self.mydb.cursor()
             cursor.execute(sql)
         return cursor
-    def crawler(self):
+    async def crawler(self):
         dateRange = []
         info = []
         char_1 = []
@@ -103,7 +103,7 @@ class NewsPush(Cog_Extension):
         #    if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
                 #driver = webdriver.Chrome('./chromedriver')
         driver.get('https://dragalialost.com/cht/news/information/')
-        asyncio.sleep(5)
+        await asyncio.sleep(5)
         soup = BeautifulSoup(driver.page_source,'lxml')
         #p =driver.find_element_by_id('news-list')
         cnt = 0
@@ -148,7 +148,7 @@ class NewsPush(Cog_Extension):
         #info
         #driver.get('https://dragalialost.com/cht/news/detail/892')
         driver.get(info[2])
-        asyncio.sleep(3)
+        await asyncio.sleep(3)
         soup = BeautifulSoup(driver.page_source,'lxml')
         dateRange = []
         for date in soup.select('div span.local_date'):
@@ -183,7 +183,7 @@ class NewsPush(Cog_Extension):
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("準備前往timesleep() 等待300秒")
-                asyncio.sleep(292)
+                await asyncio.sleep(292)
                 print("等待5分鐘完畢,重新開始")
                 resultTmp = [['t'],['m'],['p'],['s']]
                 return resultTmp
