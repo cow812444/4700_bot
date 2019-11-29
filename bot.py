@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import has_role
 from discord import Member
 from discord.utils import get
-from NewsPush import NewsPush
+from cmds.NewsPush import NewsPush
 import os
 
 bot = commands.Bot(command_prefix='$$')
