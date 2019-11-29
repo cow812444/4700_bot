@@ -177,17 +177,6 @@ class Summoning(Cog_Extension):
                 else:
                     await msg.channel.send('{}總共花了 {} 抽,抽到: {}% '.format(user,summon_Times,result))
                 print('目前機率: {}%'.format(total_range))
-                #await msg.channel.send('目前機率: {}%'.format(total_range))
-                #if tenFold_Count == 0 and oneShot_Count == 0:
-                #   smn = 10
-                    #抽到有
-                #elif tenFold_Count > 0:
-                #    tenFold_Summon(tenFold_Count, oneShot_Count)
-                    #10連抽
-                #elif oneShot_Count > 0:
-                    #oneShot_Suoong()
             
-            
-
 def setup(bot):
     bot.add_cog(Summoning(bot))

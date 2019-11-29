@@ -9,13 +9,6 @@ import random
 import pymysql
 pymysql.install_as_MySQLdb()
 
-#mydb = pymysql.connect(
-#    host='us-cdbr-iron-east-05.cleardb.net',
-#    user='b8167bd3b0485f',
-#    passwd='8042a225',
-#    db='heroku_e3fdeb125d50ac6'
-#)
-
 user_dict={'齊木':'1','黑貓':'2','yoyo':'3','盆栽':'4','咲夜':'5','火花':'6','蟑螂':'7','變態':'8','三寶':'9','香香':'10','幕容':'11','木子':'12','小白':'13','月海':'14','草哥':'15','四月':'16','dula':'17','可魯':'18','卡打':'19','lza':'20','月月':'21','somes':'22','wewa':'23','亡音':'24','夏音':'25','奧迪':'26','鱈魚':'27','kk':'28','voc':'29','恰恰':'30','腐貓':'31','詩詩':'32','那歐':'33','霜降':'34','peco':'35','女僕丸':'36','max':'37','岡田':'38','松浦':'39','sky':'40','maple':'41','海瀨':'42','米國':'43','滑水':'44','zz':'45'}
 user_nName={'齊木':['齊木','齊ㄇ','7ㄇ','7木'],'黑貓':['黑貓','黒猫','黑貓','黒貓'],'yoyo':['yoyo'],'盆栽':['盤栽','盆栽'],'咲夜':['咲夜','消夜','宵夜','笑夜'],'火花':['火花','泡泡雞','雷鷹','ㄆㄆ雞','泡雞'],'蟑螂':['壞壞蟑螂','蟑螂'],'變態':['變態'],'三寶':['三寶','3寶','ㄌㄌㄎ','yutami'],'香香':['香香','今天不行了','ㄌㄌㄎ'],'幕容':['幕容','慕蓉','慕容','幕蓉'],'木子':['木子'],'小白':['小白','白白雞','白','siro'],'月海':['月海','粵海','倉鼠'],'草哥':['草哥','草尼馬','草尼瑪','草泥瑪','草泥馬','馬哥','尼哥'],'四月':['四月','april','apr','4月'],'dula':['dula','賭拉','杜拉','肚拉','度拉'],'可魯':['可魯','fly'],'卡打':['卡打','katar','卡達'],'lza':['lza','版主'],'月月':['moon','月月'],'somes':['somes'],'wewa':['wewa'],'亡音':['亡音','亡88','音88','亡爸爸','音爸爸'],'夏音':['夏音','導遊'],'奧迪':['奧迪'],'鱈魚':['鱈魚','雪魚'],'kk':['kk'],'voc':['voc'],'恰恰':['恰恰','chacha'],'腐貓':['腐貓'],'詩詩':['詩詩','國軍'],'那歐':['那歐','nao'],'霜降':['霜降','ㄌㄌㄎ'],'peco':['peco','佩扣','佩口','珮口','珮扣'],'女僕丸':['女僕丸','妹斗','妹抖'],'max':['max'],'岡田':['岡田','二號','2號'],'松浦':['松浦','一號','1號'],'sky':['sky'],'maple':['maple'],'海瀨':['海瀨','海獺'],'米國':['米國'],'滑水':['滑水'],'zz':['zz','莉莉']}
 user_name =[]
@@ -23,7 +16,6 @@ user_dbId=[]
 for key, value in user_dict.items():   #dict轉list
     user_name.append(key)
     user_dbId.append(value)
-
 user_nName1 =[]
 user_dDbId=[]
 for key, value in user_nName.items():   #dict轉list
@@ -31,12 +23,6 @@ for key, value in user_nName.items():   #dict轉list
     user_nName1.append(value)
 
 class Lilipoints(Cog_Extension):
-    #@commands.Cog.listener()
-    #async def on_member_remove(self, member):
-    #    print(f'{member} leave!')
-    #    channel = self.bot.get_channel(642458050300608513)
-    #    await channel.send(f'{member} leave!'
-    @commands.Cog.listener()
     def connect(self):
             self.mydb = pymysql.connect(
             host='us-cdbr-iron-east-05.cleardb.net',
@@ -53,8 +39,10 @@ class Lilipoints(Cog_Extension):
             cursor = self.mydb.cursor()
             cursor.execute(sql)
         return cursor
+    @commands.Cog.listener() 
     async def on_message(self, msg):
         self.connect()
+        channel_TextLobby = self.bot.get_channel(547075157693562913)
         if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
             ranNum = random.randint(0,12)
             if ranNum <= 1:
@@ -74,14 +62,12 @@ class Lilipoints(Cog_Extension):
                     resetPoints = re.search(r'(^\$reset )({}$)'.format(personList), msg.content.lower())
                     organizeBoard = re.search(r'(^\$)('+personList+')\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})\s([A-Za-z]{1,5}|[\u4E00-\u9FA5]{2})',msg.content.lower())
                     ##########################加減分計算Start#####################################
-                    if(countingPattern and msg.author != self.bot.user and tmp == 0):
+                    if(countingPattern and msg.author != self.bot.user and tmp == 0 and channel_TextLobby != msg.channel):    
+                    ##pattern get and 防機器人自己偵測自己 and 重複判定 and 禁止小餐廳-文字大廳使用(防洗頻)
                         tmp = tmp + 1
                         print('整句: ' + countingPattern.group(0))   #整句
-                        #print('從id開始到最後: ' + m1.group(1))  #從id開始到最後
-                        print('得到id: ' + countingPattern.group(2))   #得到id
-                        #userName_get = countingPattern.group(2)    #抓取開頭兩字得到name
+                        print('得到id: ' + countingPattern.group(2))   #得到id 
                         userName_get = [k for k, v in user_nName.items() if v == nameList][0]
-                        #print('分數加分/減分全部: ' + m1.group(3))
                         points_ChangedStatus = countingPattern.group(4)   #分數加分/減分
                         print('分數加分/減分: ' + points_ChangedStatus)
                         userPoints_get = countingPattern.group(5)  #得到分數變化,存進pnt_get
@@ -97,15 +83,12 @@ class Lilipoints(Cog_Extension):
                             continue
                         if userName_get in user_dict:
                             print('db編號: ' + user_dict[userName_get]+' get!')
-                            #await msg.channel.send('目標: ' + userName_get + '\n分數變化: ' + countingPattern.group(3) + '\nDB編號: ' + user_dict[userName_get])
-                            #cursor = mydb.cursor()
                             sql = 'SELECT * FROM users WHERE users_id = %s',user_dict[userName_get]
                             cursor = self.query(sql)
                             #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
                             result = cursor.fetchall()
                             current_UserPoints = result[0][1]
                             print('目前計分: {}'.format(current_UserPoints))
-                            #print('原本db分數: ' + (str)(current_UserPoints))
                             if points_ChangedStatus == '+':
                                 if int(current_UserPoints) + int(userPoints_get) > 2147483647:
                                     await msg.channel.send('{}已經爆掉了,放過他好ㄇ'.format(userName_get))
@@ -120,14 +103,9 @@ class Lilipoints(Cog_Extension):
                             sql = 'UPDATE users SET user_points = {} WHERE users_id = {}'.format(new_UserPoints, user_dict[userName_get])
                             cursor = self.query(sql)
                             self.mydb.commit()
-                            #print('目前db分數: ' + (str)(new_UserPoints))
-                            #msg_toSend = '目標 : {}\n原本莉莉點數: {}\n分數變化: {}\n目前莉莉點數: {}'.format(userName_get,current_UserPoints,countingPattern.group(3),new_UserPoints)
                             msg_toSend = '{}{} (原本計分: {} // 目前計分: {})'.format(userName_get,countingPattern.group(3),current_UserPoints,new_UserPoints)
-                            #print('目標 : {}\n原本莉莉點數: {}\n分數變化: {}\n目前莉莉點數: {}'.format(userName_get,current_UserPoints,countingPattern.group(3),new_UserPoints))
                             print('{}{} (原本計分: {} // 目前計分: {})'.format(userName_get,countingPattern.group(3),current_UserPoints,new_UserPoints))
-                            channel1 = self.bot.get_channel(547075157693562913)
-                            if msg.channel != channel1:
-                                await msg.channel.send(msg_toSend)
+                            await msg.channel.send(msg_toSend)
                         else:
                             print("fail!")
                             await msg.channel.send('沒抓到綽號,請換一個試試')
@@ -137,7 +115,6 @@ class Lilipoints(Cog_Extension):
                         tmp = tmp + 1
                         #print('整句: ' + showPoints.group(0))   #整句
                         #print('得到id: ' + showPoints.group(2))   #得到id
-                        #userName_get = showPoints.group(2)
                         userName_get = [k for k, v in user_nName.items() if v == nameList][0]
                         #cursor = mydb.cursor()
                         #cursor.execute('SELECT * FROM users WHERE users_id = %s',user_dict[userName_get])
@@ -168,7 +145,7 @@ class Lilipoints(Cog_Extension):
                     #    await msg.channel.send(msg_toSend)
 
                     ##########################組隊顯示分數#####################################
-                    if(organizeBoard and msg.author != self.bot.user and tmp == 0):
+                    if(organizeBoard and msg.author != self.bot.user and tmp == 0 and msg.channel != channel_TextLobby):
                         tmp = tmp + 1
                         #print('整句: ' + organizeBoard.group(0))   #整句
                         #print('得到\$: ' + organizeBoard.group(1))   #得到$
@@ -193,9 +170,7 @@ class Lilipoints(Cog_Extension):
                             else:
                                 await msg.channel.send('有人的名字打錯囉！')
                                 continue
-                        channel1 = self.bot.get_channel(547075157693562913)
-                        if len(current_usersPoints) == 4 and msg.channel != channel1:
-                            #await msg.channel.send(dict(zip(usersName_get,current_usersPoints)))
+                        if len(current_usersPoints) == 4:
                             embed=discord.Embed(title='記分板', color=0x0080c0)
                             embed.set_thumbnail(url='https://cdn.discordapp.com/attachments/576863956879015983/642711388162228225/WorrySurrounded.gif')
                             embed.add_field(name=organizeBoard.group(2), value=current_usersPoints[0], inline=True)
