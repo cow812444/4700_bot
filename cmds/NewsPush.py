@@ -24,7 +24,8 @@ class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
         self.connect()
-        channel_newsBoard = self.bot.get_channel(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
+        channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
+        channel_newsBoard = self.bot.get_channel(channel_Num)
         resultF =await self.crawler()
         info = resultF[0]
         char_1 = resultF[1]
