@@ -35,8 +35,8 @@ class NewsPush(Cog_Extension):
                 char_2 = resultF[2]
                 dateRange = resultF[3]
             if len(char_1) >= 19:
-                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
-                embed.set_author(name=info[0], url=info[2])
+                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url='https://dragalialost.com/cht/news/detail/935', description=char_1[19])
+                embed.set_author(name=info[0], url='https://dragalialost.com/cht/news/detail/935')
                 embed.set_image(url=char_1[0])
                 #embed.set_thumbnail(url=char_1[0])
                 embed.add_field(name="Lv.", value=char_1[2], inline=True)
@@ -137,8 +137,8 @@ class NewsPush(Cog_Extension):
         #tmp = path_.split('/')
         #info.append(tmp[len(tmp)-1])
         #info
-        #driver.get('https://dragalialost.com/cht/news/detail/892')
-        driver.get(info[2])
+        driver.get('https://dragalialost.com/cht/news/detail/935')
+        #driver.get(info[2])
         await asyncio.sleep(3)
         soup = BeautifulSoup(driver.page_source,'lxml')
         dateRange = []
