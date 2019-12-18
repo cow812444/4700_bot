@@ -15,6 +15,7 @@ class Summoning(Cog_Extension):
     five_Star_2 = 0.8 + 1
     five_Star_3 = 1 + 1 + 0.8
     five_Star_4 = 1.2 + 1 + 1 + 0.8
+    total_range = (five_Star_1 * 4)
     #每10連增加機率 0.5%
     five_Star_1_fail = 0.125
     five_Star_2_fail = 0.105
