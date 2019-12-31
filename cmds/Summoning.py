@@ -65,10 +65,9 @@ class Summoning(Cog_Extension):
                         counts = counts + 1
                         #await msg.channel.send('{} {}'.format(ran_Num,folder_dict['精選_2']))
                     elif ran_Num <= five_Star_2:
-                        random_pud = random.randint(0,(len(folder_dict['精選_2'])-1))
-                        print(ran_Num,' ',folder_dict['精選_2'][random_pud])
+                        print(ran_Num,' ',folder_dict['精選_2'])
                         controlTrigger = 1
-                        result.append(folder_dict['精選_2'][random_pud])
+                        result.append(folder_dict['精選_2'])
                         break
                         counts = counts + 1
                         #await msg.channel.send('{} {}'.format(ran_Num,folder_dict['精選_2']))
