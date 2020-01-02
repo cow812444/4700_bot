@@ -114,6 +114,7 @@ class ColorPalette(Cog_Extension):
             return
         guild = self.bot.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
+        print(payload.emoji.name)
         role_N = colorPlt.get(payload.emoji.name)
         print('guild ={}, member ={}, role_N ={}'.format(guild,member,role_N))
         if role_N:
