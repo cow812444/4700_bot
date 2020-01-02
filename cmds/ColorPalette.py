@@ -62,9 +62,10 @@ class ColorPalette(Cog_Extension):
         channel_Change_Color = self.bot.get_channel(648922785716109323)
         if reaction.message.channel.id != channel_Change_Color:
             return
-        if reaction.emoji in self.emoji_id:
+        if reaction.emoji in emoji_id:
             idx = emoji_id(reaction.emoji)
             role = discord.utils.get(user.server.roles, name=role_name(idx))
+            print('{} select {}, adding roles {} for him/her'.format(user, reaction.emoji, role))
             await self.bot.add_roles(user, role)
             pass
         '''
