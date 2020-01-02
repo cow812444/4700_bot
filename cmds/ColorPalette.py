@@ -66,7 +66,7 @@ class ColorPalette(Cog_Extension):
             return
         if payload.message_id != 662185247785353217:
             return
-        guild = self.get_member(payload.emoji.name)
+        guild = self.get_member(payload.guild_id)
         member = guild.get_member(payload.user_id)
         role_N = colorPlt.get(payload.emoji.name)
         print('guild ={}, member ={}, role_N ={}'.format(guild,member,role_N))
