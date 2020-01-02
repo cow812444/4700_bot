@@ -89,6 +89,7 @@ class NewsPush(Cog_Extension):
         info = []
         char_1 = []
         char_2 = []
+        status = "有新資料"
         #@commands.Cog.listener()
         #async def on_message(self, msg):
         #    if ((msg.content =='最新卡池資訊') and msg.author != self.bot.user):
@@ -153,7 +154,7 @@ class NewsPush(Cog_Extension):
         titleTimeStart = dateRange[0]
         titleTimeEnd = dateRange[1]
         #cursor = mydb.cursor()
-        sql = sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
+        sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
         cursor = self.query(sql)
         #cursor.execute(sql)
         #time.sleep(1)
