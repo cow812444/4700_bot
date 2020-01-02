@@ -83,6 +83,7 @@ class NewsPush(Cog_Extension):
             self.connect()
             cursor = self.mydb.cursor()
             cursor.execute(sql)
+        cursor.commit()
         return cursor
     async def crawler(self):
         dateRange = []
@@ -191,17 +192,17 @@ class NewsPush(Cog_Extension):
         if status == "有新資料":
             print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
             #cursor = mydb.cursor()
-            sql = "INSERT INTO titletable (titleName) VALUE ('{}')".format(titleName)
+            sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(titleName,titleTimeStart,titleTimeEnd)
             cursor = self.query(sql)
             #cursor.execute(sql)
-            #sql = "UPDATE titletable SET titleTimeStart = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
-            sql = "INSERT INTO titletable (`titleTimeStart`) VALUE ('{}') WHERE `titleName` = '{}'".format(titleTimeStart,titleName)
-            cursor = self.query(sql)
+            #sql = "UPDATE `titletable` SET titleTimeStart = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
+            #sql = "INSERT INTO titletable (`titleTimeStart`) VALUE ('{}') WHERE `titleName` = '{}'".format(titleTimeStart,titleName)
+            #cursor = self.query(sql)
             #cursor.execute(sql)
-            #sql = "UPDATE titletable SET titleTimeEnd = '{}' WHERE titleName = '{}'".format(titleTimeStart,titleName)
-            sql = "INSERT INTO titletable (`titleTimeEnd`) VALUE ('{}') WHERE `titleName` = '{}'".format(titleTimeEnd,titleName)
-            cursor = self.query(sql)
-            self.mydb.commit()
+            #sql = "UPDATE `titletabl`e SET `titleTimeEnd` = '{}' WHERE `titleName` = '{}'".format(titleTimeEnd,titleName)
+            #sql = "INSERT INTO titletable (`titleTimeEnd`) VALUE ('{}') WHERE `titleName` = '{}'".format(titleTimeEnd,titleName)
+            #cursor = self.query(sql)
+            #self.mydb.commit()
             #cursor.execute(sql)
             #result = cursor.fetchall()
             charskillTitle_1 = []
