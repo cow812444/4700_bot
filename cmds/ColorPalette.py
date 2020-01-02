@@ -59,9 +59,9 @@ class ColorPalette(Cog_Extension):
         role_name.append(value)
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        colorPlt = {'green_square':'color_1',
-                    ':red_square:':'color_2',
-                    'yellow_square:0ca363e545e2f490cf4b852f5c8e0404':'color_3',
+        colorPlt = {'🟩':'color_1',
+                    '🟥':'color_2',
+                    '🟨':'color_3',
                     '<:color_4:585654238432985124>':'color_4',
                     '<:color_5:585654238432985124>':'color_5',
                     '<:color_6:585654238432985124>':'color_6',
