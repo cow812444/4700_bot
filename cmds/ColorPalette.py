@@ -55,8 +55,8 @@ class ColorPalette(Cog_Extension):
     self.emoji_id =[]
     self.role_name=[]
     for self.key, self.value in self.colorPlt.items():   #dict轉list
-    self.emoji_id.append(key)
-    self.role_name.append(value)
+        self.emoji_id.append(key)
+        self.role_name.append(value)
     @commands.Cog.listener()
     async def on_reaction_add(self,reaction, user):
         channel_Change_Color = self.bot.get_channel(648922785716109323)
