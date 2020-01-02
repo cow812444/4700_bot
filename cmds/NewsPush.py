@@ -83,7 +83,7 @@ class NewsPush(Cog_Extension):
             self.connect()
             cursor = self.mydb.cursor()
             cursor.execute(sql)
-        cursor.commit()
+        self.mydb.commit()
         return cursor
     async def crawler(self):
         dateRange = []
