@@ -64,7 +64,7 @@ class ColorPalette(Cog_Extension):
             return
         if reaction.emoji in self.emoji_id:
             idx = self.emoji_id(reaction.emoji)
-            role = discord.utils.get(user.server.roles, name=role_name(idx))
+            role = discord.utils.get(user.server.roles, name=self.role_name(idx))
             await self.bot.add_roles(user, role)
             pass
         '''
