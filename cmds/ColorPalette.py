@@ -6,8 +6,8 @@ import re
 import os
 
 class ColorPalette(Cog_Extension):
-    colorPlt = {'<:green_square:bb7aa875fe442f8c2c79e5b8b1e8c7c9>':'color_1',
-                    '<:red_square:395a4608ed021406b8f0ad4506081996>':'color_2',
+    colorPlt = {':green_square:':'color_1',
+                    ':red_square:':'color_2',
                     '<:yellow_square:0ca363e545e2f490cf4b852f5c8e0404>':'color_3',
                     '<:color_4:585654238432985124>':'color_4',
                     '<:color_5:585654238432985124>':'color_5',
@@ -58,24 +58,22 @@ class ColorPalette(Cog_Extension):
         emoji_id.append(key)
         role_name.append(value)
     @commands.Cog.listener()
-    async def on_reaction_add(self,reaction, user):
-        print('偵測到reaction from {}'.format(user))
-        channel_Change_Color = self.bot.get_channel("648922785716109323")
-        if reaction.message.channel.id != channel_Change_Color:
-            print('頻道不對 直接return')
+    async def on_raw_reaction_add(self, payload):
+        print('偵測到reaction from {}'.format(payload))
+        channel_Change_Color = self.bot.get_channel(648922785716109323)
+        if not payload.guild_id:
+            print('not payload.guild_id, 直接return')
             return
-        if reaction.emoji in emoji_id:
-            idx = emoji_id(reaction.emoji)
-            role = discord.utils.get(user.server.roles, name=role_name(idx))
-            print('{} select {}, adding roles {} for him/her'.format(user, reaction.emoji, role))
-            await self.bot.add_roles(user, role)
-            pass
-        '''
-        if reaction.emoji == '<:color_1:585654238432985124>':  #color 1
-            role = discord.utils.get(user.server.roles, name="color_1")
-            await self.bot.add_roles(user, role)
-            pass
-        '''
+        if payload.message_id != 662185247785353217:
+            return
+        guild = self.get_member(payload.emoji.name)
+        member = guild.get_member(payload.user_id)
+        role_N = colorPlt.get(payload.emoji.name)
+        print('guild ={}, member ={}, role_N ={}'.format(guild,member,role_N))
+        if role_N:
+            print('YES')
+            role = discord.utils.get(guild.roles, name=role_N)
+            await member.add_roles(role, reason='Reaction role')
     pass
 def setup(bot):
     bot.add_cog(ColorPalette(bot))
