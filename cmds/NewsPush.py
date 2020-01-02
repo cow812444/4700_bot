@@ -175,9 +175,10 @@ class NewsPush(Cog_Extension):
             #time.sleep(1)
             resultTime = cursor.fetchall()
             if resultTime is not None:
-                resultTime = "".join(resultTime[0])
-                print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
-                resultTime = resultTime.split('\'')[0]
+                try:
+                    resultTime = "".join(resultTime[0])
+                    print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
+                    resultTime = resultTime.split('\'')[0]
             print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
             if resultTime == titleTimeStart:
                 print("等待10分鐘後重爬")
