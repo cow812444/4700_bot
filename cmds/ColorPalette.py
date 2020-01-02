@@ -59,8 +59,10 @@ class ColorPalette(Cog_Extension):
         role_name.append(value)
     @commands.Cog.listener()
     async def on_reaction_add(self,reaction, user):
-        channel_Change_Color = self.bot.get_channel(648922785716109323)
+        print('偵測到reaction from {}'.format(user))
+        channel_Change_Color = self.bot.get_channel("648922785716109323")
         if reaction.message.channel.id != channel_Change_Color:
+            print('頻道不對 直接return')
             return
         if reaction.emoji in emoji_id:
             idx = emoji_id(reaction.emoji)
