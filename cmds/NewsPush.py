@@ -138,6 +138,7 @@ class NewsPush(Cog_Extension):
         #info.append(tmp[len(tmp)-1])
         #info
         ###driver.get('https://dragalialost.com/cht/news/detail/935')
+        print('info = {}'.format(info))
         driver.get(path_)
         #driver.get(info[2])
         await asyncio.sleep(3)
@@ -158,8 +159,15 @@ class NewsPush(Cog_Extension):
         #time.sleep(1)
         result = cursor.fetchall()
         print("抓到資料庫中的 titleName = {}".format(result))
-        if result is not None and result != '()':
-            result = "".join(result[0])
+        if result is not None:
+            try:
+                result = "".join(result[0])
+            except:
+                print("等待10分鐘後重爬")
+                await asyncio.sleep(592)
+                print("等待10分鐘完畢,重新開始")
+                status = "無新資料"
+                continue
             print("抓到資料庫中的 titleName(after join) = {}".format(result))
             result = result.split('\'')[0]
             #cursor = mydb.cursor()
