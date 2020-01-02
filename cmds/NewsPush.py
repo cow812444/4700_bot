@@ -162,14 +162,12 @@ class NewsPush(Cog_Extension):
         if result is not None:
             try:
                 result = "".join(result[0])
+                print("抓到資料庫中的 titleName(after join) = {}".format(result))
+                result = result.split('\'')[0]
             except:
-                print("等待10分鐘後重爬")
-                await asyncio.sleep(592)
-                print("等待10分鐘完畢,重新開始")
-                status = "無新資料"
-                continue
-            print("抓到資料庫中的 titleName(after join) = {}".format(result))
-            result = result.split('\'')[0]
+                pass
+            #print("抓到資料庫中的 titleName(after join) = {}".format(result))
+            #result = result.split('\'')[0]
             #cursor = mydb.cursor()
             sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
             cursor = self.query(sql)
