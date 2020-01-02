@@ -6,7 +6,7 @@ import re
 import os
 
 class ColorPalette(Cog_Extension):
-    self.colorPlt = {'<:green_square:bb7aa875fe442f8c2c79e5b8b1e8c7c9>':'color_1',
+    colorPlt = {'<:green_square:bb7aa875fe442f8c2c79e5b8b1e8c7c9>':'color_1',
                     '<:red_square:395a4608ed021406b8f0ad4506081996>':'color_2',
                     '<:yellow_square:0ca363e545e2f490cf4b852f5c8e0404>':'color_3',
                     '<:color_4:585654238432985124>':'color_4',
@@ -52,19 +52,19 @@ class ColorPalette(Cog_Extension):
                     '<:color_44:585654238432985124>':'color_44',
                     '<:color_45:585654238432985124>':'color_45',
     }
-    self.emoji_id =[]
-    self.role_name=[]
-    for self.key, self.value in self.colorPlt.items():   #dict轉list
-        self.emoji_id.append(key)
-        self.role_name.append(value)
+    emoji_id =[]
+    role_name=[]
+    for key, value in colorPlt.items():   #dict轉list
+        emoji_id.append(key)
+        role_name.append(value)
     @commands.Cog.listener()
     async def on_reaction_add(self,reaction, user):
         channel_Change_Color = self.bot.get_channel(648922785716109323)
         if reaction.message.channel.id != channel_Change_Color:
             return
         if reaction.emoji in self.emoji_id:
-            idx = self.emoji_id(reaction.emoji)
-            role = discord.utils.get(user.server.roles, name=self.role_name(idx))
+            idx = emoji_id(reaction.emoji)
+            role = discord.utils.get(user.server.roles, name=role_name(idx))
             await self.bot.add_roles(user, role)
             pass
         '''
