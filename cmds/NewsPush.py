@@ -104,7 +104,7 @@ class NewsPush(Cog_Extension):
         for i in soup.select('li a p.title'):
             texts = i.text.strip()
             #print(texts)
-            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦)',texts)
+            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告)',texts)
             if group1:
                 p=texts
                 info.append(p)   #標題丟進info[0]
@@ -124,7 +124,7 @@ class NewsPush(Cog_Extension):
             n=n+1
         #print(info)
         cnt1 = 0
-        path_ = ''
+        path_ = 'https://dragalialost.com/cht/news/information/'
         for i in soup.select('div ul#news-list li a'):
             #print(i.get('href'))
             if cnt1 == cnt:
