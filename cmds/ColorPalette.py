@@ -32,15 +32,12 @@ class ColorPalette(Cog_Extension):
                 await guild.create_role(name=msg.author.display_name, colour=discord.Colour.from_rgb(rgb_color[0],rgb_color[1],rgb_color[2]))
                 guild = msg.guild
                 time.sleep(1)
-                role = get(guild.roles, name=msg.author.display_name)
-                print(role)
-                try:
-                    await user.add_roles(role)
-                except:
-                    time.sleep(2)
+                while not role:
                     guild = msg.guild
+                    time.sleep(0.3)
                     role = get(guild.roles, name=msg.author.display_name)
-                    await user.add_roles(role)
+                    print(role)
+                await user.add_roles(role)
 
                     
         #msg.author
