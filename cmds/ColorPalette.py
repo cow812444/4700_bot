@@ -5,6 +5,7 @@ from discord.utils import get
 from core.classes import Cog_Extension
 import re
 import os
+import time
 
 class ColorPalette(Cog_Extension):
     @commands.Cog.listener()
