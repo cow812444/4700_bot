@@ -124,6 +124,7 @@ class NewsPush(Cog_Extension):
             n=n+1
         #print(info)
         cnt1 = 0
+        path_ = ''
         for i in soup.select('div ul#news-list li a'):
             #print(i.get('href'))
             if cnt1 == cnt:
