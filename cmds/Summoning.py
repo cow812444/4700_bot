@@ -91,7 +91,12 @@ class Summoning(Cog_Extension):
                         #result.append([ran_Num,'nothing'])
                         #await msg.channel.send('{} nothing'.format(ran_Num))
                         if counts % 10 == 0 and counts != 0 :
-                            self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                            #self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                            five_Star_1 = five_Star_1 + five_Star_1_fail
+                            five_Star_2 = five_Star_2 + five_Star_2_fail
+                            five_Star_3 = five_Star_3 + five_Star_3_fail
+                            five_Star_4 = five_Star_4 + five_Star_4_fail
+                            total_range = (five_Star_1 * 4)
                     if controlTrigger == 1:
                         self.set_Chance()
                         #counts = abs(counts - rounds)
@@ -151,7 +156,12 @@ class Summoning(Cog_Extension):
                         #result.append([ran_Num,'nothing'])
                         #await msg.channel.send('{} nothing'.format(ran_Num))
                         if counts % 10 == 0 and counts != 0 :
-                            self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                            #self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                            five_Star_1 = five_Star_1 + five_Star_1_fail
+                            five_Star_2 = five_Star_2 + five_Star_2_fail
+                            five_Star_3 = five_Star_3 + five_Star_3_fail
+                            five_Star_4 = five_Star_4 + five_Star_4_fail
+                            total_range = (five_Star_1 * 4)
                     if controlTrigger == 1:
                         self.set_Chance()
                         #counts = abs(counts - rounds)
