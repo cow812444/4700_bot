@@ -26,12 +26,12 @@ class ColorPalette(Cog_Extension):
             if role:
                 #change roles color
                 await role.edit(hoist=True, colour=discord.Colour.from_rgb(rgb_color[0],rgb_color[1],rgb_color[2]))
-                await self.bot.add_roles(user, role)
+                await user.add_roles(role)
             else:
                 await guild.create_role(name=msg.author.display_name, colour=discord.Colour.from_rgb(rgb_color[0],rgb_color[1],rgb_color[2]))
                 role = get(guild.roles, name=msg.author.display_name)
                 print(role)
-                await self.bot.add_roles(user, role)
+                await user.add_roles(role)
         #msg.author
         pass
     @commands.Cog.listener()
