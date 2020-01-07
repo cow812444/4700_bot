@@ -152,9 +152,14 @@ class NewsPush(Cog_Extension):
                 dateRange.append(date.text)
         dateRange
         print("開始檢驗是否重複")
-        titleName = info[0]
-        titleTimeStart = dateRange[0]
-        titleTimeEnd = dateRange[1]
+        try:
+            titleName = info[0]
+            titleTimeStart = dateRange[0]
+            titleTimeEnd = dateRange[1]
+        except:
+            titleName = ''
+            titleTimeStart = ''
+            titleTimeEnd = ''
         #cursor = mydb.cursor()
         sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
         cursor = self.query(sql)
