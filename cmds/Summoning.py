@@ -118,9 +118,11 @@ class Summoning(Cog_Extension):
                         five_Star_4 = five_Star_4 + (five_Star_4_fail * 182) + five_Star_1 + five_Star_2 + five_Star_3
                         total_range = (five_Star_1 * 4)
                     if ran_Num <= five_Star_1:
-                        print(ran_Num,' ',folder_dict['精選_1'])
+                        random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
+                        print(ran_Num,' ',folder_dict['精選_1'][random_pu])
                         controlTrigger = 1
-                        result.append(folder_dict['精選_1'])
+                        result.append(folder_dict['精選_1'][random_pu])
+                        break
                         counts = counts + 1
                         #await msg.channel.send('{} {}'.format(ran_Num,folder_dict['精選_2']))
                     elif ran_Num <= five_Star_2:
