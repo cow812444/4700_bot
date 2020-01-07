@@ -13,7 +13,7 @@ class ColorPalette(Cog_Extension):
         channel_Change_color = self.bot.get_channel(648922785716109323)
         text_str = re.search(r'(#([A-Z0-9]{6}))', msg.content)
         # and msg.channel == channel_Change_color
-        if text_str:
+        if text_str and msg.channel == channel_Change_color:
             guild = msg.guild
             colour_value = text_str.group(2)
             print(colour_value)
