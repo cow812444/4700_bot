@@ -50,11 +50,23 @@ class Lilipoints(Cog_Extension):
             if ranNum <= 1:
                 await msg.channel.send('我對不起大家 <:prison:585652892627894288>')
             elif ranNum < 6 and ranNum >= 4:
-                await msg.channel.send('明日贈送十連券 <:cryfrog:663930935804166164>')
+                await msg.channel.send('明日贈送十連券 <:cryfrog:661231166464065547>')
                 await msg.channel.send('但是卡打沒有')
             elif ranNum >= 11:
                 await msg.channel.send('我就喜歡看著你討厭我卻又幹不掉我的樣子')
-                await msg.channel.send('<:PepeHappy:663930407477051401>')
+                await msg.channel.send('<:PepeHappy:661231204409802776>')
+        text_katar = re.search(r'(工讀)', msg.content)
+        if msg.author.display_name == 'Katar' and text_katar:
+            ranNun = random.randint(0,10)
+            if ranNun <=1:
+                await msg.channel.send('你才工讀生，你全家都工讀生')
+                await msg.channel.send('<:dog~1:661230606843117589>')
+            elif ranNun <6 and ranNum >= 4:
+                await msg.channel.send('工作真的很辛苦，薪水又少，給點牡蠣好ㄇ')
+            elif ranNun >=11:
+                await msg.channel.send('卡打')
+                time.sleep(2)
+                await msg.channel.send('掐')
         tmp = 0
         for name in user_name:
             for nameList in user_nName1:
