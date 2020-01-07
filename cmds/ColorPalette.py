@@ -15,16 +15,21 @@ class ColorPalette(Cog_Extension):
         if text_str:
             guild = msg.guild
             colour_value = text_str.group(2)
-            to_int = int(colour_value, 16)
-            colour_value = to_int
+            print(colour_value)
+            rgb_color = tuple(int(colour_value[i:i+2], 16) for i in (0, 2, 4))
+            #to_int = int(colour_value, 16)
+            #colour_value = to_int
             role = get(guild.roles, name=msg.author.display_name)
+            print(role)
             user = msg.author
+            print(user)
             if role:
                 #change roles color
-                await role.edit(hoist=True, colour=discord.Colour(colour_value))
+                await role.edit(hoist=True, colour=discord.Colour.to_rgb(rgb_color))
             else:
-                await guild.create_role(name=msg.author.display_name, colour=discord.Colour(colour_value))
+                await guild.create_role(name=msg.author.display_name, colour=discord.Colour.to_rgb(rgb_color))
                 role = get(guild.roles, name=msg.author.display_name)
+                print(role)
                 await user.add_roles(role)
         #msg.author
         pass
