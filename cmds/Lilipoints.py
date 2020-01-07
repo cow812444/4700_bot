@@ -43,15 +43,18 @@ class Lilipoints(Cog_Extension):
         self.connect()
         channel_Num1 = int(os.environ.get('CHANNEL_TEXTLOBBY_FROM_DISH'))
         channel_TextLobby = self.bot.get_channel(os.environ.get('CHANNEL_TEXTLOBBY_FROM_DISH'))
-        if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
+        text_str = re.search(r'(二號|岡田)下台', msg.content)
+        #if ((msg.content =='二號下台' or msg.content =='岡田下台') and msg.author != self.bot.user):
+        if text_str and msg.author != self.bot.user:
             ranNum = random.randint(0,12)
             if ranNum <= 1:
                 await msg.channel.send('我對不起大家 <:prison:585652892627894288>')
             elif ranNum < 6 and ranNum >= 4:
-                await msg.channel.send('明日贈送十連券 <:cryfrog:585653534461132800>')
+                await msg.channel.send('明日贈送十連券 <:cryfrog:663930935804166164>')
+                await msg.channel.send('但是卡打沒有')
             elif ranNum >= 11:
                 await msg.channel.send('我就喜歡看著你討厭我卻又幹不掉我的樣子')
-                await msg.channel.send('<:PepeHappy:585654238432985124>')
+                await msg.channel.send('<:PepeHappy:663930407477051401>')
         tmp = 0
         for name in user_name:
             for nameList in user_nName1:
