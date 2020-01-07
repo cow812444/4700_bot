@@ -16,7 +16,7 @@ class ColorPalette(Cog_Extension):
             guild = msg.guild
             colour_value = text_str.group(2)
             to_int = int(colour_value, 16)
-            colour_value = hex(to_int)
+            colour_value = to_int
             role = get(guild.roles, name=msg.author.display_name)
             user = msg.author
             if role:

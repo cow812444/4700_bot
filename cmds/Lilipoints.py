@@ -61,7 +61,7 @@ class Lilipoints(Cog_Extension):
             if ranNun <=1:
                 await msg.channel.send('你才工讀生，你全家都工讀生')
                 await msg.channel.send('<:dog~1:661230606843117589>')
-            elif ranNun <6 and ranNum >= 4:
+            elif ranNun <6 and ranNun >= 4:
                 await msg.channel.send('工作真的很辛苦，薪水又少，給點牡蠣好ㄇ')
             elif ranNun >=11:
                 await msg.channel.send('卡打')
