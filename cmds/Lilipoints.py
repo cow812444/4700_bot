@@ -88,10 +88,10 @@ class Lilipoints(Cog_Extension):
                         userPoints_get = countingPattern.group(5)  #得到分數變化,存進pnt_get
                         print('分數變化: ' + userPoints_get)
                         if userPoints_get == '0':
-                            await msg.channel.send('不要戲弄岡田 <:prison:585652892627894288>  , {}是想被揍嗎'.format(countingPattern.group(3)))
+                            await msg.channel.send('不要戲弄岡田 <:18:661231588511580180>  , {}是想被揍嗎'.format(countingPattern.group(3)))
                             continue
                         if len(userPoints_get) >= 3 and points_ChangedStatus == '+':
-                            await msg.channel.send('不要欺負{} <:cjm:641920055092838400>'.format(userName_get))
+                            await msg.channel.send('不要欺負{} <:dedene5:661231368864530434>'.format(userName_get))
                             continue   
                         if int(userPoints_get) > 10 and points_ChangedStatus == '-':
                             await msg.channel.send('減這麼多分，你484偷偷喜歡{}'.format(userName_get))
