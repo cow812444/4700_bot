@@ -28,11 +28,9 @@ class NewsPush(Cog_Extension):
         typess = ''
         status = "有新資料"
         channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
-        channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         while True:
             self.connect()
             channel_newsBoard = self.bot.get_channel(channel_Num)
-            channel_lobby = self.bot.get_channel(channel_lobby_Num)
             resultF = await self.crawler()
             if resultF is not None:
                 info = resultF[0]
@@ -104,6 +102,8 @@ class NewsPush(Cog_Extension):
         self.mydb.commit()
         return cursor
     async def crawler(self):
+        channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
+        channel_lobby = self.bot.get_channel(channel_lobby_Num)
         dateRange = []
         info = []
         char_1 = []
