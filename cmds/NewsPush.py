@@ -40,7 +40,7 @@ class NewsPush(Cog_Extension):
                 pnts = [char_1,char_2,char_3]
                 dateRange = resultF[3]
                 typess = resultF[5]
-            if typess == '開始舉辦':
+            if typess == '開始舉辦' or typess == '':
                 continue
             for pnt in pnts:
                 if len(pnt) == 20:
@@ -211,6 +211,7 @@ class NewsPush(Cog_Extension):
                 await asyncio.sleep(592)
                 print("等待10分鐘完畢,重新開始")
                 status = "無新資料"
+                return None
         if status == "有新資料":
             print("From NewsPush.py : 已爬到卡池資訊,未重複,開始爬資料")
             #cursor = mydb.cursor()
