@@ -25,11 +25,14 @@ class NewsPush(Cog_Extension):
         char_2 = []
         char_3 = []
         pnts = []
+        typess = ''
         status = "有新資料"
         channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
+        channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         while True:
             self.connect()
             channel_newsBoard = self.bot.get_channel(channel_Num)
+            channel_lobby = self.bot.get_channel(channel_lobby_Num)
             resultF = await self.crawler()
             if resultF is not None:
                 info = resultF[0]
@@ -38,6 +41,9 @@ class NewsPush(Cog_Extension):
                 char_3 = resultF[4]
                 pnts = [char_1,char_2,char_3]
                 dateRange = resultF[3]
+                typess = resultF[5]
+            #if typess == '開始舉辦':
+            #    continue
             for pnt in pnts:
                 if len(pnt) == 20:
                     embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[19])
@@ -80,40 +86,6 @@ class NewsPush(Cog_Extension):
                     embed.add_field(name="被動2.{}".format(pnt[9]), value=pnt[12], inline=False)
                     embed.set_image(url=pnt[0])
                     await channel_newsBoard.send(embed=embed)
-            if len(char_1) >= 19:
-                embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
-                embed.set_author(name=info[0], url=info[2])
-                embed.set_image(url=char_1[0])
-                #embed.set_thumbnail(url=char_1[0])
-                embed.add_field(name="Lv.", value=char_1[2], inline=True)
-                embed.add_field(name="HP.", value=char_1[4], inline=True)
-                embed.add_field(name="ATK.", value=char_1[6], inline=True)
-                embed.add_field(name="EX", value=char_1[9], inline=False)
-                embed.add_field(name="S1.{}".format(char_1[7]), value=char_1[13], inline=False)
-                embed.add_field(name="S2.{}".format(char_1[8]), value=char_1[14], inline=False)
-                embed.add_field(name="被動1.{}".format(char_1[10]), value=char_1[16], inline=False)
-                embed.add_field(name="被動2.{}".format(char_1[11]), value=char_1[17], inline=False)
-                embed.add_field(name="被動3.{}".format(char_1[12]), value=char_1[18], inline=False)
-                embed.set_image(url=char_1[0])
-                await channel_newsBoard.send(embed=embed)
-                #if msg.channel == channel_newsBoard:
-                #    await msg.channel.send(embed=embed)
-                if len(char_2) != 0:
-                    embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_2[19])
-                    embed.set_author(name=info[0], url=info[2])
-                    embed.set_image(url=char_2[0])
-                    #embed.set_thumbnail(url=char_1[0])
-                    embed.add_field(name="Lv.", value=char_2[2], inline=True)
-                    embed.add_field(name="HP.", value=char_2[4], inline=True)
-                    embed.add_field(name="ATK.", value=char_2[6], inline=True)
-                    embed.add_field(name="EX", value=char_2[9], inline=False)
-                    embed.add_field(name="S1.{}".format(char_2[7]), value=char_2[13], inline=False)
-                    embed.add_field(name="S2.{}".format(char_2[8]), value=char_2[14], inline=False)
-                    embed.add_field(name="被動1.{}".format(char_2[10]), value=char_2[16], inline=False)
-                    embed.add_field(name="被動2.{}".format(char_2[11]), value=char_2[17], inline=False)
-                    embed.add_field(name="被動3.{}".format(char_2[12]), value=char_2[18], inline=False)
-                    embed.set_image(url=char_2[0])
-                    await channel_newsBoard.send(embed=embed)
     def connect(self):
         self.mydb = pymysql.connect(
         host=os.environ.get('DB_HOST'),
@@ -147,6 +119,7 @@ class NewsPush(Cog_Extension):
         #p =driver.find_element_by_id('news-list')
         cnt = 0
         info = []
+        types = ''
         for i in soup.select('li a p.title'):
             texts = i.text.strip()
             #print(texts)
@@ -154,11 +127,7 @@ class NewsPush(Cog_Extension):
             if group1:
                 p=texts
                 info.append(p)   #標題丟進info[0]
-                #cursor = mydb.cursor()
-                #cursor.execute('SELECT * FROM titletable WHERE titleName = %s',info[0])
-                #result = cursor.fetchall()
-                #if len(result) != 0:
-                #    NewsPush.timeSleep()
+                types = group1.group(2)
                 break
             cnt = cnt +1
         n=0
@@ -432,7 +401,11 @@ class NewsPush(Cog_Extension):
             print('被動2效果.{}'.format(char_1[17]))
             print('被動3.{}'.format(char_1[12]))
             print('被動3效果.{}'.format(char_1[18]))
-            resultF = [info,char_1,char_2,dateRange,char_3]
+            resultF = [info,char_1,char_2,dateRange,char_3,types]
+            if types == '開始舉辦':
+                await channel_lobby.send('{}！相關卡池資訊已經po到更新資訊區了，歡迎查看！')
+            if types == '舉辦公告':
+                await channel_lobby.send('{}！相關卡池資訊可於更新資訊區查看！')
             return resultF
 
 def setup(bot):
