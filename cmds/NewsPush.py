@@ -40,8 +40,8 @@ class NewsPush(Cog_Extension):
                 pnts = [char_1,char_2,char_3]
                 dateRange = resultF[3]
                 typess = resultF[5]
-            #if typess == '開始舉辦':
-            #    continue
+            if typess == '開始舉辦':
+                continue
             for pnt in pnts:
                 if len(pnt) == 20:
                     embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[19])
@@ -102,6 +102,7 @@ class NewsPush(Cog_Extension):
         self.mydb.commit()
         return cursor
     async def crawler(self):
+        driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
         channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         channel_lobby = self.bot.get_channel(channel_lobby_Num)
         dateRange = []
