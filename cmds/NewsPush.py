@@ -23,6 +23,8 @@ class NewsPush(Cog_Extension):
         info = []
         char_1 = []
         char_2 = []
+        char_3 = []
+        pnts = []
         status = "有新資料"
         channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
         while True:
@@ -33,7 +35,51 @@ class NewsPush(Cog_Extension):
                 info = resultF[0]
                 char_1 = resultF[1]
                 char_2 = resultF[2]
+                char_3 = resultF[4]
+                pnts = [char_1,char_2,char_3]
                 dateRange = resultF[3]
+            for pnt in pnts:
+                if len(pnt) == 20:
+                    embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[19])
+                    embed.set_author(name=info[0], url=info[2])
+                    embed.set_image(url=pnt[0])
+                    #embed.set_thumbnail(url=char_1[0])
+                    embed.add_field(name="Lv.", value=pnt[2], inline=True)
+                    embed.add_field(name="HP.", value=pnt[4], inline=True)
+                    embed.add_field(name="ATK.", value=pnt[6], inline=True)
+                    embed.add_field(name="EX", value=pnt[9], inline=False)
+                    embed.add_field(name="S1.{}".format(pnt[7]), value=pnt[13], inline=False)
+                    embed.add_field(name="S2.{}".format(pnt[8]), value=pnt[14], inline=False)
+                    embed.add_field(name="被動1.{}".format(pnt[10]), value=pnt[16], inline=False)
+                    embed.add_field(name="被動2.{}".format(pnt[11]), value=pnt[17], inline=False)
+                    embed.add_field(name="被動3.{}".format(pnt[12]), value=pnt[18], inline=False)
+                    embed.set_image(url=pnt[0])
+                    await channel_newsBoard.send(embed=embed)
+                if len(pnt) == 12:
+                    embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[11])
+                    embed.set_author(name=info[0], url=info[2])
+                    embed.set_image(url=pnt[0])
+                    #embed.set_thumbnail(url=char_1[0])
+                    embed.add_field(name="Lv.", value=pnt[2], inline=True)
+                    embed.add_field(name="HP.", value=pnt[4], inline=True)
+                    embed.add_field(name="ATK.", value=pnt[6], inline=True)
+                    embed.add_field(name="主動技能.{}".format(pnt[7]), value=pnt[9], inline=False)
+                    embed.add_field(name="被動.{}".format(pnt[8]), value=pnt[10], inline=False)
+                    embed.set_image(url=pnt[0])
+                    await channel_newsBoard.send(embed=embed)
+                if len(pnt) == 14:
+                    embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[13])
+                    embed.set_author(name=info[0], url=info[2])
+                    embed.set_image(url=pnt[0])
+                    #embed.set_thumbnail(url=char_1[0])
+                    embed.add_field(name="Lv.", value=pnt[2], inline=True)
+                    embed.add_field(name="HP.", value=pnt[4], inline=True)
+                    embed.add_field(name="ATK.", value=pnt[6], inline=True)
+                    embed.add_field(name="主動技能.{}".format(pnt[7]), value=pnt[10], inline=False)
+                    embed.add_field(name="被動1.{}".format(pnt[8]), value=pnt[11], inline=False)
+                    embed.add_field(name="被動2.{}".format(pnt[9]), value=pnt[12], inline=False)
+                    embed.set_image(url=pnt[0])
+                    await channel_newsBoard.send(embed=embed)
             if len(char_1) >= 19:
                 embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=char_1[19])
                 embed.set_author(name=info[0], url=info[2])
@@ -213,13 +259,16 @@ class NewsPush(Cog_Extension):
             #result = cursor.fetchall()
             charskillTitle_1 = []
             charskillTitle_2 = []
+            charskillTitle_3 = []
             tmp = 0
             for skillTitle in soup.select('dl dt span'):  #技能&被動名稱
                 if skillTitle.text.strip() != '':
                     if tmp < 6 :
                         charskillTitle_1.append(skillTitle.text.strip())
-                    else:
+                    elif tmp < 12:
                         charskillTitle_2.append(skillTitle.text.strip())
+                    else:
+                        charskillTitle_3.append(skillTitle.text.strip())
                     tmp = tmp +1
                 #print(skillParam.text.strip())
             #print(charskillTitle_1)
@@ -228,12 +277,15 @@ class NewsPush(Cog_Extension):
 
             skillExAbility_1 = []
             skillExAbility_2 = []
+            skillExAbility_3 = []
             tmp = 0
             for skillParam in soup.select('dl dd div'):   #技能&ex&被動描述
                 if tmp < 6 :
                     skillExAbility_1.append(skillParam.text.strip())
-                else:
+                elif tmp < 12:
                     skillExAbility_2.append(skillParam.text.strip())
+                else:
+                    skillExAbility_3.append(skillParam.text.strip())
                 tmp = tmp +1
                 #print(skillParam.text.strip())
             #print(skillExAbility_1)
@@ -242,6 +294,7 @@ class NewsPush(Cog_Extension):
 
             charLv_1 = []
             charLv_2 = []
+            charLv_3 = []
             tmp = 0
             for lv in soup.select('div ul li.lv'):        #等級
                 a = lv.text.split('\n')[1]
@@ -249,9 +302,12 @@ class NewsPush(Cog_Extension):
                 if tmp <1 :
                     charLv_1.append(a)
                     charLv_1.append(b)
-                else:
+                elif tmp == 1:
                     charLv_2.append(a)
                     charLv_2.append(b)
+                else:
+                    charLv_3.append(a)
+                    charLv_3.append(b)
                 tmp = tmp +1
                 #print(lv.text.strip())
             #print(charLv_1)
@@ -260,6 +316,7 @@ class NewsPush(Cog_Extension):
 
             charHp_1 = []
             charHp_2 = []
+            charHp_3 = []
             tmp = 0
             for hp in soup.select('div ul li.hp'):        #hp
                 a = hp.text.split('\n')[1]
@@ -267,9 +324,12 @@ class NewsPush(Cog_Extension):
                 if tmp <1 :
                     charHp_1.append(a)
                     charHp_1.append(b)
-                else:
+                elif tmp ==1:
                     charHp_2.append(a)
                     charHp_2.append(b)
+                else:
+                    charHp_3.append(a)
+                    charHp_3.append(b)
                 tmp = tmp +1
                 #print(hp.text.strip())
             #print(charHp_1)
@@ -278,6 +338,7 @@ class NewsPush(Cog_Extension):
 
             charAtk_1 = []
             charAtk_2 = []
+            charAtk_3 = []
             tmp = 0
             for atk in soup.select('div ul li.atk'):        #atk
                 a = atk.text.split('\n')[1]
@@ -285,9 +346,12 @@ class NewsPush(Cog_Extension):
                 if tmp <1 :
                     charAtk_1.append(a)
                     charAtk_1.append(b)
-                else:
+                elif tmp == 1:
                     charAtk_2.append(a)
                     charAtk_2.append(b)
+                else:
+                    charAtk_3.append(a)
+                    charAtk_3.append(b)
                 tmp = tmp +1
                 #print(hp.text.strip())
             #print(charAtk_1)
@@ -296,12 +360,15 @@ class NewsPush(Cog_Extension):
 
             charParam_1 = []
             charParam_2 = []
+            charParam_3 = []
             tmp = 0
             for charParam in soup.select('div section div div div div div div.param ul li'): #角色介紹
                 if tmp <1:
                     charParam_1.append(charParam.text.strip())
-                else:
+                elif tmp == 1:
                     charParam_2.append(charParam.text.strip())
+                else:
+                    charParam_3.append(charParam.text.strip())
                 tmp = tmp +1
             #print(charParam_1)
             #print(charParam_2)
@@ -309,23 +376,29 @@ class NewsPush(Cog_Extension):
 
             charPhoto_1 = []
             charPhoto_2 = []
+            charPhoto_3 = []
             tmp = 0
             for photo in soup.select('div.mainImage img'):
                 if tmp < 1:
                     charPhoto_1.append(photo.get('src'))
-                else:
+                elif tmp ==1:
                     charPhoto_2.append(photo.get('src'))
+                else:
+                    charPhoto_3.append(photo.get('src'))
                 tmp = tmp +1
             driver.close()
             print(charPhoto_1)
             print(charPhoto_2)
+            print(charPhoto_3)
 
             all_Status_1 = [charPhoto_1,charLv_1,charHp_1,charAtk_1,charskillTitle_1,skillExAbility_1,charParam_1]
             all_Status_2 = [charPhoto_2,charLv_2,charHp_2,charAtk_2,charskillTitle_2,skillExAbility_2,charParam_2]
-            tmp_all = [all_Status_1,all_Status_2]
+            all_Status_3 = [charPhoto_3,charLv_3,charHp_3,charAtk_3,charskillTitle_3,skillExAbility_3,charParam_3]
+            tmp_all = [all_Status_1,all_Status_2,all_Status_3]
             char_1 = []
             char_2 = []
-            tmp_final = [char_1,char_2]
+            char_3 = []
+            tmp_final = [char_1,char_2,char_3]
             n=0
             for i in tmp_all:
                 for q in i:
@@ -339,6 +412,8 @@ class NewsPush(Cog_Extension):
             print(dateRange,'\n')
             print(char_1,'\n\n')
             print(char_2,'\n\n')
+            print(char_3,'\n\n')
+            pnts = [char_1,char_2,char_3]
 
             print('角色照片:{}'.format(char_1[0]))
             print('角色介紹.{}'.format(char_1[19]))
@@ -357,7 +432,7 @@ class NewsPush(Cog_Extension):
             print('被動2效果.{}'.format(char_1[17]))
             print('被動3.{}'.format(char_1[12]))
             print('被動3效果.{}'.format(char_1[18]))
-            resultF = [info,char_1,char_2,dateRange]
+            resultF = [info,char_1,char_2,dateRange,char_3]
             return resultF
 
 def setup(bot):
