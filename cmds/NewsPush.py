@@ -150,7 +150,7 @@ class NewsPush(Cog_Extension):
         for i in soup.select('li a p.title'):
             texts = i.text.strip()
             #print(texts)
-            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告)',texts)
+            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告|開始舉辦)',texts)
             if group1:
                 p=texts
                 info.append(p)   #標題丟進info[0]
