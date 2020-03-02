@@ -403,9 +403,9 @@ class NewsPush(Cog_Extension):
             print('被動3效果.{}'.format(char_1[18]))
             resultF = [info,char_1,char_2,dateRange,char_3,types]
             if types == '開始舉辦':
-                await channel_lobby.send('{}！相關卡池資訊已經po到更新資訊區了，歡迎查看！')
+                await channel_lobby.send('{}！相關卡池資訊已經po到更新資訊區了，歡迎查看！'.format(info[0]))
             if types == '舉辦公告':
-                await channel_lobby.send('{}！相關卡池資訊可於更新資訊區查看！')
+                await channel_lobby.send('{}！相關卡池資訊可於更新資訊區查看！'.format(info[0]))
             return resultF
 
 def setup(bot):
