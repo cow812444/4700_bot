@@ -106,6 +106,9 @@ class NewsPush(Cog_Extension):
         return cursor
 
     async def crawler(self):
+        #緩衝時間
+        await asyncio.sleep(5)
+
         #default set-up
         driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
         dateRange = []
