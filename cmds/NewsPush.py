@@ -107,10 +107,9 @@ class NewsPush(Cog_Extension):
 
     async def crawler(self):
         #緩衝時間
-        await asyncio.sleep(5)
+        await asyncio.sleep(2)
 
         #default set-up
-        driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
         dateRange = []
         info = []
         char_1 = []
@@ -361,7 +360,7 @@ class NewsPush(Cog_Extension):
                         tmp = tmp +1
 
                     #關閉webdriver
-                    driver.close()
+                    #driver.close()
 
                     print(charPhoto_1)
                     print(charPhoto_2)
@@ -422,7 +421,7 @@ class NewsPush(Cog_Extension):
             else:
                 #非卡池公告處理
                 #關閉webdriver
-                driver.close()
+                #driver.close()
                 #網址導向卡池頁面內
                 ###測試用driver.get('https://dragalialost.com/cht/news/detail/935')
                 print('info = {}'.format(info))
@@ -467,8 +466,8 @@ class NewsPush(Cog_Extension):
                     channel_news_num = int(os.environ.get('CHANNEL_NEWS_FROM_4700'))
                     channel_news_storage = self.bot.get_channel(channel_news_num)
                     #目前最多支援三隻角色
-                    #await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
-                    await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
+                    #await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n網址已同步發佈至『news』頻道'.format(title=info[0], dt=info[1]))
+                    await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n{url}'.format(title=info[0], dt=info[1], url=info[2]))
  
             cnt = cnt +1
 
