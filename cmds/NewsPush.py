@@ -484,7 +484,7 @@ class NewsPush(Cog_Extension):
                     channel_news_storage = self.bot.get_channel(channel_news_num)
                     #目前最多支援三隻角色
                     await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
-                    await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2])
+                    await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
  
             cnt = cnt +1
 
