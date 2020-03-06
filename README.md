@@ -1,6 +1,6 @@
 # DISCORD_BOT
 
-- **使用工具
+- **使用工具**
   - python==3.8.0
   - discord.py(rewrite ver.)
   - heroku
@@ -8,7 +8,7 @@
   - git
   - mysql
 
-- **簡易說明
+- **簡易說明**
   - ColorPalette
     - 使用者可於指定頻道輸入Hex color code,會自動建立以群名片為名的身份組並變更其顏色
     - 使用範例：#555555, #123f32
@@ -19,12 +19,12 @@
     - 使用者可於指定頻道輸入想要模擬的抽卡數, 得到相應結果
     - 使用範例：我要10抽,我要10連,1抽,抽到有
     
-- **BuildPacks
+- **BuildPacks**
   - heroku/python
   - https://github.com/heroku/heroku-buildpack-google-chrome
   - https://github.com/heroku/heroku-buildpack-chromedriver
 
-- **env vars
+- **env vars**
   - DISCORD_TOKEN
   - TZ
   - CHANNEL_LOBBY_FROM_4700
