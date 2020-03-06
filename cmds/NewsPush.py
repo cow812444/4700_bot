@@ -441,8 +441,8 @@ class NewsPush(Cog_Extension):
                 print("開始檢驗是否重複")
                 try:
                     titleName = info[0]
-                    titleTimeStart = dateRange[0]
-                    titleTimeEnd = dateRange[1]
+                    titleTimeStart = info[1]
+                    titleTimeEnd = titleTimeStart
                 except:
                     titleName = ''
                     titleTimeStart = ''
@@ -459,7 +459,8 @@ class NewsPush(Cog_Extension):
                         print("抓到資料庫中的 titleName(after join) = {}".format(result))
                         result = result.split('\'')[0]
                     except:
-                        pass
+                        result = ''
+                    '''
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
@@ -471,15 +472,17 @@ class NewsPush(Cog_Extension):
                             resultTime = resultTime.split('\'')[0]
                         except:
                             resultTime = ''
+                    '''
 
-                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
-                    if resultTime == titleTimeStart:
+                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(result,titleName))
+                    if result == titleName:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
                         status = "無新資料"
 
                 if status == "有新資料":
+                    sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(titleName,titleTimeStart,titleTimeStart)
                     channel_news_num = int(os.environ.get('CHANNEL_NEWS_FROM_4700'))
                     channel_news_storage = self.bot.get_channel(channel_news_num)
                     #目前最多支援三隻角色
