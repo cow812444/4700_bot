@@ -140,13 +140,12 @@ class NewsPush(Cog_Extension):
 
         for i in soup.select('li a p.title'):
             #reset default set-up
-            driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
+            #driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
             dateRange = []
             info = []
             char_1 = []
             char_2 = []
             char_3 = []
-            cnt = 0
             info = []
             types = ''
             status = "有新資料"
@@ -176,7 +175,6 @@ class NewsPush(Cog_Extension):
                     info.append(path_)
                     tmp = path_.split('/')
                     info.append(tmp[len(tmp)-1])
-                    break
                 cnt1 = cnt1 +1
 
             #判斷是否是卡池公告
@@ -423,20 +421,11 @@ class NewsPush(Cog_Extension):
                     sixResult.append(resultF)
             else:
                 #非卡池公告處理
-
+                #關閉webdriver
+                driver.close()
                 #網址導向卡池頁面內
                 ###測試用driver.get('https://dragalialost.com/cht/news/detail/935')
                 print('info = {}'.format(info))
-                driver.get(path_) #info[2]
-                await asyncio.sleep(3)
-                soup = BeautifulSoup(driver.page_source,'lxml')
-
-                #獲取卡池開始及結束時間
-                dateRange = []
-                for date in soup.select('div span.local_date'):
-                    if date.text not in dateRange:
-                        dateRange.append(date.text)
-                dateRange
 
                 #檢驗卡池是否已存在於資料庫(已爬過)
                 #TODO:local -> mysql 改為 local -> redis -> mysql , 提升處理速率 , 減少伺服器負荷
@@ -450,7 +439,7 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
-                sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
+                sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(info[0])
                 cursor = self.query(sql)
                 result = cursor.fetchall()
 
@@ -463,33 +452,22 @@ class NewsPush(Cog_Extension):
                         result = result.split('\'')[0]
                     except:
                         result = ''
-                    '''
-                    sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
-                    cursor = self.query(sql)
-                    resultTime = cursor.fetchall()
 
-                    if resultTime is not None:
-                        try:
-                            resultTime = "".join(resultTime[0])
-                            print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
-                            resultTime = resultTime.split('\'')[0]
-                        except:
-                            resultTime = ''
-                    '''
-
-                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(result,titleName))
-                    if result == titleName:
+                    print("抓到資料庫中的 titleName = '{}', 目前現有的 titleName = '{}', 開始進行比對".format(result,titleName))
+                    if result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
                         status = "無新資料"
 
                 if status == "有新資料":
-                    sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(titleName,titleTimeStart,titleTimeStart)
+                    
+                    sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(info[0],info[1],info[1])
+                    cursor = self.query(sql)
                     channel_news_num = int(os.environ.get('CHANNEL_NEWS_FROM_4700'))
                     channel_news_storage = self.bot.get_channel(channel_news_num)
                     #目前最多支援三隻角色
-                    await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
+                    #await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
                     await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n點擊查看：{url}'.format(title=info[0], dt=info[1], url=info[2]))
  
             cnt = cnt +1
