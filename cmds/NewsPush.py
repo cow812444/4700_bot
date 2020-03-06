@@ -85,6 +85,8 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="被動2.{}".format(pnt[9]), value=pnt[12], inline=False)
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
+            print('爬完6則最新公告, await for 540 seconds')
+            await asyncio.sleep(540)
 
     def connect(self):
         self.mydb = pymysql.connect(
@@ -207,11 +209,10 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
+
                 sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
                 result = cursor.fetchall()
-
-
                 print("抓到資料庫中的 titleName = {}".format(result))
                 if result is not None:
                     try:
@@ -219,11 +220,11 @@ class NewsPush(Cog_Extension):
                         print("抓到資料庫中的 titleName(after join) = {}".format(result))
                         result = result.split('\'')[0]
                     except:
-                        pass
+                        result = ''
+
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
-
                     if resultTime is not None:
                         try:
                             resultTime = "".join(resultTime[0])
@@ -233,7 +234,8 @@ class NewsPush(Cog_Extension):
                             resultTime = ''
 
                     print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
-                    if resultTime == titleTimeStart:
+                    print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
+                    if resultTime == titleTimeStart and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
@@ -438,11 +440,9 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
-                sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(info[0])
+                sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
                 result = cursor.fetchall()
-
-
                 print("抓到資料庫中的 titleName = {}".format(result))
                 if result is not None:
                     try:
@@ -452,22 +452,37 @@ class NewsPush(Cog_Extension):
                     except:
                         result = ''
 
-                    print("抓到資料庫中的 titleName = '{}', 目前現有的 titleName = '{}', 開始進行比對".format(result,titleName))
-                    if result == info[0]:
+                    sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
+                    cursor = self.query(sql)
+                    resultTime = cursor.fetchall()
+                    if resultTime is not None:
+                        try:
+                            resultTime = "".join(resultTime[0])
+                            print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
+                            resultTime = resultTime.split('\'')[0]
+                        except:
+                            resultTime = ''
+
+                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
+                    print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
+                    if resultTime == titleTimeStart and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
                         status = "無新資料"
 
                 if status == "有新資料":
-                    
+                    #存到db
                     sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(info[0],info[1],info[1])
                     cursor = self.query(sql)
+
+                    #set-up channel id
                     channel_news_num = int(os.environ.get('CHANNEL_NEWS_FROM_4700'))
                     channel_news_storage = self.bot.get_channel(channel_news_num)
-                    #目前最多支援三隻角色
-                    #await channel_lobby.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n網址已同步發佈至『news』頻道'.format(title=info[0], dt=info[1]))
-                    await channel_news_storage.send('『公告』{title} 於 {dt} 發佈在官網囉！\r\n{url}'.format(title=info[0], dt=info[1], url=info[2]))
+
+                    #push message
+                    await channel_lobby.send('『公告』\r\n{title} 於 {dt} 發佈在官網囉！\r\n網址已同步發佈至『news』頻道'.format(title=info[0], dt=info[1]))
+                    await channel_news_storage.send('『公告』\r\n{title} 於 {dt} 發佈在官網囉！\r\n{url}'.format(title=info[0], dt=info[1], url=info[2]))
  
             cnt = cnt +1
 
