@@ -57,7 +57,8 @@ class Summoning(Cog_Extension):
                     sentence = '{}總共花了 {} 抽,然而什麼都沒有'.format(user,numbers)
                 else:
                     sentence = '{}總共花了 {} 抽,抽到: {}% '.format(user,numbers,result)
-                await msg.channel.sned(sentence)
+                print(sentence)
+                await msg.channel.send(sentence)
 
             def judge_result():
                 ran_Num = round(random.random() * 100,4)
@@ -74,31 +75,31 @@ class Summoning(Cog_Extension):
 
                 if ran_Num <= five_Star_1:
                     random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
-                    print(ran_Num,' ',folder_dict['精選_1'][random_pu])
+                    #print(ran_Num,' ',folder_dict['精選_1'][random_pu])
                     controlTrigger = 1
                     result.append(folder_dict['精選_1'][random_pu])
                     gotPickUp = True
                     counts = counts + 1
                 elif ran_Num <= five_Star_2:
-                    print(ran_Num,' ',folder_dict['精選_2'])
+                    #print(ran_Num,' ',folder_dict['精選_2'])
                     controlTrigger = 1
                     result.append(folder_dict['精選_2'])
                     gotPickUp = True
                     counts = counts + 1
                 elif ran_Num <= five_Star_3:
                     random_char = random.randint(0,(len(folder_dict['五星'])-1))
-                    print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
+                    #print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
                     controlTrigger = 1
                     result.append(folder_dict['五星'][random_char])
                     counts = counts + 1
                 elif ran_Num <= five_Star_4:
                     random_dra = random.randint(0,(len(folder_dict['五星龍'])-1))
-                    print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
+                    #print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
                     controlTrigger = 1
                     result.append(folder_dict['五星龍'][random_dra])
                     counts = counts + 1
                 else:
-                    print(ran_Num,' ','nothing')
+                    #print(ran_Num,' ','nothing')
 
                     counts = counts + 1
                     if counts % 10 == 0 and counts != 0 :
