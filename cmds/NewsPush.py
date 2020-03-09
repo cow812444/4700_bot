@@ -114,7 +114,7 @@ class NewsPush(Cog_Extension):
         sixResult = []
         channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         channel_lobby = self.bot.get_channel(channel_lobby_Num)
-        path_ = on.environ.get('DRAGALIALOST_URL_NEWS')
+        path_ = os.environ.get('DRAGALIALOST_URL_NEWS')
         driver.get(path_)
         await asyncio.sleep(5)
         soup = BeautifulSoup(driver.page_source,'lxml')
@@ -138,7 +138,7 @@ class NewsPush(Cog_Extension):
             info = []
             types = ''
             status = "有新資料"
-            path_ = on.environ.get('DRAGALIALOST_URL_NEWS')
+            path_ = os.environ.get('DRAGALIALOST_URL_NEWS')
             driver.get(path_)
             await asyncio.sleep(5)
             soup = BeautifulSoup(driver.page_source,'lxml')
