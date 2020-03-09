@@ -16,6 +16,7 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
+
 class NewsPush(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
@@ -113,7 +114,10 @@ class NewsPush(Cog_Extension):
         sixResult = []
         channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         channel_lobby = self.bot.get_channel(channel_lobby_Num)
-        await asyncio.sleep(2)
+        path_ = on.environ.get('DRAGALIALOST_URL_NEWS')
+        driver.get(path_)
+        await asyncio.sleep(5)
+        soup = BeautifulSoup(driver.page_source,'lxml')
 
         '''  
         開始爬蟲
@@ -126,7 +130,6 @@ class NewsPush(Cog_Extension):
         '''
         for i in soup.select('li a p.title'):
             #reset default set-up
-            #driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
             dateRange = []
             info = []
             char_1 = []
