@@ -37,75 +37,73 @@ class Summoning(Cog_Extension):
         five_Star_2_fail = 0.105
         five_Star_3_fail = 0.125
         five_Star_4_fail = 0.145
+        
+        #default set-up
+        numbers = 0
+        result = []
+        counts = 0
+        numLimit = False
 
         channel_Num1 = int(os.environ.get('CHANNEL_SUMMONROOM_FROM_4700'))
         channel_Num2 = int(os.environ.get('CHANNEL_SUMMONROOM_FROM_DISH'))
         channel1 = self.bot.get_channel(channel_Num1)  ##4700 抽卡區
         channel2 = self.bot.get_channel(channel_Num2)  ##餐廳 曬卡區
         pattern = re.search(r'(\d?\d?\d(?=連|次|抽)|抽到有)',msg.content.lower())
-        if pattern and msg.author != self.bot.user and (channel1 == msg.channel or channel2 == msg.channel):
-            user = msg.author.display_name
-            group1 = pattern.group(1)
+
+        async def print_result():
+            if len(result) == 0:
+                sentence = '{}總共花了 {} 抽,然而什麼都沒有'.format(user,numbers)
+            else:
+                sentence = '{}總共花了 {} 抽,抽到: {}% '.format(user,numbers,result)
+            print(sentence)
+            await msg.channel.send(sentence)
+
+        def judge_result():
+            ran_Num = round(random.random() * 100,4)
             controlTrigger = 0
-            counts = 0
-            numbers = 0
-            result = []
-            numLimit = False
+            pickUP = False
+            numbers += 1
 
-            async def print_result():
-                if len(result) == 0:
-                    sentence = '{}總共花了 {} 抽,然而什麼都沒有'.format(user,numbers)
-                else:
-                    sentence = '{}總共花了 {} 抽,抽到: {}% '.format(user,numbers,result)
-                print(sentence)
-                await msg.channel.send(sentence)
+            if total_range == 9:
+                five_Star_1 = five_Star_1 + (five_Star_1_fail * 182)
+                five_Star_2 = five_Star_2 + (five_Star_2_fail * 182) + five_Star_1
+                five_Star_3 = five_Star_3 + (five_Star_3_fail * 182) + five_Star_1 + five_Star_2
+                five_Star_4 = five_Star_4 + (five_Star_4_fail * 182) + five_Star_1 + five_Star_2 + five_Star_3
+                total_range = (five_Star_1 * 4)
 
-            def judge_result():
-                ran_Num = round(random.random() * 100,4)
-                controlTrigger = 0
-                pickUP = False
-                numbers = numbers + 1
+            if ran_Num <= five_Star_1:
+                random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
+                #print(ran_Num,' ',folder_dict['精選_1'][random_pu])
+                controlTrigger = 1
+                result.append(folder_dict['精選_1'][random_pu])
+                gotPickUp = True
+                counts = counts + 1
+            elif ran_Num <= five_Star_2:
+                #print(ran_Num,' ',folder_dict['精選_2'])
+                controlTrigger = 1
+                result.append(folder_dict['精選_2'])
+                gotPickUp = True
+                counts = counts + 1
+            elif ran_Num <= five_Star_3:
+                random_char = random.randint(0,(len(folder_dict['五星'])-1))
+                #print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
+                controlTrigger = 1
+                result.append(folder_dict['五星'][random_char])
+                counts = counts + 1
+            elif ran_Num <= five_Star_4:
+                random_dra = random.randint(0,(len(folder_dict['五星龍'])-1))
+                #print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
+                controlTrigger = 1
+                result.append(folder_dict['五星龍'][random_dra])
+                counts = counts + 1
+            else:
+                #print(ran_Num,' ','nothing')
 
-                if total_range == 9:
-                    five_Star_1 = five_Star_1 + (five_Star_1_fail * 182)
-                    five_Star_2 = five_Star_2 + (five_Star_2_fail * 182) + five_Star_1
-                    five_Star_3 = five_Star_3 + (five_Star_3_fail * 182) + five_Star_1 + five_Star_2
-                    five_Star_4 = five_Star_4 + (five_Star_4_fail * 182) + five_Star_1 + five_Star_2 + five_Star_3
-                    total_range = (five_Star_1 * 4)
-
-                if ran_Num <= five_Star_1:
-                    random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
-                    #print(ran_Num,' ',folder_dict['精選_1'][random_pu])
-                    controlTrigger = 1
-                    result.append(folder_dict['精選_1'][random_pu])
-                    gotPickUp = True
-                    counts = counts + 1
-                elif ran_Num <= five_Star_2:
-                    #print(ran_Num,' ',folder_dict['精選_2'])
-                    controlTrigger = 1
-                    result.append(folder_dict['精選_2'])
-                    gotPickUp = True
-                    counts = counts + 1
-                elif ran_Num <= five_Star_3:
-                    random_char = random.randint(0,(len(folder_dict['五星'])-1))
-                    #print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
-                    controlTrigger = 1
-                    result.append(folder_dict['五星'][random_char])
-                    counts = counts + 1
-                elif ran_Num <= five_Star_4:
-                    random_dra = random.randint(0,(len(folder_dict['五星龍'])-1))
-                    #print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
-                    controlTrigger = 1
-                    result.append(folder_dict['五星龍'][random_dra])
-                    counts = counts + 1
-                else:
-                    #print(ran_Num,' ','nothing')
-
-                    counts = counts + 1
-                    if counts % 10 == 0 and counts != 0 :
-                        self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
-                        if gotPickUp and numLimit:
-                            numLimit = False
+                counts = counts + 1
+                if counts % 10 == 0 and counts != 0 :
+                    self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                    if gotPickUp and numLimit:
+                        numLimit = False
 
                 if controlTrigger == 1:
                     five_Star_1 = 1
@@ -115,14 +113,17 @@ class Summoning(Cog_Extension):
                     total_range = (five_Star_1 * 4)
                     counts = 0
                 controlTrigger = 0
+        
+        if pattern and msg.author != self.bot.user and (channel1 == msg.channel or channel2 == msg.channel):
+            user = msg.author.display_name
+            group1 = pattern.group(1)
+            controlTrigger = 0
 
             if group1 == '抽到有':
                 numLimit = True
                 pickUP = False
-
                 while numLimit:
                     judge_result()
-
                 print_result()
             else:
                 summon_Times = int(group1)
@@ -136,7 +137,6 @@ class Summoning(Cog_Extension):
 
                 for rounds in range(0,summonNum):
                     judge_result()
-
                 print_result()
                 print('目前機率: {}%'.format(total_range))
             
