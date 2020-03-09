@@ -108,37 +108,22 @@ class NewsPush(Cog_Extension):
         return cursor
 
     async def crawler(self):
-        #緩衝時間
-        await asyncio.sleep(2)
-
         #default set-up
-        dateRange = []
-        info = []
-        char_1 = []
-        char_2 = []
-        char_3 = []
         cnt = 0
-        info = []
-        types = ''
-        status = "有新資料"
+        sixResult = []
         channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         channel_lobby = self.bot.get_channel(channel_lobby_Num)
-        path_ = 'https://dragalialost.com/cht/news/information/'
-        driver.get(path_)
-        await asyncio.sleep(5)
-        soup = BeautifulSoup(driver.page_source,'lxml')
+        await asyncio.sleep(2)
+
         '''  
         開始爬蟲
         #cnt作用為定位
         #regex的group(2)拿取舉辦公告/開始舉辦區分卡池是否進行中,
          舉辦公告先行爬蟲並po相關資料至dc並於大廳告知,
          開始舉辦不進行爬蟲但會於dc大廳公告卡池已開始進行
-
+        ---
         #TODO:cnt整合info改為dict:關聯性,可減少cnt,cnt1這類的變數宣告,直接用key-value形式獲取相應位置 ex.{2:'卡池title',3:'維護公告'}
         '''
-
-        sixResult = []
-
         for i in soup.select('li a p.title'):
             #reset default set-up
             #driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=chrome_options)
@@ -150,9 +135,7 @@ class NewsPush(Cog_Extension):
             info = []
             types = ''
             status = "有新資料"
-            channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
-            channel_lobby = self.bot.get_channel(channel_lobby_Num)
-            path_ = 'https://dragalialost.com/cht/news/information/'
+            path_ = on.environ.get('DRAGALIALOST_URL_NEWS')
             driver.get(path_)
             await asyncio.sleep(5)
             soup = BeautifulSoup(driver.page_source,'lxml')
@@ -162,21 +145,26 @@ class NewsPush(Cog_Extension):
             info.append(texts)
 
             #獲取公告日期
-            n=0
-            for data in soup.select('li a div.time'):
-                if n == cnt:
-                    info.append(data.text.split('公告')[0].strip())
-                n=n+1
+            info.append(soup.select('li a div.time')[cnt].text.split('公告')[0].strip())
+            #n=0
+            #for data in soup.select('li a div.time'):
+            #    if n == cnt:
+            #        info.append(data.text.split('公告')[0].strip())
+            #    n=n+1
             
             #爬取相應標題網址以及編號
-            cnt1 = 0
-            for i in soup.select('div ul#news-list li a'):
-                if cnt1 == cnt:
-                    path_ = 'https://dragalialost.com' + i.get('href')
-                    info.append(path_)
-                    tmp = path_.split('/')
-                    info.append(tmp[len(tmp)-1])
-                cnt1 = cnt1 +1
+            path_ = os.environ.get('DRAGALIALOST_URL') + soup.select('div ul#news-list li a')[cnt].get('href')
+            info.append(path_)
+            path_id = path_.split('/')
+            info.append(path_id[len(path_id)-1])
+            #cnt1 = 0
+            #for i in soup.select('div ul#news-list li a'):
+            #    if cnt1 == cnt:
+            #        path_ = 'https://dragalialost.com' + i.get('href')
+            #        info.append(path_)
+            #        tmp = path_.split('/')
+            #        info.append(tmp[len(tmp)-1])
+            #    cnt1 = cnt1 +1
 
             #判斷是否是卡池公告
             group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告|開始舉辦)',texts)
@@ -195,7 +183,6 @@ class NewsPush(Cog_Extension):
                 for date in soup.select('div span.local_date'):
                     if date.text not in dateRange:
                         dateRange.append(date.text)
-                dateRange
 
                 #檢驗卡池是否已存在於資料庫(已爬過)
                 #TODO:local -> mysql 改為 local -> redis -> mysql , 提升處理速率 , 減少伺服器負荷
@@ -250,6 +237,25 @@ class NewsPush(Cog_Extension):
                     charskillTitle_1 = []
                     charskillTitle_2 = []
                     charskillTitle_3 = []
+                    skillExAbility_1 = []
+                    skillExAbility_2 = []
+                    skillExAbility_3 = []
+                    charLv_1 = []
+                    charLv_2 = []
+                    charLv_3 = []
+                    charHp_1 = []
+                    charHp_2 = []
+                    charHp_3 = []
+                    charAtk_1 = []
+                    charAtk_2 = []
+                    charAtk_3 = []
+                    charParam_1 = []
+                    charParam_2 = []
+                    charParam_3 = []
+                    charPhoto_1 = []
+                    charPhoto_2 = []
+                    charPhoto_3 = []
+
                     tmp = 0
                     #技能&被動名稱
                     for skillTitle in soup.select('dl dt span'):
@@ -262,9 +268,6 @@ class NewsPush(Cog_Extension):
                                 charskillTitle_3.append(skillTitle.text.strip())
                             tmp = tmp +1
 
-                    skillExAbility_1 = []
-                    skillExAbility_2 = []
-                    skillExAbility_3 = []
                     tmp = 0
                     #技能&ex&被動描述
                     for skillParam in soup.select('dl dd div'):
@@ -276,9 +279,6 @@ class NewsPush(Cog_Extension):
                             skillExAbility_3.append(skillParam.text.strip())
                         tmp = tmp +1
 
-                    charLv_1 = []
-                    charLv_2 = []
-                    charLv_3 = []
                     tmp = 0
                     #等級
                     for lv in soup.select('div ul li.lv'):
@@ -295,9 +295,6 @@ class NewsPush(Cog_Extension):
                             charLv_3.append(b)
                         tmp = tmp +1
 
-                    charHp_1 = []
-                    charHp_2 = []
-                    charHp_3 = []
                     tmp = 0
                     #hp
                     for hp in soup.select('div ul li.hp'):
@@ -314,9 +311,6 @@ class NewsPush(Cog_Extension):
                             charHp_3.append(b)
                         tmp = tmp +1
 
-                    charAtk_1 = []
-                    charAtk_2 = []
-                    charAtk_3 = []
                     tmp = 0
                     #atk
                     for atk in soup.select('div ul li.atk'):
@@ -333,9 +327,6 @@ class NewsPush(Cog_Extension):
                             charAtk_3.append(b)
                         tmp = tmp +1
 
-                    charParam_1 = []
-                    charParam_2 = []
-                    charParam_3 = []
                     tmp = 0
                     #角色介紹
                     for charParam in soup.select('div section div div div div div div.param ul li'):
@@ -347,9 +338,6 @@ class NewsPush(Cog_Extension):
                             charParam_3.append(charParam.text.strip())
                         tmp = tmp +1
 
-                    charPhoto_1 = []
-                    charPhoto_2 = []
-                    charPhoto_3 = []
                     tmp = 0
                     #角色圖片
                     for photo in soup.select('div.mainImage img'):
@@ -364,17 +352,13 @@ class NewsPush(Cog_Extension):
                     #關閉webdriver
                     #driver.close()
 
-                    print(charPhoto_1)
-                    print(charPhoto_2)
-                    print(charPhoto_3)
-
                     #資料處理 & 彙整
                     all_Status_1 = [charPhoto_1,charLv_1,charHp_1,charAtk_1,charskillTitle_1,skillExAbility_1,charParam_1]
                     all_Status_2 = [charPhoto_2,charLv_2,charHp_2,charAtk_2,charskillTitle_2,skillExAbility_2,charParam_2]
                     all_Status_3 = [charPhoto_3,charLv_3,charHp_3,charAtk_3,charskillTitle_3,skillExAbility_3,charParam_3]
                     tmp_all = [all_Status_1,all_Status_2,all_Status_3]
 
-                    #將tmp_all內資料彙整放入tmp_final
+                    #將all_Status放入tmp_all後拆開全數放到對應的char's list內
                     char_1 = []
                     char_2 = []
                     char_3 = []
@@ -395,7 +379,8 @@ class NewsPush(Cog_Extension):
                     print(char_3,'\n\n')
                     pnts = [char_1,char_2,char_3]
 
-                    #print結果皆會show在heroku.log , 故不另寫log.py
+                    #print結果皆會show在heroku.log , 故不另寫log
+                    print('SHOW CASE')
                     print('角色照片:{}'.format(char_1[0]))
                     print('角色介紹.{}'.format(char_1[19]))
                     print('Lv.{}'.format(char_1[2]))
@@ -422,16 +407,14 @@ class NewsPush(Cog_Extension):
                     sixResult.append(resultF)
             else:
                 #非卡池公告處理
-                #關閉webdriver
-                #driver.close()
                 #網址導向卡池頁面內
                 ###測試用driver.get('https://dragalialost.com/cht/news/detail/935')
-                print('info = {}'.format(info))
-
                 #檢驗卡池是否已存在於資料庫(已爬過)
                 #TODO:local -> mysql 改為 local -> redis -> mysql , 提升處理速率 , 減少伺服器負荷
                 #cons:可能會導致內存使用量增高不少 , 不確定heroku免費額度夠不夠
+                print('info = {}'.format(info))
                 print("開始檢驗是否重複")
+
                 try:
                     titleName = info[0]
                     titleTimeStart = info[1]
@@ -440,10 +423,12 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
+                    
                 sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
                 result = cursor.fetchall()
                 print("抓到資料庫中的 titleName = {}".format(result))
+
                 if result is not None:
                     try:
                         result = "".join(result[0])
@@ -455,6 +440,7 @@ class NewsPush(Cog_Extension):
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
+
                     if resultTime is not None:
                         try:
                             resultTime = "".join(resultTime[0])
@@ -472,6 +458,7 @@ class NewsPush(Cog_Extension):
                         status = "無新資料"
 
                 if status == "有新資料":
+                    print(status + '，開始進行爬蟲')
                     #存到db
                     sql = "INSERT INTO titletable (titleName,titleTimeStart,titleTimeEnd) VALUE ('{}','{}','{}')".format(info[0],info[1],info[1])
                     cursor = self.query(sql)
