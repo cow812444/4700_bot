@@ -82,11 +82,7 @@ class Summoning(Cog_Extension):
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        folder_dict = {'精選_1':['5★瓦萊里奧[水]', '5★三葉[水]'],
-        '精選_2':'5★咕嚕曼[水]',
-        '五星':[u'5★納杰夫[火]','5★里亞[火]','5★尊[火]','5★雷吉娜[火]','5★葉潔莉特[火]','5★羅吉娜[火]','5★雀兒喜[火]','5★梅莉貝爾(花樣笑顏ver.)[火]','5★亞雷克西斯[水]','5★榭葉拉(夏日ver.)[水]','5★茱莉葉塔(夏日ver.)[水]','5★賽因福蘭德[水]','5★拉拉諾亞[水]','5★莉莉[水]','5★耶魯菲莉絲(花嫁ver.)[風]','5★維克多[風]','5★葵(花嫁ver.)[風]','5★燐由[風]','5★夏思特[風]','5★路易潔[風]','5★霍克[風]','5★梅莉貝爾[風]','5★阿迦奢[風]','5★阿爾貝爾[光]','5★夏迪(時尚美艷ver.)[光]','5★朱莉葉塔[光]','5★安妮里耶[光]','5★克菈兒(夏日ver.)[光]','5★露克雷齊亞[光]','5★赫德德[光]','5★夜天[暗]','5★夏實[暗]','5★德菲[暗]','5★庫豹[暗]','5★菈特妮[暗]','5★涅法莉耶[暗]','5★卡珊德拉[暗]','5★海因沃爾德[暗]','5★薇兒謝拉(夏日ver.)[暗]','5★太公望[水]','5★基魯斯緹[風]'],
-        '五星龍':['5★阿耆尼[火]','5★可魯[火]','5★普羅[火]','5★木花開[火]','5★阿波羅[火]','5★火熊[火]','5★加具土[火]','5★雷鷹[風]','5★+66[風]','5★龍龍[風]','5★怕祖祖[風]','5★伐由[風]','5★哈斯塔[風]','5★芙蕾雅[風]','5★波賽東[水]','5★利維坦[水]','5★賽蓮[水]','5★泡泡雞[水]','5★丘比特[光]','5★基加美修[光]','5★建御雷[光]','5★貞德[光]','5★萊德[光]','5★賽蓮[光]','5★忍[暗]','5★奈亞[暗]','5★尼德霍格[暗]','5★普魯托[暗]']
-        }
+        folder_dict = {'精選_1':['5★瓦萊里奧[水]', '5★三葉[水]'],'精選_2':'5★咕嚕曼[水]','五星':[u'5★納杰夫[火]','5★里亞[火]','5★尊[火]','5★雷吉娜[火]','5★葉潔莉特[火]','5★羅吉娜[火]','5★雀兒喜[火]','5★梅莉貝爾(花樣笑顏ver.)[火]','5★亞雷克西斯[水]','5★榭葉拉(夏日ver.)[水]','5★茱莉葉塔(夏日ver.)[水]','5★賽因福蘭德[水]','5★拉拉諾亞[水]','5★莉莉[水]','5★耶魯菲莉絲(花嫁ver.)[風]','5★維克多[風]','5★葵(花嫁ver.)[風]','5★燐由[風]','5★夏思特[風]','5★路易潔[風]','5★霍克[風]','5★梅莉貝爾[風]','5★阿迦奢[風]','5★阿爾貝爾[光]','5★夏迪(時尚美艷ver.)[光]','5★朱莉葉塔[光]','5★安妮里耶[光]','5★克菈兒(夏日ver.)[光]','5★露克雷齊亞[光]','5★赫德德[光]','5★夜天[暗]','5★夏實[暗]','5★德菲[暗]','5★庫豹[暗]','5★菈特妮[暗]','5★涅法莉耶[暗]','5★卡珊德拉[暗]','5★海因沃爾德[暗]','5★薇兒謝拉(夏日ver.)[暗]','5★太公望[水]','5★基魯斯緹[風]'],'五星龍':['5★阿耆尼[火]','5★可魯[火]','5★普羅[火]','5★木花開[火]','5★阿波羅[火]','5★火熊[火]','5★加具土[火]','5★雷鷹[風]','5★+66[風]','5★龍龍[風]','5★怕祖祖[風]','5★伐由[風]','5★哈斯塔[風]','5★芙蕾雅[風]','5★波賽東[水]','5★利維坦[水]','5★賽蓮[水]','5★泡泡雞[水]','5★丘比特[光]','5★基加美修[光]','5★建御雷[光]','5★貞德[光]','5★萊德[光]','5★賽蓮[光]','5★忍[暗]','5★奈亞[暗]','5★尼德霍格[暗]','5★普魯托[暗]']}
         
         #初始機率 4%
         five_Star_1 = 1
@@ -94,7 +90,6 @@ class Summoning(Cog_Extension):
         five_Star_3 = 1 + 1 + 0.8
         five_Star_4 = 1.2 + 1 + 1 + 0.8
         total_range = (five_Star_1 * 4)
-
         #每10連增加機率 0.5%
         five_Star_1_fail = 0.125
         five_Star_2_fail = 0.105
@@ -117,6 +112,7 @@ class Summoning(Cog_Extension):
             user = msg.author.display_name
             group1 = pattern.group(1)
             controlTrigger = 0
+<<<<<<< HEAD
 
             if group1 == '抽到有':
                 numLimit = True
@@ -124,19 +120,126 @@ class Summoning(Cog_Extension):
                 while numLimit:
                     self.judge_result()
                 self.print_result()
+=======
+            counts = 0
+            numbers = 0
+            result = []
+            if group1 == '抽到有':
+                while True:
+                    ran_Num = round(random.random() * 100,4)
+                    controlTrigger = 0
+                    numbers = numbers + 1
+                    if total_range == 9:
+                        five_Star_1 = five_Star_1 + (five_Star_1_fail * 182)
+                        five_Star_2 = five_Star_2 + (five_Star_2_fail * 182) + five_Star_1
+                        five_Star_3 = five_Star_3 + (five_Star_3_fail * 182) + five_Star_1 + five_Star_2
+                        five_Star_4 = five_Star_4 + (five_Star_4_fail * 182) + five_Star_1 + five_Star_2 + five_Star_3
+                        total_range = (five_Star_1 * 4)
+                    if ran_Num <= five_Star_1:
+                        random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
+                        print(ran_Num,' ',folder_dict['精選_1'][random_pu])
+                        controlTrigger = 1
+                        result.append(folder_dict['精選_1'][random_pu])
+                        break
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_2:
+                        print(ran_Num,' ',folder_dict['精選_2'])
+                        controlTrigger = 1
+                        result.append(folder_dict['精選_2'])
+                        break
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_3:
+                        random_char = random.randint(0,(len(folder_dict['五星'])-1))
+                        print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
+                        controlTrigger = 1
+                        result.append(folder_dict['五星'][random_char])
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_4:
+                        random_dra = random.randint(0,(len(folder_dict['五星龍'])-1))
+                        print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
+                        controlTrigger = 1
+                        result.append(folder_dict['五星龍'][random_dra])
+                        counts = counts + 1
+                    else:
+                        print(ran_Num,' ','nothing')
+                        counts = counts + 1
+                        if counts % 10 == 0 and counts != 0 :
+                            self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                    if controlTrigger == 1:
+                        five_Star_1 = 1
+                        five_Star_2 = 0.8 + 1
+                        five_Star_3 = 1 + 1 + 0.8
+                        five_Star_4 = 1.2 + 1 + 1 + 0.8
+                        total_range = (five_Star_1 * 4)
+                        counts = 0
+                    controlTrigger = 0
+                if len(result) == 0:
+                    await msg.channel.send('{}總共花了 {} 抽,然而什麼都沒有,ㄏㄏ'.format(user,numbers))
+                else:
+                    await msg.channel.send('{}總共花了 {} 抽,抽到: {}% '.format(user,numbers,result))
+>>>>>>> parent of e30e3a2... TRY: 變更架構
             else:
                 summon_Times = int(group1)
                 tenFold_Count = int(math.floor(summon_Times/10))
-                oneShot_Count = summon_Times%10
-                summonNum = tenFold_Count * 10 + oneShot_Count
-
                 print('tenFold_Count = {}'.format(tenFold_Count))
+                oneShot_Count = summon_Times%10
                 print('oneShot_Count = {}'.format(oneShot_Count))
+                summonNum = tenFold_Count * 10 + oneShot_Count
                 print('summonNum = {}'.format(summonNum))
-
                 for rounds in range(0,summonNum):
+<<<<<<< HEAD
                     self.judge_result()
                 self.print_result()
+=======
+                    ran_Num = round(random.random() * 100,3)
+                    controlTrigger = 0
+                    if total_range == 9:
+                        five_Star_1 = five_Star_1 + (five_Star_1_fail * 182)
+                        five_Star_2 = five_Star_2 + (five_Star_2_fail * 182) + five_Star_1
+                        five_Star_3 = five_Star_3 + (five_Star_3_fail * 182) + five_Star_1 + five_Star_2
+                        five_Star_4 = five_Star_4 + (five_Star_4_fail * 182) + five_Star_1 + five_Star_2 + five_Star_3
+                        total_range = (five_Star_1 * 4)
+                    if ran_Num <= five_Star_1:
+                        random_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
+                        print(ran_Num,' ',folder_dict['精選_1'][random_pu])
+                        controlTrigger = 1
+                        result.append(folder_dict['精選_1'][random_pu])
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_2:
+                        print(ran_Num,' ',folder_dict['精選_2'])
+                        controlTrigger = 1
+                        result.append(folder_dict['精選_2'])
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_3:
+                        random_char = random.randint(0,(len(folder_dict['五星'])-1))
+                        print(ran_Num,' ',random_char,' ',folder_dict['五星'][random_char])
+                        controlTrigger = 1
+                        result.append(folder_dict['五星'][random_char])
+                        counts = counts + 1
+                    elif ran_Num <= five_Star_4:
+                        random_dra = random.randint(0,(len(folder_dict['五星龍'])-1))
+                        print(ran_Num,' ',random_dra,' ',folder_dict['五星龍'][random_dra])
+                        controlTrigger = 1
+                        result.append(folder_dict['五星龍'][random_dra])
+                        counts = counts + 1
+                    else:
+                        print(ran_Num,' ','nothing')
+                        counts = counts + 1
+                        if counts % 10 == 0 and counts != 0 :
+                            self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
+                    if controlTrigger == 1:
+                        five_Star_1 = 1
+                        five_Star_2 = 0.8 + 1
+                        five_Star_3 = 1 + 1 + 0.8
+                        five_Star_4 = 1.2 + 1 + 1 + 0.8
+                        total_range = (five_Star_1 * 4)
+                        counts = 0
+                    controlTrigger = 0
+                if len(result) == 0:
+                    await msg.channel.send('{}總共花了 {} 抽,然而什麼都沒有,ㄏㄏ'.format(user,summon_Times))
+                else:
+                    await msg.channel.send('{}總共花了 {} 抽,抽到: {}% '.format(user,summon_Times,result))
+>>>>>>> parent of e30e3a2... TRY: 變更架構
                 print('目前機率: {}%'.format(total_range))
             
 def setup(bot):
