@@ -106,7 +106,6 @@ class Summoning(Cog_Extension):
                         self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
                         if gotPickUp and numLimit:
                             numLimit = False
-                            break
 
                 if controlTrigger == 1:
                     five_Star_1 = 1
