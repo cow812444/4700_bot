@@ -122,8 +122,8 @@ class Summoning(Cog_Extension):
                 numLimit = True
                 pickUP = False
                 while numLimit:
-                    judge_result()
-                print_result()
+                    self.judge_result()
+                self.print_result()
             else:
                 summon_Times = int(group1)
                 tenFold_Count = int(math.floor(summon_Times/10))
@@ -135,8 +135,8 @@ class Summoning(Cog_Extension):
                 print('summonNum = {}'.format(summonNum))
 
                 for rounds in range(0,summonNum):
-                    judge_result()
-                print_result()
+                    self.judge_result()
+                self.print_result()
                 print('目前機率: {}%'.format(total_range))
             
 def setup(bot):
