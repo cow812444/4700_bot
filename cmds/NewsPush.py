@@ -128,7 +128,7 @@ class NewsPush(Cog_Extension):
         ---
         #TODO:cnt整合info改為dict:關聯性,可減少cnt,cnt1這類的變數宣告,直接用key-value形式獲取相應位置 ex.{2:'卡池title',3:'維護公告'}
         '''
-        for i in soup.select(os.environ.get('CRAWLER_TITLE')):
+        for i in soup.select('li a p.title'):
             #reset default set-up
             dateRange = []
             info = []
@@ -149,12 +149,25 @@ class NewsPush(Cog_Extension):
 
             #獲取公告日期
             info.append(soup.select('li a div.time')[cnt].text.split('公告')[0].strip())
+            #n=0
+            #for data in soup.select('li a div.time'):
+            #    if n == cnt:
+            #        info.append(data.text.split('公告')[0].strip())
+            #    n=n+1
             
             #爬取相應標題網址以及編號
             path_ = os.environ.get('DRAGALIALOST_URL') + soup.select('div ul#news-list li a')[cnt].get('href')
             info.append(path_)
             path_id = path_.split('/')
             info.append(path_id[len(path_id)-1])
+            #cnt1 = 0
+            #for i in soup.select('div ul#news-list li a'):
+            #    if cnt1 == cnt:
+            #        path_ = 'https://dragalialost.com' + i.get('href')
+            #        info.append(path_)
+            #        tmp = path_.split('/')
+            #        info.append(tmp[len(tmp)-1])
+            #    cnt1 = cnt1 +1
 
             #判斷是否是卡池公告
             group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告|開始舉辦)',texts)
@@ -186,10 +199,11 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
+
                 sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
                 result = cursor.fetchall()
-
+                print("抓到資料庫中的 titleName = {}".format(result))
                 if result is not None:
                     try:
                         result = "".join(result[0])
@@ -197,10 +211,10 @@ class NewsPush(Cog_Extension):
                         result = result.split('\'')[0]
                     except:
                         result = ''
+
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
-
                     if resultTime is not None:
                         try:
                             resultTime = "".join(resultTime[0])
@@ -211,7 +225,6 @@ class NewsPush(Cog_Extension):
 
                     print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
                     print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
-                    
                     if resultTime == titleTimeStart and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
@@ -402,7 +415,6 @@ class NewsPush(Cog_Extension):
                 #檢驗卡池是否已存在於資料庫(已爬過)
                 #TODO:local -> mysql 改為 local -> redis -> mysql , 提升處理速率 , 減少伺服器負荷
                 #cons:可能會導致內存使用量增高不少 , 不確定heroku免費額度夠不夠
-
                 print('info = {}'.format(info))
                 print("開始檢驗是否重複")
 
@@ -414,10 +426,10 @@ class NewsPush(Cog_Extension):
                     titleName = ''
                     titleTimeStart = ''
                     titleTimeEnd = ''
+                    
                 sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
                 result = cursor.fetchall()
-
                 print("抓到資料庫中的 titleName = {}".format(result))
 
                 if result is not None:
@@ -427,6 +439,7 @@ class NewsPush(Cog_Extension):
                         result = result.split('\'')[0]
                     except:
                         result = ''
+
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
@@ -441,7 +454,6 @@ class NewsPush(Cog_Extension):
 
                     print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
                     print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
-                    
                     if resultTime == titleTimeStart and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
