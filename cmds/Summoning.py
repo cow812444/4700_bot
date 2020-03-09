@@ -52,7 +52,7 @@ class Summoning(Cog_Extension):
             result = []
             numLimit = False
 
-            def print_result():
+            async def print_result():
                 if len(result) == 0:
                     sentence = '{}總共花了 {} 抽,然而什麼都沒有'.format(user,numbers)
                 else:
@@ -104,6 +104,7 @@ class Summoning(Cog_Extension):
                     if counts % 10 == 0 and counts != 0 :
                         self.set_Chance(fs1=five_Star_1,fs2=five_Star_2,fs3=five_Star_3,fs4=five_Star_4,increase_If_Fail=[0.125,0.105,0.125,0.145])
                         if gotPickUp and numLimit:
+                            numLimit = False
                             break
 
                 if controlTrigger == 1:
@@ -119,7 +120,7 @@ class Summoning(Cog_Extension):
                 numLimit = True
                 pickUP = False
 
-                while True:
+                while numLimit:
                     judge_result()
 
                 print_result()
