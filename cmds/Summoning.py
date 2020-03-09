@@ -112,15 +112,6 @@ class Summoning(Cog_Extension):
             user = msg.author.display_name
             group1 = pattern.group(1)
             controlTrigger = 0
-<<<<<<< HEAD
-
-            if group1 == '抽到有':
-                numLimit = True
-                pickUP = False
-                while numLimit:
-                    self.judge_result()
-                self.print_result()
-=======
             counts = 0
             numbers = 0
             result = []
@@ -177,7 +168,6 @@ class Summoning(Cog_Extension):
                     await msg.channel.send('{}總共花了 {} 抽,然而什麼都沒有,ㄏㄏ'.format(user,numbers))
                 else:
                     await msg.channel.send('{}總共花了 {} 抽,抽到: {}% '.format(user,numbers,result))
->>>>>>> parent of e30e3a2... TRY: 變更架構
             else:
                 summon_Times = int(group1)
                 tenFold_Count = int(math.floor(summon_Times/10))
@@ -187,10 +177,6 @@ class Summoning(Cog_Extension):
                 summonNum = tenFold_Count * 10 + oneShot_Count
                 print('summonNum = {}'.format(summonNum))
                 for rounds in range(0,summonNum):
-<<<<<<< HEAD
-                    self.judge_result()
-                self.print_result()
-=======
                     ran_Num = round(random.random() * 100,3)
                     controlTrigger = 0
                     if total_range == 9:
@@ -239,7 +225,6 @@ class Summoning(Cog_Extension):
                     await msg.channel.send('{}總共花了 {} 抽,然而什麼都沒有,ㄏㄏ'.format(user,summon_Times))
                 else:
                     await msg.channel.send('{}總共花了 {} 抽,抽到: {}% '.format(user,summon_Times,result))
->>>>>>> parent of e30e3a2... TRY: 變更架構
                 print('目前機率: {}%'.format(total_range))
             
 def setup(bot):
