@@ -29,9 +29,11 @@ class NewsPush(Cog_Extension):
         typess = ''
         status = "有新資料"
         channel_Num = int(os.environ.get('CHANNEL_NEWSBOARD_FROM_4700'))
+        channel_lobby_Num = int(os.environ.get('CHANNEL_LOBBY_FROM_4700'))
         while True:
             self.connect()
             channel_newsBoard = self.bot.get_channel(channel_Num)
+            channel_lobby = self.bot.get_channel(channel_lobby_Num)
             full_result = await self.crawler()
             for resultF in full_result:
                 if resultF is not None:
@@ -42,6 +44,12 @@ class NewsPush(Cog_Extension):
                     pnts = [char_1,char_2,char_3]
                     dateRange = resultF[3]
                     typess = resultF[5]
+                    if typess == '開始舉辦':
+                        await channel_lobby.send('{}！相關卡池資訊已經po到更新資訊區了，歡迎查看！'.format(info[0]))
+                    if typess == '舉辦公告':
+                        await channel_lobby.send('{}！相關卡池資訊可於更新資訊區查看！'.format(info[0]))
+                    if typess == '解鎖角色追加':
+                        await channel_lobby.send('{}！相關角色資訊可於更新資訊區查看！'.format(info[0]))
                 if typess == '開始舉辦' or typess == '':
                     continue
                 for pnt in pnts:
@@ -393,7 +401,7 @@ class NewsPush(Cog_Extension):
                     for i in tmp_all:
                         for q in i:
                             for p in q:
-                                tmp_final[n].append(p.replace('。', '。<br>'))
+                                tmp_final[n].append(p)
                         n=n+1
 
                     #2019/11/12 14:00  example
