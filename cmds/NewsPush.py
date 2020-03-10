@@ -45,7 +45,8 @@ class NewsPush(Cog_Extension):
                 if typess == '開始舉辦' or typess == '':
                     continue
                 for pnt in pnts:
-                    if len(pnt) == 20:
+                    #5星新角色
+                    if len(pnt) == 21:
                         embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[19])
                         embed.set_author(name=info[0], url=info[2])
                         embed.set_image(url=pnt[0])
@@ -61,7 +62,8 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="被動3.{}".format(pnt[12]), value=pnt[18], inline=False)
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
-                    if len(pnt) == 12:
+                    #被動1種的龍族
+                    if len(pnt) == 13:
                         embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[11])
                         embed.set_author(name=info[0], url=info[2])
                         embed.set_image(url=pnt[0])
@@ -73,7 +75,8 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="被動.{}".format(pnt[8]), value=pnt[10], inline=False)
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
-                    if len(pnt) == 14:
+                    #被動2種的龍族
+                    if len(pnt) == 15:
                         embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[13])
                         embed.set_author(name=info[0], url=info[2])
                         embed.set_image(url=pnt[0])
@@ -84,6 +87,23 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="主動技能.{}".format(pnt[7]), value=pnt[10], inline=False)
                         embed.add_field(name="被動1.{}".format(pnt[8]), value=pnt[11], inline=False)
                         embed.add_field(name="被動2.{}".format(pnt[9]), value=pnt[12], inline=False)
+                        embed.set_image(url=pnt[0])
+                        await channel_newsBoard.send(embed=embed)
+                    #開放70環之舊角色
+                    if len(pnt) == 19:
+                        embed=discord.Embed(title="{}開放".format(dateRange[0]), url=info[2], description='')
+                        embed.set_author(name=info[0], url=info[2])
+                        embed.set_image(url=pnt[18])
+                        #embed.set_thumbnail(url=char_1[0])
+                        embed.add_field(name="Lv.", value=pnt[1], inline=True)
+                        embed.add_field(name="HP.", value=pnt[3], inline=True)
+                        embed.add_field(name="ATK.", value=pnt[5], inline=True)
+                        embed.add_field(name="EX", value=pnt[8], inline=False)
+                        embed.add_field(name="S1.{}".format(pnt[6]), value=pnt[12], inline=False)
+                        embed.add_field(name="S2.{}".format(pnt[7]), value=pnt[13], inline=False)
+                        embed.add_field(name="被動1.{}".format(pnt[9]), value=pnt[15], inline=False)
+                        embed.add_field(name="被動2.{}".format(pnt[10]), value=pnt[16], inline=False)
+                        embed.add_field(name="被動3.{}".format(pnt[11]), value=pnt[17], inline=False)
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
             print('爬完6則最新公告, await for 540 seconds')
@@ -149,28 +169,15 @@ class NewsPush(Cog_Extension):
 
             #獲取公告日期
             info.append(soup.select('li a div.time')[cnt].text.split('公告')[0].strip())
-            #n=0
-            #for data in soup.select('li a div.time'):
-            #    if n == cnt:
-            #        info.append(data.text.split('公告')[0].strip())
-            #    n=n+1
             
             #爬取相應標題網址以及編號
             path_ = os.environ.get('DRAGALIALOST_URL') + soup.select('div ul#news-list li a')[cnt].get('href')
             info.append(path_)
             path_id = path_.split('/')
             info.append(path_id[len(path_id)-1])
-            #cnt1 = 0
-            #for i in soup.select('div ul#news-list li a'):
-            #    if cnt1 == cnt:
-            #        path_ = 'https://dragalialost.com' + i.get('href')
-            #        info.append(path_)
-            #        tmp = path_.split('/')
-            #        info.append(tmp[len(tmp)-1])
-            #    cnt1 = cnt1 +1
 
             #判斷是否是卡池公告
-            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚).*(舉辦公告|開始舉辦)',texts)
+            group1 = re.search(r'(失落龍絆日|傳說召喚|精選召喚|第6層).*(舉辦公告|開始舉辦|解鎖角色追加)',texts)
             if group1:
                 types = group1.group(2) #用舉辦公告/開始舉辦區分
 
@@ -258,6 +265,9 @@ class NewsPush(Cog_Extension):
                     charPhoto_1 = []
                     charPhoto_2 = []
                     charPhoto_3 = []
+                    charImage_1 = []
+                    charImage_2 = []
+                    charImage_3 = []
 
                     tmp = 0
                     #技能&被動名稱
@@ -352,13 +362,24 @@ class NewsPush(Cog_Extension):
                             charPhoto_3.append(photo.get('src'))
                         tmp = tmp +1
 
+                    tmp = 0
+                    #舊角色變更(無大張美術,僅有大頭貼)
+                    for photo in soup.select('div section div div div div img'):
+                        if tmp < 1:
+                            charImage_1.append(photo.get('src'))
+                        elif tmp ==1:
+                            charImage_2.append(photo.get('src'))
+                        else:
+                            charImage_3.append(photo.get('src'))
+                        tmp = tmp +1
+
                     #關閉webdriver
                     #driver.close()
 
                     #資料處理 & 彙整
-                    all_Status_1 = [charPhoto_1,charLv_1,charHp_1,charAtk_1,charskillTitle_1,skillExAbility_1,charParam_1]
-                    all_Status_2 = [charPhoto_2,charLv_2,charHp_2,charAtk_2,charskillTitle_2,skillExAbility_2,charParam_2]
-                    all_Status_3 = [charPhoto_3,charLv_3,charHp_3,charAtk_3,charskillTitle_3,skillExAbility_3,charParam_3]
+                    all_Status_1 = [charPhoto_1,charLv_1,charHp_1,charAtk_1,charskillTitle_1,skillExAbility_1,charParam_1,charImage_1]
+                    all_Status_2 = [charPhoto_2,charLv_2,charHp_2,charAtk_2,charskillTitle_2,skillExAbility_2,charParam_2,charImage_2]
+                    all_Status_3 = [charPhoto_3,charLv_3,charHp_3,charAtk_3,charskillTitle_3,skillExAbility_3,charParam_3,charImage_3]
                     tmp_all = [all_Status_1,all_Status_2,all_Status_3]
 
                     #將all_Status放入tmp_all後拆開全數放到對應的char's list內
