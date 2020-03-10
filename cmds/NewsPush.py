@@ -367,11 +367,9 @@ class NewsPush(Cog_Extension):
                     for photo in soup.select('div section div div div div img'):
                         if tmp < 1:
                             charImage_1.append(photo.get('src'))
-                        elif tmp ==1:
+                        elif tmp == 4:
                             charImage_2.append(photo.get('src'))
-                        else:
-                            if len(charImage_3) == 1:
-                                break
+                        elif tmp == 8:
                             charImage_3.append(photo.get('src'))
                         tmp = tmp +1
 
