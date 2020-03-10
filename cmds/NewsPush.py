@@ -393,7 +393,7 @@ class NewsPush(Cog_Extension):
                     for i in tmp_all:
                         for q in i:
                             for p in q:
-                                tmp_final[n].append(p.replace('。', '。<br>')
+                                tmp_final[n].append(p.replace('。', '。<br>'))
                         n=n+1
 
                     #2019/11/12 14:00  example
