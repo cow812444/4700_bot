@@ -201,11 +201,13 @@ class NewsPush(Cog_Extension):
                 try:
                     titleName = info[0]
                     titleTimeStart = dateRange[0]
-                    titleTimeEnd = dateRange[1]
                 except:
                     titleName = ''
                     titleTimeStart = ''
-                    titleTimeEnd = ''
+                try:
+                    titleTimeEnd = dateRange[1]
+                except:
+                    titleTimeEnd = dateRange[0]
 
                 sql = "SELECT titleName FROM titletable WHERE titleName = '{}'".format(titleName)
                 cursor = self.query(sql)
