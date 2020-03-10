@@ -393,7 +393,7 @@ class NewsPush(Cog_Extension):
                     for i in tmp_all:
                         for q in i:
                             for p in q:
-                                tmp_final[n].append(p)
+                                tmp_final[n].append(p.replace('。', '。<br>')
                         n=n+1
 
                     #2019/11/12 14:00  example
@@ -433,6 +433,8 @@ class NewsPush(Cog_Extension):
                         await channel_lobby.send('{}！相關卡池資訊已經po到更新資訊區了，歡迎查看！'.format(info[0]))
                     if types == '舉辦公告':
                         await channel_lobby.send('{}！相關卡池資訊可於更新資訊區查看！'.format(info[0]))
+                    if types == '解鎖角色追加':
+                        await channel_lobby.send('{}！相關角色資訊可於更新資訊區查看！'.format(info[0]))
                     sixResult.append(resultF)
             else:
                 #非卡池公告處理
