@@ -404,6 +404,8 @@ class NewsPush(Cog_Extension):
                     pnts = [char_1,char_2,char_3]
 
                     #print結果皆會show在heroku.log , 故不另寫log
+                    print(pnts)
+                    '''
                     print('SHOW CASE')
                     print('角色照片:{}'.format(char_1[0]))
                     print('角色介紹.{}'.format(char_1[19]))
@@ -422,6 +424,7 @@ class NewsPush(Cog_Extension):
                     print('被動2效果.{}'.format(char_1[17]))
                     print('被動3.{}'.format(char_1[12]))
                     print('被動3效果.{}'.format(char_1[18]))
+                    '''
 
                     resultF = [info,char_1,char_2,dateRange,char_3,types]
                     if types == '開始舉辦':
