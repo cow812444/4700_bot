@@ -104,7 +104,7 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="被動1.{}".format(pnt[9]), value=pnt[15], inline=False)
                         embed.add_field(name="被動2.{}".format(pnt[10]), value=pnt[16], inline=False)
                         embed.add_field(name="被動3.{}".format(pnt[11]), value=pnt[17], inline=False)
-                        embed.set_image(url=pnt[0])
+                        embed.set_image(url=pnt[18])
                         await channel_newsBoard.send(embed=embed)
             print('爬完6則最新公告, await for 540 seconds')
             await asyncio.sleep(540)
@@ -370,6 +370,8 @@ class NewsPush(Cog_Extension):
                         elif tmp ==1:
                             charImage_2.append(photo.get('src'))
                         else:
+                            if len(charImage_3) == 1:
+                                break
                             charImage_3.append(photo.get('src'))
                         tmp = tmp +1
 
