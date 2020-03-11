@@ -146,9 +146,10 @@ class Summoning(Cog_Extension):
                         break
                         counts = counts + 1
                     elif ran_Num <= five_Star_2:
-                        print(ran_Num,' ',folder_dict['精選_2'])
+                        random_d_pu = random.randint(0,(len(folder_dict['精選_1'])-1))
+                        print(ran_Num,' ',folder_dict['精選_2'][random_d_pu])
                         controlTrigger = 1
-                        result.append(folder_dict['精選_2'])
+                        result.append(folder_dict['精選_2'][random_d_pu])
                         break
                         counts = counts + 1
                     elif ran_Num <= five_Star_3:
