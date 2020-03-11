@@ -7,8 +7,6 @@ import os
 import re
 import random
 import math
-import dotenv
-from log import dev.env
 
 
 class Summoning(Cog_Extension):
