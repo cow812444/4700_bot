@@ -223,7 +223,7 @@ class NewsPush(Cog_Extension):
                 print("抓到資料庫中的 titleName = {}".format(result))
                 if result is not None:
                     try:
-                        result = "".join(result[0])
+                        result = "".join(result[len(result)-1])
                         print("抓到資料庫中的 titleName(after join) = {}".format(result))
                         result = result.split('\'')[0]
                     except:
@@ -234,7 +234,7 @@ class NewsPush(Cog_Extension):
                     resultTime = cursor.fetchall()
                     if resultTime is not None:
                         try:
-                            resultTime = "".join(resultTime[0])
+                            resultTime = "".join(resultTime[len(resultTime)-1])
                             print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
                             resultTime = resultTime.split('\'')[0]
                         except:
@@ -470,7 +470,7 @@ class NewsPush(Cog_Extension):
 
                 if result is not None:
                     try:
-                        result = "".join(result[0])
+                        result = "".join(result[len(result)-1])
                         print("抓到資料庫中的 titleName(after join) = {}".format(result))
                         result = result.split('\'')[0]
                     except:
@@ -482,7 +482,7 @@ class NewsPush(Cog_Extension):
 
                     if resultTime is not None:
                         try:
-                            resultTime = "".join(resultTime[0])
+                            resultTime = "".join(resultTime[len(resultTime)-1])
                             print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
                             resultTime = resultTime.split('\'')[0]
                         except:
