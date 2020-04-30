@@ -54,8 +54,8 @@ class NewsPush(Cog_Extension):
                     continue
                 for pnt in pnts:
                     #5星新角色
-                    if len(pnt) == 21:
-                        embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[19])
+                    if len(pnt) == 23:
+                        embed=discord.Embed(title="{} ~ {}".format(dateRange[0],dateRange[1]), url=info[2], description=pnt[21])
                         embed.set_author(name=info[0], url=info[2])
                         embed.set_image(url=pnt[0])
                         #embed.set_thumbnail(url=char_1[0])
@@ -63,11 +63,12 @@ class NewsPush(Cog_Extension):
                         embed.add_field(name="HP.", value=pnt[4], inline=True)
                         embed.add_field(name="ATK.", value=pnt[6], inline=True)
                         embed.add_field(name="EX", value=pnt[9], inline=False)
-                        embed.add_field(name="S1.{}".format(pnt[7]), value=pnt[13], inline=False)
-                        embed.add_field(name="S2.{}".format(pnt[8]), value=pnt[14], inline=False)
-                        embed.add_field(name="被動1.{}".format(pnt[10]), value=pnt[16], inline=False)
-                        embed.add_field(name="被動2.{}".format(pnt[11]), value=pnt[17], inline=False)
-                        embed.add_field(name="被動3.{}".format(pnt[12]), value=pnt[18], inline=False)
+                        embed.add_field(name="連鎖EX", value=pnt[10], inline=False)
+                        embed.add_field(name="S1.{}".format(pnt[7]), value=pnt[14], inline=False)
+                        embed.add_field(name="S2.{}".format(pnt[8]), value=pnt[15], inline=False)
+                        embed.add_field(name="被動1.{}".format(pnt[11]), value=pnt[18], inline=False)
+                        embed.add_field(name="被動2.{}".format(pnt[12]), value=pnt[19], inline=False)
+                        embed.add_field(name="被動3.{}".format(pnt[13]), value=pnt[20], inline=False)
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
                     #被動1種的龍族
@@ -98,21 +99,22 @@ class NewsPush(Cog_Extension):
                         embed.set_image(url=pnt[0])
                         await channel_newsBoard.send(embed=embed)
                     #開放70環之舊角色
-                    if len(pnt) == 19:
+                    if len(pnt) == 21:
                         embed=discord.Embed(title="{}開放".format(dateRange[0]), url=info[2], description='')
                         embed.set_author(name=info[0], url=info[2])
-                        embed.set_image(url=pnt[18])
+                        embed.set_image(url=pnt[20])
                         #embed.set_thumbnail(url=char_1[0])
                         embed.add_field(name="Lv.", value=pnt[1], inline=True)
                         embed.add_field(name="HP.", value=pnt[3], inline=True)
                         embed.add_field(name="ATK.", value=pnt[5], inline=True)
                         embed.add_field(name="EX", value=pnt[8], inline=False)
-                        embed.add_field(name="S1.{}".format(pnt[6]), value=pnt[12], inline=False)
-                        embed.add_field(name="S2.{}".format(pnt[7]), value=pnt[13], inline=False)
-                        embed.add_field(name="被動1.{}".format(pnt[9]), value=pnt[15], inline=False)
-                        embed.add_field(name="被動2.{}".format(pnt[10]), value=pnt[16], inline=False)
-                        embed.add_field(name="被動3.{}".format(pnt[11]), value=pnt[17], inline=False)
-                        embed.set_image(url=pnt[18])
+                        embed.add_field(name="連鎖EX", value=pnt[9], inline=False)
+                        embed.add_field(name="S1.{}".format(pnt[6]), value=pnt[13], inline=False)
+                        embed.add_field(name="S2.{}".format(pnt[7]), value=pnt[14], inline=False)
+                        embed.add_field(name="被動1.{}".format(pnt[10]), value=pnt[17], inline=False)
+                        embed.add_field(name="被動2.{}".format(pnt[11]), value=pnt[18], inline=False)
+                        embed.add_field(name="被動3.{}".format(pnt[12]), value=pnt[19], inline=False)
+                        embed.set_image(url=pnt[20])
                         await channel_newsBoard.send(embed=embed)
             print('爬完6則最新公告, await for 540 seconds')
             await asyncio.sleep(540)
@@ -283,9 +285,9 @@ class NewsPush(Cog_Extension):
                     #技能&被動名稱
                     for skillTitle in soup.select('dl dt span'):
                         if skillTitle.text.strip() != '':
-                            if tmp < 6 :
+                            if tmp < 7 :
                                 charskillTitle_1.append(skillTitle.text.strip())
-                            elif tmp < 12:
+                            elif tmp < 14:
                                 charskillTitle_2.append(skillTitle.text.strip())
                             else:
                                 charskillTitle_3.append(skillTitle.text.strip())
