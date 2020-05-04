@@ -296,9 +296,9 @@ class NewsPush(Cog_Extension):
                     tmp = 0
                     #技能&ex&被動描述
                     for skillParam in soup.select('dl dd div'):
-                        if tmp < 6 :
+                        if tmp < 7 :
                             skillExAbility_1.append(skillParam.text.strip())
-                        elif tmp < 12:
+                        elif tmp < 14:
                             skillExAbility_2.append(skillParam.text.strip())
                         else:
                             skillExAbility_3.append(skillParam.text.strip())
