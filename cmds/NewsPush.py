@@ -496,6 +496,7 @@ class NewsPush(Cog_Extension):
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
                         status = "無新資料"
+                        #update 
 
                 if status == "有新資料":
                     print(status + '，開始進行爬蟲')
