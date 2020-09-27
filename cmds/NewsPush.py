@@ -234,17 +234,20 @@ class NewsPush(Cog_Extension):
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
+                    resultTimeList = []
                     if resultTime is not None:
-                        try:
-                            resultTime = "".join(resultTime[len(resultTime)-1])
-                            print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
-                            resultTime = resultTime.split('\'')[0]
-                        except:
-                            resultTime = ''
+                        for rT in resultTime:
+                            try:
+                                r = rT[0]
+                                print("抓到資料庫中的 titleTimeStart(after join) = {}".format(r))
+                                r = r.split('\'')[0]
+                                resultTimeList.append(r)
+                            except:
+                                pass
 
-                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
+                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTimeList,titleTimeStart))
                     print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
-                    if resultTime == titleTimeStart and result == info[0]:
+                    if titleTimeStart in resultTimeList and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
@@ -475,18 +478,20 @@ class NewsPush(Cog_Extension):
                     sql = "SELECT titleTimeStart FROM titletable WHERE titleName = '{}'".format(titleName)
                     cursor = self.query(sql)
                     resultTime = cursor.fetchall()
-
+                    resultTimeList = []
                     if resultTime is not None:
-                        try:
-                            resultTime = "".join(resultTime[-1])
-                            print("抓到資料庫中的 titleTimeStart(after join) = {}".format(resultTime))
-                            resultTime = resultTime.split('\'')[0]
-                        except:
-                            resultTime = ''
+                        for rT in resultTime:
+                            try:
+                                r = rT[0]
+                                print("抓到資料庫中的 titleTimeStart(after join) = {}".format(r))
+                                r = r.split('\'')[0]
+                                resultTimeList.append(r)
+                            except:
+                                pass
 
-                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTime,titleTimeStart))
+                    print("抓到資料庫中的 titleTimeStart = '{}', 目前現有的 dateRange[0] = '{}', 開始進行比對".format(resultTimeList,titleTimeStart))
                     print("抓到資料庫中的 titleName = '{}', 目前現有的 info[0] = '{}', 開始進行比對".format(result,titleName))
-                    if resultTime == titleTimeStart and result == info[0]:
+                    if titleTimeStart in resultTimeList and result == info[0]:
                         print("已存在資料庫 , 不進行爬蟲 , 等待 5 秒後略過")
                         await asyncio.sleep(5)
                         print("正在前往下一個標題")
